@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ReadMate</string>
+    <string name="terms">
+        <b>User Registration</b>\nTo access certain features, such as purchasing or downloading books, users are required to create an account. By registering, you confirm that the information provided is accurate, complete, and up to date.
+        \n\n<b>Age Requirement</b>\nUsers must be at least 13 years old to use ReadMate. If under 18, parental consent is required to make purchases within the app.
+        \n\n<b>Content Ownership</b>\nAll books available on ReadMate are the intellectual property of their respective authors and publishers. Users may not copy, distribute, or reproduce any content without proper permission.
+        \n\n<b>Book Purchases</b>\nPurchased books can be accessed through the app and are non-refundable, except in cases where the content is defective. Books may be downloaded in PDF format, but users are responsible for ensuring the correct use of these files.
+        \n\n<b>Privacy Policy</b>\nYour privacy is important to us. We collect and store personal data such as names, emails, and payment details securely, in compliance with legal standards. We will not share your personal information without your consent, except as required by law.
+    </string>
+
+    <string name="coditions">
+        <b>Appropriate Use</b>\nUsers must not use the app for any illegal or unauthorized activities, including the violation of intellectual property rights, hacking, or spreading malicious software.
+        \n\n<b>Book License</b>\nUpon purchasing or downloading books, users are granted a non-transferable, non-exclusive license to use the book for personal reading only. Any resale, redistribution, or unauthorized sharing of the book files is strictly prohibited.
+        \n\n<b>Payments</b>\nAll purchases are processed through secure third-party payment gateways. Users are responsible for ensuring that payment methods are valid and sufficient funds are available.
+        \n\n<b>Modifications to the Terms</b>\nReadMate reserves the right to terminate accounts at any time for violating these terms or engaging in inappropriate behavior, such as fraudulent activities, or attempting to resell downloaded books.
+        \n\n<b>Privacy Policy</b>\nReadMate reserves the right to modify these terms and conditions at any time. Continued use of the app after any such changes implies acceptance of the new terms.
+    </string>
+    <string name="dummy_description">The essays in this open access volume identify the key ingredients for success in capitalizing on public investments in scientific projects and the development of large-scale research infrastructures....</string>
+</resources>

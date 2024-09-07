@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PRODIGY_AD_2" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/primaryBackground</item>
+        <item name="android:statusBarColor">@color/primaryBackground</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Ensures icons are light -->
+    </style>
+</resources>

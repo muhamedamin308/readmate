@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/baseline_library_alt_24"
+        android:iconTint="@color/buttonBackground"
+        android:title="Library" />
+    <item
+        android:id="@+id/exploreFragment"
+        android:icon="@drawable/baseline_explore_24"
+        android:iconTint="@color/buttonBackground"
+        android:title="Explore" />
+    <item
+        android:id="@+id/myBookFragment"
+        android:icon="@drawable/baseline_book_24"
+        android:iconTint="@color/buttonBackground"
+        android:title="My Book" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/baseline_user_skill_gear_24"
+        android:iconTint="@color/buttonBackground"
+        android:title="Settings" />
+</menu>

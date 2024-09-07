@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="6dp">
+
+
+    <TextView
+        android:id="@+id/tv_book_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_sans_10pt_bold"
+        android:background="@drawable/input_cards_bg"
+        android:text="Economics"
+        android:textColor="@color/primaryFont"
+        android:textSize="16sp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="14dp"/>
+
+</androidx.cardview.widget.CardView>

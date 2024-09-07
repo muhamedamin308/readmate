@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_firebaseBookDetailsFragment"
+            app:destination="@id/firebaseBookDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_showAllFragment"
+            app:destination="@id/showAllFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exploreFragment2"
+        android:name="com.example.readmate.ui.home.fragment.explore.ExploreFragment"
+        android:label="ExploreFragment"
+        tools:layout="@layout/fragment_explore">
+        <action
+            android:id="@+id/action_exploreFragment2_to_exploreBookDetailsFragment"
+            app:destination="@id/exploreBookDetailsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment2_to_exploreResultsFragment"
+            app:destination="@id/exploreResultsFragment" />
+        <action
+            android:id="@+id/action_exploreFragment2_to_showAllFragment"
+            app:destination="@id/showAllFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myBookFragment2"
+        android:name="com.example.readmate.ui.home.fragment.firebase.MyBookFragment"
+        android:label="MyBookFragment"
+        tools:layout="@layout/fragment_my_books">
+        <action
+            android:id="@+id/action_myBookFragment2_to_firebaseBookDetailsFragment"
+            app:destination="@id/firebaseBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment2"
+        android:name="com.example.readmate.ui.home.fragment.process.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment2_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment2_to_bookcaseFragment"
+            app:destination="@id/bookcaseFragment" />
+        <action
+            android:id="@+id/action_settingsFragment2_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment2_to_termsAndConditionsFragment"
+            app:destination="@id/termsAndConditionsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment2_to_helpAndSupportFragment"
+            app:destination="@id/helpAndSupportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firebaseBookDetailsFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.FirebaseBookDetailsFragment"
+        android:label="FirebaseBookDetailsFragment"
+        tools:layout="@layout/fragment_firebase_book_details">
+        <action
+            android:id="@+id/action_firebaseBookDetailsFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethodFragment" />
+        <action
+            android:id="@+id/action_firebaseBookDetailsFragment_to_bookReadingFragment"
+            app:destination="@id/bookReadingFragment" />
+        <action
+            android:id="@+id/action_firebaseBookDetailsFragment_self"
+            app:destination="@id/firebaseBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exploreBookDetailsFragment"
+        android:name="com.example.readmate.ui.home.fragment.explore.ExploreBookDetailsFragment"
+        android:label="ExploreBookDetailsFragment"
+        tools:layout="@layout/fragment_explore_book_details">
+        <action
+            android:id="@+id/action_exploreBookDetailsFragment_self"
+            app:destination="@id/exploreBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exploreResultsFragment"
+        android:name="com.example.readmate.ui.home.fragment.explore.ExploreResultsFragment"
+        android:label="ExploreResultsFragment"
+        tools:layout="@layout/fragment_search_results">
+        <action
+            android:id="@+id/action_exploreResultsFragment_to_exploreBookDetailsFragment"
+            app:destination="@id/exploreBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookReadingFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.BookReadingFragment"
+        android:label="BookReadingFragment"
+        tools:layout="@layout/fragment_reading"/>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.PaymentFragment"
+        android:label="PaymentFragment"
+        tools:layout="@layout/fragment_payment">
+        <action
+            android:id="@+id/action_paymentFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentMethodFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.PaymentMethodFragment"
+        android:label="PaymentMethodFragment"
+        tools:layout="@layout/fragment_payment_methods">
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_addPaymentMethodFragment"
+            app:destination="@id/addPaymentMethodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.readmate.ui.home.fragment.process.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/bookcaseFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.BookcaseFragment"
+        android:label="BookcaseFragment"
+        tools:layout="@layout/fragment_bookcase">
+        <action
+            android:id="@+id/action_bookcaseFragment_to_firebaseBookDetailsFragment"
+            app:destination="@id/firebaseBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPaymentMethodFragment"
+        android:name="com.example.readmate.ui.home.fragment.firebase.AddPaymentMethodFragment"
+        android:label="AddPaymentMethodFragment"
+        tools:layout="@layout/fragment_add_payment_method"/>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.readmate.ui.home.fragment.process.NotificationsFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notifications"/>
+    <fragment
+        android:id="@+id/termsAndConditionsFragment"
+        android:name="com.example.readmate.ui.home.fragment.process.TermsAndConditionsFragment"
+        android:label="TermsAndConditionsFragment"
+        tools:layout="@layout/fragment_terms_conditions"/>
+    <fragment
+        android:id="@+id/helpAndSupportFragment"
+        android:name="com.example.readmate.ui.home.fragment.process.HelpAndSupportFragment"
+        android:label="HelpAndSupportFragment"
+        tools:layout="@layout/fragment_help_support"/>
+    <fragment
+        android:id="@+id/showAllFragment"
+        android:name="com.example.readmate.ui.home.fragment.process.ShowAllFragment"
+        android:label="ShowAllFragment"
+        tools:layout="@layout/fragment_show_all"/>
+</navigation>

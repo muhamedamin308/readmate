@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/intro_nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.readmate.ui.introduction.fragment.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/splash_screen">
+        <action
+            android:id="@+id/action_splashFragment_to_onBoardingMainFragment"
+            app:destination="@id/onBoardingMainFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoardingMainFragment"
+        android:name="com.example.readmate.ui.introduction.fragment.OnBoardingMainFragment"
+        android:label="OnBoardingMainFragment"
+        tools:layout="@layout/fragment_onboarding_screen1">
+        <action
+            android:id="@+id/action_onBoardingMainFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.readmate.ui.auth.fragment.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.readmate.ui.auth.fragment.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+</navigation>
