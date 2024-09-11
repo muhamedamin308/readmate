@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "PRODIGY_AD_2"
 include(":app")
+include(":admin")

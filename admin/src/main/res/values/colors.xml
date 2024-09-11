@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary Color -->
+    <color name="primaryBackground">#F5F5F5</color>
+    <color name="primaryFont">#333333</color>
+
+    <!-- Accent Color -->
+    <color name="accentColor1">#FF6F61</color> <!-- Soft Red -->
+    <!-- Usage: Used for call-to-action buttons, highlights, and important links or icons. Draws attention without being overly aggressive. -->
+
+    <color name="accentColor2">#FFD700</color> <!-- Golden Yellow -->
+    <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
+
+    <color name="accentColor3">#6C63FF</color> <!-- Violet Blue -->
+    <!-- Usage: Secondary buttons, links, or icons that are not as critical as those in accentColor1, but still need to stand out. -->
+
+    <color name="accentColor4">#FFC400</color> <!-- Golden Yellow -->
+    <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
+
+    <color name="accentColor5">#00897B</color> <!-- Golden Yellow -->
+    <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
+
+    <!-- Supporting Color -->
+    <color name="secondaryBackground">#FFFFFF</color>
+    <!-- Usage: Used in modals, cards, and other components that need to stand out against the primary background. Ensures a layered visual hierarchy. -->
+
+    <color name="secondaryFont">#777777</color>
+    <!-- Usage: Used for secondary text such as descriptions, labels, and subheadings. It’s softer and less prominent than the primary font color. -->
+
+    <!-- Utility Color -->
+    <color name="borderDivider">#E0E0E0</color> <!-- Light Gray -->
+    <!-- Usage: For borders, dividers, and lines that separate sections, providing subtle visual structure without overpowering the content. -->
+
+    <color name="errorColor">#FF4C4C</color> <!-- Bright Red -->
+    <!-- Usage: For error messages, warnings, or critical alerts. Instantly catches the user's attention when something needs immediate attention. -->
+
+    <color name="successColor">#4CAF50</color> <!-- Green -->
+    <!-- Usage: To indicate successful actions, confirmations, or positive statuses. It’s a reassuring color that signals everything is in order. -->
+
+    <!-- Interactive Color -->
+    <color name="buttonBackground">#FF6F61</color> <!-- Soft Red -->
+    <!-- Usage: Main buttons throughout the app, ensuring they stand out for important actions. -->
+
+    <color name="buttonFont">#FFFFFF</color> <!-- White -->
+    <!-- Usage: Text color on buttons, providing clear contrast against the button background. -->
+
+    <color name="inputFieldBackground">#FFFFFF</color>
+    <!-- Usage: Background color for input fields like text boxes, ensuring they stand out against the primary background. -->
+
+    <color name="inputFieldBorder">#CCCCCC</color> <!-- Medium Gray -->
+    <!-- Usage: Border color for input fields, giving them a defined yet understated appearance. -->
+
+    <!-- Random Colors -->
+    <color name="randomColor1">#E6D9FA</color>
+    <color name="randomColor2">#87CEFA</color>
+    <color name="randomColor3">#FAFAD2</color>
+    <color name="randomColor4">#98FB98</color>
+    <color name="randomColor5">#FFE4E1</color>
+</resources>

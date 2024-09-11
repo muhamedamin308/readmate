@@ -5,8 +5,11 @@ package com.example.readmate.data.model.firebase
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-data class Review(
-    val user: User,
-    val comment: String,
-    val timestamp: Long
+data class User(
+    val uid: String?,
+    val name: String?,
+    val email: String?,
+    val profileImage: String?,
+    val isSubscribed: Boolean?,
+    val books: List<String>?
 )

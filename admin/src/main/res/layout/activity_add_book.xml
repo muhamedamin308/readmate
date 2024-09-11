@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activites.AddBookActivity">
+
+    <!-- res/layout/activity_add_book.xml -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Book Details -->
+        <EditText
+            android:id="@+id/etBookId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Book ID" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title" />
+
+        <EditText
+            android:id="@+id/etImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Image URL" />
+
+        <EditText
+            android:id="@+id/etAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Author" />
+
+        <EditText
+            android:id="@+id/etSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Subtitle" />
+
+        <EditText
+            android:id="@+id/etOverview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="top"
+            android:hint="Overview" />
+
+        <EditText
+            android:id="@+id/etYearPublished"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Year Published"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/etNumberOfPages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number of Pages"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/etAverageRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Average Rating"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/etNumberOfReviewers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="NumberOfReviewers"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/etNumberOfChapters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number of Chapters"
+            android:inputType="numberDecimal" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnProceedToChapters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="32dp"
+            android:background="@drawable/button_bg"
+            android:paddingVertical="8dp"
+            android:text="Proceed to Chapters"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</ScrollView>
