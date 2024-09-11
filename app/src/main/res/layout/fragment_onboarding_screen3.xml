@@ -33,4 +33,21 @@
         app:layout_constraintVertical_bias="0.8" />
 
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_get_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/nunito_sans_7pt_medium"
+        android:paddingVertical="8dp"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

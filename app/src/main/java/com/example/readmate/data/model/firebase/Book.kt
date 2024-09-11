@@ -6,6 +6,7 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class Book(
+    val id: String,
     val image: String?,
     val title: String?,
     val year: String?,

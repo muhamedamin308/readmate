@@ -10,8 +10,6 @@ data class User(
     val name: String?,
     val email: String?,
     val profileImage: String?,
-    val isSubscribed: Boolean?
-//    val comments: List<Comment>?,
-//    val address: Address?,
-//    val books: List<Book>?
+    val isSubscribed: Boolean?,
+    val books: List<String>?
 )

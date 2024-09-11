@@ -4,14 +4,15 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
-    namespace = "com.example.prodigy_ad_2"
+    namespace = "com.example.readmate"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.prodigy_ad_2"
+        applicationId = "com.example.readmate"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
@@ -51,6 +52,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,4 +81,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     // splash screen api
     implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }

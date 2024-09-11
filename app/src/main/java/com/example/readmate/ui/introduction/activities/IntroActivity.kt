@@ -2,12 +2,13 @@ package com.example.readmate.ui.introduction.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.prodigy_ad_2.R
+import com.example.readmate.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityIntroBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
-
+        binding = ActivityIntroBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
