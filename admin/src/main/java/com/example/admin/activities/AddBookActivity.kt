@@ -1,19 +1,28 @@
-package com.example.admin.activites
+package com.example.admin.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.admin.databinding.ActivityAddBookBinding
+import java.util.UUID
 
 class AddBookActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBookBinding
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val randomBookId = UUID.randomUUID().toString().substring(0, 6)
+        binding.etBookId.apply {
+            setText("Book id: $randomBookId")
+            isEnabled = false
+        }
         binding.btnProceedToChapters.setOnClickListener {
             Intent(this@AddBookActivity, AddChapterActivity::class.java).also { intent ->
-                intent.putExtra("bookId", binding.etBookId.text.toString())
+                intent.putExtra("bookId", randomBookId)
                 intent.putExtra("image", binding.etImage.text.toString())
                 intent.putExtra("title", binding.etTitle.text.toString())
                 intent.putExtra("author", binding.etAuthor.text.toString())

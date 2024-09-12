@@ -1,4 +1,4 @@
-package com.example.admin.activites
+package com.example.admin.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -75,7 +75,7 @@ class AddChapterActivity : AppCompatActivity() {
     private fun saveBookData() {
         val db = FirebaseFirestore.getInstance()
         val bookData = hashMapOf(
-            "id" to intent.getStringExtra("bookId"),
+            "bookId" to intent.getStringExtra("bookId"),
             "title" to intent.getStringExtra("title"),
             "image" to intent.getStringExtra("image"),
             "author" to intent.getStringExtra("author"),
