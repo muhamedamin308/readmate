@@ -2,22 +2,27 @@ package com.example.admin.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.admin.R
 import com.example.admin.databinding.ActivityAddChapterBinding
-import com.example.readmate.data.model.firebase.Chapter
-import com.example.readmate.data.model.firebase.HeadLine
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.admin.model.Book
+import com.example.admin.model.Chapter
+import com.example.admin.model.HeadLine
+import com.example.admin.util.AppState
+import com.example.admin.viewmodel.AddBookViewModel
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddChapterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddChapterBinding
     private var currentChapter = 1
     private var totalChapters = 0
     private val chapterList = arrayListOf<Chapter>()
+    private val viewModel: AddBookViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddChapterBinding.inflate(layoutInflater)
@@ -46,6 +51,7 @@ class AddChapterActivity : AppCompatActivity() {
     }
 
     private fun showChapter(chapterNumber: Int) {
+        binding.etChapterTitle.hint = "Enter Chapter $chapterNumber Title"
         binding.etChapterTitle.text.clear()
         binding.llHeadlines.removeAllViews()
     }
@@ -73,34 +79,44 @@ class AddChapterActivity : AppCompatActivity() {
     }
 
     private fun saveBookData() {
-        val db = FirebaseFirestore.getInstance()
-        val bookData = hashMapOf(
-            "bookId" to intent.getStringExtra("bookId"),
-            "title" to intent.getStringExtra("title"),
-            "image" to intent.getStringExtra("image"),
-            "author" to intent.getStringExtra("author"),
-            "subTitle" to intent.getStringExtra("subTitle"),
-            "overview" to intent.getStringExtra("overview"),
-            "yearPublished" to intent.getIntExtra("yearPublished", 0),
-            "numberOfPages" to intent.getIntExtra("numberOfPages", 0),
-            "averageRating" to intent.getFloatExtra("averageRating", 0f),
-            "price" to intent.getFloatExtra("price", 0f),
-            "chapters" to chapterList
+        val book = Book(
+            bookId = intent.getStringExtra("bookId"),
+            title = intent.getStringExtra("title"),
+            image = intent.getStringExtra("image"),
+            author = intent.getStringExtra("author"),
+            subTitle = intent.getStringExtra("subTitle"),
+            overview = intent.getStringExtra("overview"),
+            yearPublished = intent.getIntExtra("yearPublished", 0),
+            numberOfPages = intent.getIntExtra("numberOfPages", 0),
+            averageRating = intent.getFloatExtra("averageRating", 0f),
+            numberOfReviewers = intent.getIntExtra("numberOfReviewers", 0),
+            price = intent.getFloatExtra("price", 0f),
+            chapters = chapterList
         )
+        viewModel.addBook(book)
+        lifecycleScope.launch {
+            viewModel.addBook.collect {
+                when (it) {
+                    is AppState.Error -> {
+                        Toast.makeText(
+                            this@AddChapterActivity,
+                            "Error adding book: ${it.message}",
+                            Toast.LENGTH_SHORT
+                        )
+                    }
 
-        // Log the bookData to check its content
-        Log.d("AddChapterActivity", "Saving book data: $bookData")
+                    is AppState.Success -> {
+                        Toast.makeText(
+                            this@AddChapterActivity,
+                            "Book ${it.data?.title} added successfully!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        finish()
+                    }
 
-        db.collection("books")
-            .add(bookData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Book saved successfully", Toast.LENGTH_SHORT).show()
-                finish()
+                    else -> Unit
+                }
             }
-            .addOnFailureListener { exception ->
-                // Log the exception for debugging
-                Log.e("AddChapterActivity", "Error saving book", exception)
-                Toast.makeText(this, "Error saving book", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 }

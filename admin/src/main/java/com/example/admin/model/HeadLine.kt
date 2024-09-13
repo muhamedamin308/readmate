@@ -1,4 +1,4 @@
-package com.example.readmate.data.model.firebase
+package com.example.admin.model
 
 /**
  * @author Muhamed Amin Hassan on 11,September,2024

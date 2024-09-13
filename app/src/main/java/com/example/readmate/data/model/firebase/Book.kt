@@ -6,7 +6,7 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class Book(
-    val id: BookId,
+    val id: String,
     val image: String?,
     val title: String,
     val author: String,
@@ -14,7 +14,8 @@ data class Book(
     val overview: String?,
     val yearPublished: Int,
     val numberOfPages: Int,
-    val rating: Rating = Rating(),
+    val averageRate: Float?,
+    val numberOfReviewers: Int?,
     val reviews: List<Review> = emptyList(),
     val chapters: List<Chapter> = emptyList(),
     val price: Float?

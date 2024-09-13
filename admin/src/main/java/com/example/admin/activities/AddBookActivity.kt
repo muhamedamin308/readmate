@@ -26,11 +26,15 @@ class AddBookActivity : AppCompatActivity() {
                 intent.putExtra("image", binding.etImage.text.toString())
                 intent.putExtra("title", binding.etTitle.text.toString())
                 intent.putExtra("author", binding.etAuthor.text.toString())
-                intent.putExtra("subtitle", binding.etSubTitle.text.toString())
+                intent.putExtra("subTitle", binding.etSubTitle.text.toString())
                 intent.putExtra("overview", binding.etOverview.text.toString())
                 intent.putExtra("yearPublished", binding.etYearPublished.text.toString().toInt())
                 intent.putExtra("numberOfPages", binding.etNumberOfPages.text.toString().toInt())
                 intent.putExtra("averageRating", binding.etAverageRating.text.toString().toFloat())
+                intent.putExtra(
+                    "numberOfReviewers",
+                    binding.etNumberOfReviewers.text.toString().toInt()
+                )
                 intent.putExtra("price", binding.etPrice.text.toString().toFloat())
                 intent.putExtra("totalChapters", binding.etNumberOfChapters.text.toString().toInt())
                 startActivity(intent)

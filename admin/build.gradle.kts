@@ -51,4 +51,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // viewmodel compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    // koin dependency injection
+    implementation("io.insert-koin:koin-android:3.5.6")
 }
