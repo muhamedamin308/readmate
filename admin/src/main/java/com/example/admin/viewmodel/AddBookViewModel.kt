@@ -17,16 +17,16 @@ import kotlinx.coroutines.launch
 class AddBookViewModel(
     private val firebaseService: FirebaseOperationService
 ) : ViewModel() {
-    private val _addBook = MutableStateFlow<AppState<Book>>(AppState.Ideal())
-    val addBook = _addBook.asStateFlow()
+    private val _addBookState = MutableStateFlow<AppState<Book>>(AppState.Ideal())
+    val addBookState = _addBookState.asStateFlow()
 
     fun addBook(book: Book) {
-        viewModelScope.launch { _addBook.emit(AppState.Loading()) }
+        viewModelScope.launch { _addBookState.emit(AppState.Loading()) }
         firebaseService.addBook(book) { newBook, error ->
             viewModelScope.launch {
                 error?.let {
-                    _addBook.emit(AppState.Error(error.message.toString()))
-                } ?: newBook?.let { _addBook.emit(AppState.Success(newBook)) }
+                    _addBookState.emit(AppState.Error(error.message.toString()))
+                } ?: newBook?.let { _addBookState.emit(AppState.Success(newBook)) }
             }
         }
     }

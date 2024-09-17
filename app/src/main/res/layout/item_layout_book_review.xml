@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryBackground"
+        android:paddingBottom="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/reading_book"
+            app:civ_border_color="@color/accentColor1"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notification_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/nunito_sans_10pt_bold"
+            android:maxLines="2"
+            android:text="Muhammed Amin"
+            android:textColor="@color/primaryFont"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/notification_icon"
+            app:layout_constraintEnd_toStartOf="@+id/tv_notification_duration"
+            app:layout_constraintStart_toEndOf="@+id/notification_icon"
+            app:layout_constraintTop_toTopOf="@+id/notification_icon" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:text="The mind as a battleground: Our minds are often likened to battlefields, where positive and negative thoughts constantly clash."
+            android:textColor="@color/primaryFont"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_notification_content"
+            app:layout_constraintTop_toBottomOf="@id/notification_icon" />
+
+        <TextView
+            android:id="@+id/tv_notification_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/nunito_sans_10pt_semibold"
+            android:text="16m"
+            android:textColor="@color/secondaryFont"
+            app:layout_constraintBottom_toBottomOf="@+id/notification_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/notification_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

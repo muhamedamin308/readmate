@@ -13,6 +13,7 @@ import com.example.admin.model.Book
 import com.example.admin.model.Chapter
 import com.example.admin.model.HeadLine
 import com.example.admin.util.AppState
+import com.example.admin.util.extractFetchRequestQuery
 import com.example.admin.viewmodel.AddBookViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,14 +45,17 @@ class AddChapterActivity : AppCompatActivity() {
     }
 
     @SuppressLint("InflateParams")
-    fun addHeadlineView() {
+    private fun addHeadlineView() {
         val headlineView = layoutInflater.inflate(R.layout.headline_item, null)
         val llHeadlines = findViewById<LinearLayout>(R.id.llHeadlines)
         llHeadlines.addView(headlineView)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showChapter(chapterNumber: Int) {
         binding.etChapterTitle.hint = "Enter Chapter $chapterNumber Title"
+        binding.btnNextChapter.text =
+            if (chapterNumber == totalChapters) "Save Book" else "Next Chapter"
         binding.etChapterTitle.text.clear()
         binding.llHeadlines.removeAllViews()
     }
@@ -79,7 +83,7 @@ class AddChapterActivity : AppCompatActivity() {
     }
 
     private fun saveBookData() {
-        val book = Book(
+        Book(
             bookId = intent.getStringExtra("bookId"),
             title = intent.getStringExtra("title"),
             image = intent.getStringExtra("image"),
@@ -91,11 +95,13 @@ class AddChapterActivity : AppCompatActivity() {
             averageRating = intent.getFloatExtra("averageRating", 0f),
             numberOfReviewers = intent.getIntExtra("numberOfReviewers", 0),
             price = intent.getFloatExtra("price", 0f),
+            categories = intent.getStringExtra("categories")!!.extractFetchRequestQuery(),
             chapters = chapterList
-        )
-        viewModel.addBook(book)
+        ).also {
+            viewModel.addBook(it)
+        }
         lifecycleScope.launch {
-            viewModel.addBook.collect {
+            viewModel.addBookState.collect {
                 when (it) {
                     is AppState.Error -> {
                         Toast.makeText(

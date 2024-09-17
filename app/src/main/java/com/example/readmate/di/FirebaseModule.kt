@@ -2,8 +2,8 @@ package com.example.readmate.di
 
 import android.app.Application
 import android.content.SharedPreferences
-import com.example.readmate.data.service.firebase.FirebaseAuthService
-import com.example.readmate.ui.introduction.viewmodel.OnBoardingViewModel
+import com.example.readmate.data.source.remote.firebase.FirebaseAuthService
+import com.example.readmate.ui.onboarding.viewmodel.OnBoardingViewModel
 import com.example.readmate.util.Constants
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.dsl.viewModel

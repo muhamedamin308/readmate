@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.readmate.ui.introduction.fragment.SplashFragment"
+        android:name="com.example.readmate.ui.onboarding.fragment.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/splash_screen">
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/ViewPagerFragment"
-        android:name="com.example.readmate.ui.introduction.fragment.ViewPagerFragment"
+        android:name="com.example.readmate.ui.onboarding.fragment.ViewPagerFragment"
         android:label="OnBoardingMainFragment"
         tools:layout="@layout/fragment_onboarding_main_screen">
         <action

@@ -31,6 +31,7 @@ class AddBookActivity : AppCompatActivity() {
                 intent.putExtra("yearPublished", binding.etYearPublished.text.toString().toInt())
                 intent.putExtra("numberOfPages", binding.etNumberOfPages.text.toString().toInt())
                 intent.putExtra("averageRating", binding.etAverageRating.text.toString().toFloat())
+                intent.putExtra("categories", binding.etCategories.text.toString())
                 intent.putExtra(
                     "numberOfReviewers",
                     binding.etNumberOfReviewers.text.toString().toInt()

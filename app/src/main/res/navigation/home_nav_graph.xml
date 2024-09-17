@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.HomeFragment"
+        android:name="com.example.readmate.ui.library.fragments.LibraryFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/exploreFragment2"
-        android:name="com.example.readmate.ui.home.fragment.explore.ExploreFragment"
+        android:name="com.example.readmate.ui.explore.fragments.ExploreFragment"
         android:label="ExploreFragment"
         tools:layout="@layout/fragment_explore">
         <action
@@ -29,12 +29,12 @@
             android:id="@+id/action_exploreFragment2_to_exploreResultsFragment"
             app:destination="@id/exploreResultsFragment" />
         <action
-            android:id="@+id/action_exploreFragment2_to_showAllFragment"
-            app:destination="@id/showAllFragment" />
+            android:id="@+id/action_exploreFragment2_to_exploreShowAllFragment"
+            app:destination="@id/exploreShowAllFragment" />
     </fragment>
     <fragment
         android:id="@+id/myBookFragment2"
-        android:name="com.example.readmate.ui.home.fragment.firebase.MyBookFragment"
+        android:name="com.example.readmate.ui.mybook.fragments.MyBookFragment"
         android:label="MyBookFragment"
         tools:layout="@layout/fragment_my_books">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment2"
-        android:name="com.example.readmate.ui.home.fragment.process.SettingsFragment"
+        android:name="com.example.readmate.ui.settings.fragments.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/firebaseBookDetailsFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.FirebaseBookDetailsFragment"
+        android:name="com.example.readmate.ui.library.fragments.FirebaseBookDetailsFragment"
         android:label="FirebaseBookDetailsFragment"
         tools:layout="@layout/fragment_firebase_book_details">
         <action
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/exploreBookDetailsFragment"
-        android:name="com.example.readmate.ui.home.fragment.explore.ExploreBookDetailsFragment"
+        android:name="com.example.readmate.ui.explore.fragments.ExploreBookDetailsFragment"
         android:label="ExploreBookDetailsFragment"
         tools:layout="@layout/fragment_explore_book_details">
         <action
@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/exploreResultsFragment"
-        android:name="com.example.readmate.ui.home.fragment.explore.ExploreResultsFragment"
+        android:name="com.example.readmate.ui.explore.fragments.ExploreResultsFragment"
         android:label="ExploreResultsFragment"
         tools:layout="@layout/fragment_search_results">
         <action
@@ -97,12 +97,12 @@
     </fragment>
     <fragment
         android:id="@+id/bookReadingFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.BookReadingFragment"
+        android:name="com.example.readmate.ui.mybook.fragments.BookReadingFragment"
         android:label="BookReadingFragment"
         tools:layout="@layout/fragment_reading"/>
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.PaymentFragment"
+        android:name="com.example.readmate.ui.payment.fragments.PaymentFragment"
         android:label="PaymentFragment"
         tools:layout="@layout/fragment_payment">
         <action
@@ -111,7 +111,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.PaymentMethodFragment"
+        android:name="com.example.readmate.ui.payment.fragments.PaymentMethodFragment"
         android:label="PaymentMethodFragment"
         tools:layout="@layout/fragment_payment_methods">
         <action
@@ -123,12 +123,12 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.readmate.ui.home.fragment.process.ProfileFragment"
+        android:name="com.example.readmate.ui.settings.fragments.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile"/>
     <fragment
         android:id="@+id/bookcaseFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.BookcaseFragment"
+        android:name="com.example.readmate.ui.settings.fragments.BookcaseFragment"
         android:label="BookcaseFragment"
         tools:layout="@layout/fragment_bookcase">
         <action
@@ -137,27 +137,40 @@
     </fragment>
     <fragment
         android:id="@+id/addPaymentMethodFragment"
-        android:name="com.example.readmate.ui.home.fragment.firebase.AddPaymentMethodFragment"
+        android:name="com.example.readmate.ui.payment.fragments.AddPaymentMethodFragment"
         android:label="AddPaymentMethodFragment"
         tools:layout="@layout/fragment_add_payment_method"/>
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.example.readmate.ui.home.fragment.process.NotificationsFragment"
+        android:name="com.example.readmate.ui.settings.fragments.NotificationsFragment"
         android:label="NotificationsFragment"
         tools:layout="@layout/fragment_notifications"/>
     <fragment
         android:id="@+id/termsAndConditionsFragment"
-        android:name="com.example.readmate.ui.home.fragment.process.TermsAndConditionsFragment"
+        android:name="com.example.readmate.ui.settings.fragments.TermsAndConditionsFragment"
         android:label="TermsAndConditionsFragment"
         tools:layout="@layout/fragment_terms_conditions"/>
     <fragment
         android:id="@+id/helpAndSupportFragment"
-        android:name="com.example.readmate.ui.home.fragment.process.HelpAndSupportFragment"
+        android:name="com.example.readmate.ui.settings.fragments.HelpAndSupportFragment"
         android:label="HelpAndSupportFragment"
         tools:layout="@layout/fragment_help_support"/>
     <fragment
         android:id="@+id/showAllFragment"
-        android:name="com.example.readmate.ui.home.fragment.process.ShowAllFragment"
-        android:label="ShowAllFragment"
-        tools:layout="@layout/fragment_show_all"/>
+        android:name="com.example.readmate.ui.library.fragments.FirebaseShowAllFragment"
+        android:label="FirebaseShowAllFragment"
+        tools:layout="@layout/fragment_firebase_show_all">
+        <action
+            android:id="@+id/action_showAllFragment_to_firebaseBookDetailsFragment"
+            app:destination="@id/firebaseBookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exploreShowAllFragment"
+        android:name="com.example.readmate.ui.explore.fragments.ExploreShowAllFragment"
+        android:label="ExploreShowAllFragment"
+        tools:layout="@layout/fragment_explore_show_all">
+        <action
+            android:id="@+id/action_exploreShowAllFragment_to_exploreBookDetailsFragment"
+            app:destination="@id/exploreBookDetailsFragment" />
+    </fragment>
 </navigation>

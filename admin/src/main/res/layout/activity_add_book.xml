@@ -45,6 +45,12 @@
             android:hint="Subtitle" />
 
         <EditText
+            android:id="@+id/etCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Categories" />
+
+        <EditText
             android:id="@+id/etOverview"
             android:layout_width="match_parent"
             android:layout_height="200dp"

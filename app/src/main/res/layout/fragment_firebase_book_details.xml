@@ -367,6 +367,42 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/item_layout_home_recommended_books" />
 
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/buttonBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_related_books" />
+
+            <TextView
+                android:id="@+id/textView290"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/nunito_sans_10pt_bold"
+                android:text="Reviews"
+                android:textColor="@color/primaryFont"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider4" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_book_review"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView290"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_layout_book_review" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

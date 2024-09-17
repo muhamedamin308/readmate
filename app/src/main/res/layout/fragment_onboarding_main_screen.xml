@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    tools:context="com.example.readmate.ui.introduction.fragment.ViewPagerFragment">
+    tools:context="com.example.readmate.ui.onboarding.fragment.ViewPagerFragment">
 
 
     <androidx.viewpager2.widget.ViewPager2

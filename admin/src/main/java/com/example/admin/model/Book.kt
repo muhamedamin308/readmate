@@ -16,6 +16,7 @@ data class Book(
     val numberOfPages: Int?,
     val averageRating: Float?,
     val numberOfReviewers: Int?,
+    val categories: List<String>,
     val reviews: List<Review> = emptyList(),
     val chapters: List<Chapter> = emptyList(),
     val price: Float?
