@@ -1,7 +1,7 @@
 package com.example.readmate
 
 import android.app.Application
-import com.example.readmate.di.firebaseModule
+import com.example.readmate.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -11,13 +11,13 @@ import org.koin.core.context.startKoin
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class MyApp: Application() {
+class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
             androidContext(this@MyApp)
-            modules(firebaseModule)
+            modules(appModule)
         }
     }
 }

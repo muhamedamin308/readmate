@@ -2,11 +2,15 @@ package com.example.readmate.di
 
 import android.app.Application
 import android.content.SharedPreferences
+import com.example.readmate.R
 import com.example.readmate.data.source.remote.firebase.FirebaseAuthService
-import com.example.readmate.ui.onboarding.viewmodel.OnBoardingViewModel
 import com.example.readmate.util.Constants
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import org.koin.androidx.viewmodel.dsl.viewModel
+import com.google.firebase.firestore.firestore
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 /**
@@ -16,13 +20,32 @@ import org.koin.dsl.module
  */
 val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
+    single { Firebase.firestore }
+    single {
+        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(androidContext().getString(R.string.default_web_client))
+            .requestEmail()
+            .build()
+    }
+
+    single {
+        GoogleSignIn.getClient(androidContext(), get<GoogleSignInOptions>())
+    }
+
     single<SharedPreferences> {
         val application: Application = get()
         application.getSharedPreferences(
-            Constants.sharedPreferencesName,
+            Constants.SHARED_PREFERENCES_NAME,
             Application.MODE_PRIVATE
         )
     }
-    single { FirebaseAuthService(get()) }
-    viewModel { OnBoardingViewModel(get(), get()) }
+
+    single {
+        FirebaseAuthService(
+            auth = get(),
+            store = get(),
+            googleClient = get(),
+            androidContext()
+        )
+    }
 }

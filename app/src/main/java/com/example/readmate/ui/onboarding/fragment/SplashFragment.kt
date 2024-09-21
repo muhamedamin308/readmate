@@ -41,7 +41,7 @@ class SplashFragment : Fragment() {
             viewModel.appState.collect {
                 when (it) {
                     Constants.signInPath -> findNavController().navigate(it)
-                    Constants.homeActivityId -> {
+                    Constants.HOME_ACTIVITY_ID -> {
                         Intent(requireActivity(), HomeActivity::class.java).also { intent ->
                             intent.addFlags(
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK or
