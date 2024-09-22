@@ -1,9 +1,7 @@
 package com.example.readmate.data.source.remote.firebase
 
 import android.content.Context
-import android.util.Log
 import com.example.readmate.data.model.firebase.User
-import com.example.readmate.util.TAG
 import com.example.readmate.util.convertToUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -38,7 +36,6 @@ class FirebaseAuthService(
         password: String,
         onAction: (User?, Exception?) -> Unit
     ) {
-        Log.d("FirebaseAuthService$TAG", "login $email, $password")
         handleFirebaseActions(auth.signInWithEmailAndPassword(email, password), onAction)
     }
 
@@ -47,7 +44,6 @@ class FirebaseAuthService(
         password: String,
         onAction: (User?, Exception?) -> Unit
     ) {
-        Log.d("FirebaseAuthService$TAG", "register ${user.name}, $password")
         handleFirebaseActions(
             auth.createUserWithEmailAndPassword(user.email!!, password),
             onAction,
@@ -65,14 +61,11 @@ class FirebaseAuthService(
     }
 
     private fun saveUserData(user: User, onAction: (User?, Exception?) -> Unit) {
-        Log.d("FirebaseAuthService$TAG", "saveUserData(outside) ${user.uid!!}")
-        userCollectionPath.document(user.uid).set(user)
+        userCollectionPath.document(user.uid!!).set(user)
             .addOnSuccessListener {
-                Log.d("FirebaseAuthService$TAG", "saveUserData(success) ${user.name}")
                 onAction(user, null)
             }
             .addOnFailureListener {
-                Log.d("FirebaseAuthService$TAG", "saveUserData(failure) ${it.message}")
                 onAction(null, it)
             }
     }
@@ -86,16 +79,9 @@ class FirebaseAuthService(
         action
             .addOnSuccessListener {
                 val firebaseUser = it.user?.convertToUser()
-                if (saveUser && firebaseUser != null && user != null) {
-                    Log.d("FirebaseAuthService$TAG", "handleFirebaseActions(1) ${user.name}")
+                if (saveUser && firebaseUser != null && user != null)
                     saveUserData(user, onAction)
-                } else {
-                    Log.d(
-                        "FirebaseAuthService$TAG",
-                        "handleFirebaseActions(2) ${firebaseUser?.name}"
-                    )
-                    onAction(firebaseUser, null)
-                }
+                else onAction(firebaseUser, null)
             }
             .addOnFailureListener { onAction(null, it) }
     }

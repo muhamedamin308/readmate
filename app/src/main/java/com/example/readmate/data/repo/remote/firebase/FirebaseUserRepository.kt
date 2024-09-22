@@ -37,4 +37,5 @@ class FirebaseUserRepositoryImpl(
     override fun authWithGoogle(token: String, onAction: (User?, Exception?) -> Unit) {
         authService.firebaseAuthWithGoogle(token, onAction)
     }
+
 }

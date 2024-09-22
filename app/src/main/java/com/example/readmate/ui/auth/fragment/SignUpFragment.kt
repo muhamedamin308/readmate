@@ -41,11 +41,8 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(
-            "SignUpFragment$TAG",
-            "starting the screen"
-        )
         setUpListeners()
+        observeViewModel()
     }
 
     private fun setUpListeners() {
@@ -66,9 +63,7 @@ class SignUpFragment : Fragment() {
             booksToRead = emptyList()
         )
         val password = binding.etPassword.text.toString().trim()
-        Log.d("SignUpFragment$TAG", "preformSignUp ${user.name}, $password")
         viewModel.register(user, password)
-        observeViewModel()
     }
 
     private fun startGoogleSignUp() {
@@ -98,32 +93,22 @@ class SignUpFragment : Fragment() {
             viewModel.registerValidate.collectLatest { validation ->
                 handleValidationErrors(validation)
             }
-            Log.d(
-                "SignUpFragment$TAG",
-                "observeViewModel()-working!"
-            )
+        }
+        lifecycleScope.launchWhenStarted {
             viewModel.registerState.collect { state ->
                 when (state) {
 
                     is AppState.Success -> {
-                        showLoading(false)
-                        Log.d(
-                            "SignUpFragment$TAG",
-                            "observeViewModel()-registerState(success) ${state.data?.name}"
-                        )
+                        showLoading(true)
                         navigateToLogin()
                     }
 
                     is AppState.Error -> {
                         showLoading(false)
-                        Log.d(
-                            "SignUpFragment$TAG",
-                            "observeViewModel()-registerState(error)"
-                        )
                         requireContext().showMessage(state.message!!)
                     }
 
-                    else -> showLoading(true)
+                    else -> showLoading(false)
                 }
             }
         }
@@ -137,12 +122,13 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        validation.password.takeIf { it is RegisterValidation.Failed }?.let { registerValidation ->
-            binding.etPassword.apply {
-                requestFocus()
-                error = (registerValidation as RegisterValidation.Failed).message
+        validation.password.takeIf { it is RegisterValidation.Failed }
+            ?.let { registerValidation ->
+                binding.etPassword.apply {
+                    requestFocus()
+                    error = (registerValidation as RegisterValidation.Failed).message
+                }
             }
-        }
     }
 
     private fun observeGoogleAuthState() {
@@ -166,7 +152,6 @@ class SignUpFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        Log.d("SignUpFragment$TAG", "navigateToLogin()")
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
     }
 

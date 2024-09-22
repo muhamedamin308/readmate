@@ -10,5 +10,3 @@ object Constants {
     const val HOME_ACTIVITY_ID = 4723
     const val GOOGLE_SIGN_IN_REQUEST = 22
 }
-
-const val TAG = " RandomFileTag"

@@ -44,6 +44,7 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
+        observeLoginState()
     }
 
     private fun setupListeners() {
@@ -58,13 +59,11 @@ class SignInFragment : Fragment() {
         findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
-    // Extracted login logic to a separate method
     private fun performLogin() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password)
-            observeLoginState()
         } else {
             requireContext().showMessage("Please enter both email and password")
         }
@@ -96,7 +95,6 @@ class SignInFragment : Fragment() {
     }
 
     private fun handleLoginSuccess(user: User?) {
-        requireContext().showMessage("SignIn Success, Welcome ${user?.name}")
         Intent(requireActivity(), HomeActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(this)
