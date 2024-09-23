@@ -1,22 +1,9 @@
-package com.example.readmate.data.repo.remote.firebase
+package com.example.readmate.data.repo.remote.firebase.auth
 
 import android.content.Intent
 import com.example.readmate.data.model.firebase.User
-import com.example.readmate.data.source.remote.firebase.FirebaseAuthService
-
-/**
- * @author Muhamed Amin Hassan on 17,September,2024
- * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
- * Egypt, Cairo.
- */
-interface FirebaseUserRepository {
-    fun register(user: User, password: String, onAction: (User?, Exception?) -> Unit)
-    fun login(email: String, password: String, onAction: (User?, Exception?) -> Unit)
-    val isUserLoggedIn: Boolean
-    fun signInWithGoogle(): Intent
-    fun authWithGoogle(token: String, onAction: (User?, Exception?) -> Unit)
-}
-
+import com.example.readmate.data.service.remote.firebase.FirebaseAuthService
+import com.google.firebase.auth.FirebaseUser
 
 class FirebaseUserRepositoryImpl(
     private val authService: FirebaseAuthService
@@ -25,7 +12,11 @@ class FirebaseUserRepositoryImpl(
         authService.registerWithEmailAndPassword(user, password, onAction)
     }
 
-    override fun login(email: String, password: String, onAction: (User?, Exception?) -> Unit) {
+    override fun login(
+        email: String,
+        password: String,
+        onAction: (FirebaseUser?, Exception?) -> Unit
+    ) {
         authService.loginWithEmailAndPassword(email, password, onAction)
     }
 

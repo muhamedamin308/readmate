@@ -3,7 +3,7 @@ package com.example.readmate.ui.onboarding.viewmodel
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.readmate.data.repo.remote.firebase.FirebaseUserRepository
+import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepository
 import com.example.readmate.util.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

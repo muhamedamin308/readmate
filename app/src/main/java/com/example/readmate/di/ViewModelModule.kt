@@ -1,6 +1,7 @@
 package com.example.readmate.di
 
 import com.example.readmate.ui.auth.viewmodel.AuthViewModel
+import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.ui.onboarding.viewmodel.OnBoardingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -14,4 +15,5 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { OnBoardingViewModel(userRepository = get(), preferences = get()) }
     viewModel { AuthViewModel(userRepository = get()) }
+    viewModel { LibraryViewModel(bookRepository = get()) }
 }

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.readmate.R
-import com.example.readmate.data.model.firebase.User
 import com.example.readmate.databinding.FragmentLoginBinding
 import com.example.readmate.ui.auth.viewmodel.AuthViewModel
 import com.example.readmate.ui.main.HomeActivity
@@ -81,7 +80,7 @@ class SignInFragment : Fragment() {
 
                     is AppState.Success -> {
                         showLoading(false)
-                        handleLoginSuccess(state.data)
+                        handleLoginSuccess()
                     }
 
                     else -> Unit
@@ -94,7 +93,8 @@ class SignInFragment : Fragment() {
         binding.signInProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun handleLoginSuccess(user: User?) {
+    private fun handleLoginSuccess() {
+        requireContext().showMessage("Sign in successfully")
         Intent(requireActivity(), HomeActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(this)
@@ -132,7 +132,7 @@ class SignInFragment : Fragment() {
             viewModel.googleAuth.collectLatest { state ->
                 when (state) {
                     is AppState.Error -> requireContext().showMessage(state.message!!)
-                    is AppState.Success -> handleLoginSuccess(state.data)
+                    is AppState.Success -> handleLoginSuccess()
                     else -> Unit
                 }
             }

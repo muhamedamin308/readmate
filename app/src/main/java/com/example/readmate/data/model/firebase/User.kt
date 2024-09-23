@@ -6,7 +6,6 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class User(
-    val uid: String?,
     val name: String?,
     val email: String?,
     val profileImage: String?,

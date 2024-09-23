@@ -1,8 +1,6 @@
 package com.example.readmate.ui.auth.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +12,12 @@ import com.example.readmate.R
 import com.example.readmate.data.model.firebase.User
 import com.example.readmate.databinding.FragmentSignupBinding
 import com.example.readmate.ui.auth.viewmodel.AuthViewModel
-import com.example.readmate.ui.main.HomeActivity
 import com.example.readmate.util.AppState
-import com.example.readmate.util.Constants.GOOGLE_SIGN_IN_REQUEST
 import com.example.readmate.util.RegisterFieldState
 import com.example.readmate.util.RegisterValidation
-import com.example.readmate.util.TAG
 import com.example.readmate.util.showMessage
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.UUID
 
 class SignUpFragment : Fragment() {
 
@@ -48,14 +40,12 @@ class SignUpFragment : Fragment() {
     private fun setUpListeners() {
         binding.apply {
             btnSignUp.setOnClickListener { performSignUp() }
-            googleSignUp.setOnClickListener { startGoogleSignUp() }
             tvSignIn.setOnClickListener { navigateToLogin() }
         }
     }
 
     private fun performSignUp() {
         val user = User(
-            uid = UUID.randomUUID().toString(),
             name = binding.etFullName.text.toString(),
             email = binding.etEmail.text.toString(),
             profileImage = null,
@@ -64,28 +54,6 @@ class SignUpFragment : Fragment() {
         )
         val password = binding.etPassword.text.toString().trim()
         viewModel.register(user, password)
-    }
-
-    private fun startGoogleSignUp() {
-        val intent = viewModel.googleSignIn()
-        startActivityForResult(intent, GOOGLE_SIGN_IN_REQUEST)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GOOGLE_SIGN_IN_REQUEST) handleGoogleSignInResult(data)
-    }
-
-    private fun handleGoogleSignInResult(data: Intent?) {
-        try {
-            val account =
-                GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
-            account?.idToken?.let { viewModel.authWithGoogle(it) }
-            observeGoogleAuthState()
-        } catch (e: ApiException) {
-            e.printStackTrace()
-        }
     }
 
     private fun observeViewModel() {
@@ -97,9 +65,9 @@ class SignUpFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.registerState.collect { state ->
                 when (state) {
-
+                    is AppState.Loading -> showLoading(true)
                     is AppState.Success -> {
-                        showLoading(true)
+                        showLoading(false)
                         navigateToLogin()
                     }
 
@@ -129,26 +97,6 @@ class SignUpFragment : Fragment() {
                     error = (registerValidation as RegisterValidation.Failed).message
                 }
             }
-    }
-
-    private fun observeGoogleAuthState() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.googleAuth.collectLatest { state ->
-                when (state) {
-                    is AppState.Success -> handleLoginSuccess(state.data)
-                    is AppState.Error -> requireContext().showMessage(state.message!!)
-                    else -> Unit
-                }
-            }
-        }
-    }
-
-    private fun handleLoginSuccess(user: User?) {
-        requireContext().showMessage("Sign up Success, Welcome ${user?.name}")
-        Intent(requireActivity(), HomeActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(this)
-        }
     }
 
     private fun navigateToLogin() {

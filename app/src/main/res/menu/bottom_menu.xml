@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/libraryFragment"
-        android:icon="@drawable/baseline_library_alt_24"
+        android:icon="@drawable/book_open_cover_24"
         android:iconTint="@color/buttonBackground"
         android:title="Library" />
     <item
@@ -18,7 +18,7 @@
         android:title="My Book" />
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/baseline_user_skill_gear_24"
+        android:icon="@drawable/baseline_more_horiz_24"
         android:iconTint="@color/buttonBackground"
         android:title="Settings" />
 </menu>

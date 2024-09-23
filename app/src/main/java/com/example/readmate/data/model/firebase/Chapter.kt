@@ -6,6 +6,6 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class Chapter(
-    val title: String,
+    val title: String? = null,
     val headlines: List<HeadLine> = emptyList()
 )

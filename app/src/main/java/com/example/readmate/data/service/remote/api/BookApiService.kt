@@ -1,4 +1,4 @@
-package com.example.readmate.data.source.remote.api
+package com.example.readmate.data.service.remote.api
 
 import com.example.readmate.data.model.responses.BookDetailsResponse
 import com.example.readmate.data.model.responses.BookResponse

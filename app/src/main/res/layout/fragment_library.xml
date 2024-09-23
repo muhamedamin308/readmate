@@ -6,44 +6,44 @@
     android:layout_height="match_parent"
     android:background="@color/primaryBackground">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/nunito_sans_10pt_bold"
-        android:text="Home"
-        android:textColor="@color/primaryFont"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ic_notification"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ic_notification" />
-
-    <ImageView
-        android:id="@+id/ic_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_notifications_24"
-        app:tint="@color/primaryFont" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primaryBackground"
             android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/nunito_sans_10pt_bold"
+                android:text="Home"
+                android:textColor="@color/primaryFont"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ic_notification"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ic_notification" />
+
+            <ImageView
+                android:id="@+id/ic_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_notifications_24"
+                app:tint="@color/primaryFont" />
 
             <TextView
                 android:id="@+id/tv_reading_status"
@@ -54,7 +54,7 @@
                 android:text="Today's reading goal is met!"
                 android:textColor="@color/successColor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/textView2" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_newest_books"
@@ -63,7 +63,8 @@
                 android:layout_marginVertical="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_reading_status" />
+                app:layout_constraintTop_toBottomOf="@id/tv_reading_status"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/newest_books_progress_bar"
@@ -95,7 +96,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView4"
-                app:layout_constraintTop_toBottomOf="@id/textView4" />
+                app:layout_constraintTop_toBottomOf="@id/textView4"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/recommended_books_progress_bar"
@@ -141,7 +143,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView5"
                 app:layout_constraintTop_toBottomOf="@id/textView5"
-                tools:itemCount="1"
+                tools:itemCount="0"
                 tools:listitem="@layout/item_layout_category" />
 
             <ProgressBar
@@ -174,7 +176,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView6"
-                app:layout_constraintTop_toBottomOf="@id/textView6" />
+                app:layout_constraintTop_toBottomOf="@id/textView6"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/best_sellers_books_progress_bar"
@@ -193,7 +196,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/nunito_sans_10pt_semibold"
-                android:text="Top 5 Rated Books"
+                android:text="Top Rated Books"
                 android:textColor="@color/primaryFont"
                 android:textSize="19sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -206,7 +209,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView7"
-                app:layout_constraintTop_toBottomOf="@id/textView7" />
+                app:layout_constraintTop_toBottomOf="@id/textView7"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/top_rated_books_progress_bar"

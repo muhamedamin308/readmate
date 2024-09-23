@@ -1,4 +1,4 @@
-package com.example.readmate.data.repo.remote.firebase
+package com.example.readmate.data.service.local
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024

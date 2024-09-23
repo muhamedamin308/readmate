@@ -1,4 +1,4 @@
-package com.example.readmate.data.source.local
+package com.example.readmate.data.service.local
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024

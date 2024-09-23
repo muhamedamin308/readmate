@@ -1,4 +1,4 @@
-package com.example.readmate.data.source.remote.firebase
+package com.example.readmate.data.service.remote.firebase
 
 import android.content.Context
 import com.example.readmate.data.model.firebase.User
@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -34,9 +35,12 @@ class FirebaseAuthService(
     fun loginWithEmailAndPassword(
         email: String,
         password: String,
-        onAction: (User?, Exception?) -> Unit
+        onAction: (FirebaseUser?, Exception?) -> Unit
     ) {
-        handleFirebaseActions(auth.signInWithEmailAndPassword(email, password), onAction)
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                it?.user?.let { user -> onAction(user, null) }
+            }.addOnFailureListener { onAction(null, it) }
     }
 
     fun registerWithEmailAndPassword(
@@ -44,12 +48,14 @@ class FirebaseAuthService(
         password: String,
         onAction: (User?, Exception?) -> Unit
     ) {
-        handleFirebaseActions(
-            auth.createUserWithEmailAndPassword(user.email!!, password),
-            onAction,
-            saveUser = true,
-            user = user
-        )
+        auth.createUserWithEmailAndPassword(user.email!!, password)
+            .addOnSuccessListener {
+                it?.user?.let { firebaseUser ->
+                    saveUserData(firebaseUser.uid, user, onAction)
+                }
+            }.addOnFailureListener {
+                onAction(null, it)
+            }
     }
 
     fun googleSignIn() = googleSignInClient.signInIntent
@@ -60,28 +66,30 @@ class FirebaseAuthService(
             .addOnCompleteListener { task -> handleFirebaseActions(task, onAction) }
     }
 
-    private fun saveUserData(user: User, onAction: (User?, Exception?) -> Unit) {
-        userCollectionPath.document(user.uid!!).set(user)
-            .addOnSuccessListener {
-                onAction(user, null)
-            }
-            .addOnFailureListener {
-                onAction(null, it)
-            }
+    private fun saveUserData(
+        userId: String,
+        user: User,
+        onAction: (User?, Exception?) -> Unit
+    ) {
+        userCollectionPath.document(userId).set(user)
+            .addOnSuccessListener { onAction(user, null) }
+            .addOnFailureListener { onAction(null, it) }
     }
 
     private fun handleFirebaseActions(
         action: Task<AuthResult>,
-        onAction: (User?, Exception?) -> Unit,
-        saveUser: Boolean = false,
-        user: User? = null
+        onAction: (User?, Exception?) -> Unit
     ) {
         action
             .addOnSuccessListener {
-                val firebaseUser = it.user?.convertToUser()
-                if (saveUser && firebaseUser != null && user != null)
-                    saveUserData(user, onAction)
-                else onAction(firebaseUser, null)
+                val user = it.user
+                user?.let {
+                    saveUserData(user.uid, user.convertToUser(), onAction)
+                    onAction(user.convertToUser(), null)
+                } ?: onAction(
+                    null,
+                    Exception("Unexpected error!!")
+                )
             }
             .addOnFailureListener { onAction(null, it) }
     }

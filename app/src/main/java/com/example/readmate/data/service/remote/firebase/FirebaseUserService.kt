@@ -1,4 +1,4 @@
-package com.example.readmate.data.source.remote.firebase
+package com.example.readmate.data.service.remote.firebase
 
 import com.example.readmate.data.model.firebase.User
 import com.google.firebase.auth.FirebaseAuth

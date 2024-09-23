@@ -23,6 +23,8 @@
     <color name="accentColor5">#00897B</color> <!-- Golden Yellow -->
     <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
 
+    <color name="accentColor6">#EAB022</color> <!-- dark yellow -->
+
     <!-- Supporting Color -->
     <color name="secondaryBackground">#FFFFFF</color>
     <!-- Usage: Used in modals, cards, and other components that need to stand out against the primary background. Ensures a layered visual hierarchy. -->

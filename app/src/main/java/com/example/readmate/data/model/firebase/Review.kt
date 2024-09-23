@@ -6,7 +6,7 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class Review(
-    val user: User,
-    val comment: String,
-    val timestamp: Long
+    val user: User? = null,
+    val comment: String? = null,
+    val timestamp: Long? = null
 )

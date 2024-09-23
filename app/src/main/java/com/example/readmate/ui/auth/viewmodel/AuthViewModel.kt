@@ -1,20 +1,18 @@
 package com.example.readmate.ui.auth.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.User
-import com.example.readmate.data.repo.remote.firebase.FirebaseUserRepository
+import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepository
 import com.example.readmate.util.AppState
 import com.example.readmate.util.RegisterFieldState
 import com.example.readmate.util.RegisterValidation
-import com.example.readmate.util.TAG
 import com.example.readmate.util.validateEmail
 import com.example.readmate.util.validatePassword
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -33,7 +31,7 @@ class AuthViewModel(
     private val _registerState = MutableStateFlow<AppState<User>>(AppState.Ideal())
     val registerState = _registerState.asSharedFlow()
 
-    private val _loginState = MutableSharedFlow<AppState<User>>()
+    private val _loginState = MutableSharedFlow<AppState<FirebaseUser>>()
     val loginState = _loginState.asSharedFlow()
 
     private val _googleAuth = MutableStateFlow<AppState<User>>(AppState.Ideal())

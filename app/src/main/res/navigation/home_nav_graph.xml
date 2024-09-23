@@ -9,13 +9,16 @@
         android:id="@+id/homeFragment"
         android:name="com.example.readmate.ui.library.fragments.LibraryFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_homeFragment_to_firebaseBookDetailsFragment"
             app:destination="@id/firebaseBookDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_showAllFragment"
             app:destination="@id/showAllFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/exploreFragment2"

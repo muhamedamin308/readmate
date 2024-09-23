@@ -3,7 +3,8 @@ package com.example.readmate.di
 import android.app.Application
 import android.content.SharedPreferences
 import com.example.readmate.R
-import com.example.readmate.data.source.remote.firebase.FirebaseAuthService
+import com.example.readmate.data.service.remote.firebase.FirebaseAuthService
+import com.example.readmate.data.service.remote.firebase.FirestoreBookService
 import com.example.readmate.util.Constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -46,6 +47,12 @@ val firebaseModule = module {
             store = get(),
             googleClient = get(),
             androidContext()
+        )
+    }
+
+    single {
+        FirestoreBookService(
+            store = get()
         )
     }
 }

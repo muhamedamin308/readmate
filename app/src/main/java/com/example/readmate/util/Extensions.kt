@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseUser
  */
 
 fun FirebaseUser.convertToUser() = User(
-    uid = uid,
     email = email,
     name = displayName,
     profileImage = photoUrl?.toString(),

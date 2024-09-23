@@ -6,18 +6,18 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class Book(
-    val bookId: String?,
-    val image: String?,
-    val title: String?,
-    val author: String?,
-    val subTitle: String?,
-    val overview: String?,
-    val yearPublished: Int?,
-    val numberOfPages: Int?,
-    val averageRating: Float?,
-    val numberOfReviewers: Int?,
-    val categories: List<String>,
+    val bookId: String? = null,
+    val image: String? = null,
+    val title: String? = null,
+    val author: String? = null,
+    val subTitle: String? = null,
+    val overview: String? = null,
+    val yearPublished: Int? = null,
+    val numberOfPages: Int? = null,
+    val averageRating: Float? = null,
+    val numberOfReviewers: Int? = null,
+    val categories: List<String> = emptyList(),
     val reviews: List<Review> = emptyList(),
     val chapters: List<Chapter> = emptyList(),
-    val price: Float?
+    val price: Float? = null
 )

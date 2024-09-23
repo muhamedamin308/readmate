@@ -8,6 +8,7 @@
     app:cardCornerRadius="40dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_rated_item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/randomColor1"
@@ -23,14 +24,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/img_bookImage"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/dummy_book" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/img_bookImage"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/dummy_book" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_book_avg_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/input_cards_bg"
+            android:backgroundTint="@color/accentColor6"
+            android:fontFamily="@font/nunito_sans_10pt_black"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="4dp"
+            android:text="4.1"
+            android:drawableStart="@drawable/baseline_star_border_24"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_book_title"
@@ -42,6 +73,7 @@
             android:textAlignment="center"
             android:textColor="@color/primaryFont"
             android:textSize="20sp"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bookImage" />
@@ -56,28 +88,10 @@
             android:fontFamily="@font/nunito_sans_10pt_regular"
             android:text="Brad Mendoza is an idiot. He knows it, and so does everyone else. A promising naval career down the drain just because he accidentally"
             android:textColor="@color/black"
+            android:maxLines="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_book_title" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_buy_book_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:background="@drawable/button_bg"
-            android:drawableStart="@drawable/baseline_add_24"
-            android:drawablePadding="3dp"
-            android:drawableTint="@color/white"
-            android:fontFamily="@font/nunito_sans_7pt_semibold"
-            android:paddingHorizontal="10dp"
-            android:text="Add to Bookcase"
-            android:textAllCaps="false"
-            android:textColor="@color/buttonFont"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_book_overview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
