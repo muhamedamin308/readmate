@@ -11,7 +11,7 @@
     <color name="accentColor1">#FF6F61</color> <!-- Soft Red -->
     <!-- Usage: Used for call-to-action buttons, highlights, and important links or icons. Draws attention without being overly aggressive. -->
 
-    <color name="accentColor2">#FFD700</color> <!-- Golden Yellow -->
+    <color name="accentColor2">#8E3C34</color> <!-- Golden Yellow -->
     <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
 
     <color name="accentColor3">#6C63FF</color> <!-- Violet Blue -->

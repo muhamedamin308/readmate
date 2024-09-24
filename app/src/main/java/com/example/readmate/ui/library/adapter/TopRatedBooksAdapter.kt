@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.ItemLayoutTopRatedBooksBinding
+import com.example.readmate.ui.base.BaseBookAdapter
 import com.example.readmate.util.generateRandomColor
 
 /**
@@ -50,7 +51,12 @@ class TopRatedBooksAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
             } else {
                 item.overview
             }
-            topRatedItemLayout.setBackgroundColor(generateRandomColor(holder.itemView.context))
+            topRatedItemLayout.setBackgroundColor(
+                generateRandomColor(
+                    holder.itemView.context,
+                    holder.adapterPosition
+                )
+            )
             tvBookOverview.text = truncatedOverview
             tvBookTitle.text = item.title
             tvBookAvgRating.text = String.format("%.1f", item.averageRating)

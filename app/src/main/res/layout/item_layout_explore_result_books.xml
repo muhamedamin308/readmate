@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/img_bookImage"
-                android:layout_width="88dp"
-                android:layout_height="120dp"
+                android:layout_width="100dp"
+                android:layout_height="144dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/dummy_book" />
 

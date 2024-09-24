@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.ItemLayoutHomeNewestBooksBinding
+import com.example.readmate.ui.base.BaseBookAdapter
 
 /**
  * @author Muhamed Amin Hassan on 23,September,2024

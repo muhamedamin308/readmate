@@ -31,12 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/primaryBackground"
+            android:layout_gravity="top"
             android:paddingBottom="16dp">
 
             <EditText
                 android:id="@+id/et_explore_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="345dp"
+                android:layout_height="41dp"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/input_cards_bg"
@@ -71,86 +72,88 @@
                 android:id="@+id/recycler_recent_books"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView40"
-                app:layout_constraintTop_toBottomOf="@id/textView40" />
+                app:layout_constraintTop_toBottomOf="@id/textView40"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/newest_books_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:indeterminateTint="@color/accentColor5"
-                app:layout_constraintBottom_toTopOf="@id/textView5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView40" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_recent_books" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/nunito_sans_10pt_semibold"
                 android:text="Top Categories"
                 android:textColor="@color/primaryFont"
                 android:textSize="19sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_recent_books" />
+                app:layout_constraintTop_toBottomOf="@+id/newest_books_progress_bar" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_top_authors"
+                android:id="@+id/recycler_top_categories"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView5"
                 app:layout_constraintTop_toBottomOf="@id/textView5"
-                tools:itemCount="1"
+                tools:itemCount="0"
                 tools:listitem="@layout/item_layout_category" />
 
             <ProgressBar
                 android:id="@+id/top_authors_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:indeterminateTint="@color/accentColor5"
-                app:layout_constraintBottom_toTopOf="@id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView5" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_top_categories" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/nunito_sans_10pt_semibold"
                 android:text="Recommendation"
                 android:textColor="@color/primaryFont"
                 android:textSize="19sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_top_authors" />
+                app:layout_constraintTop_toBottomOf="@id/top_authors_progress_bar" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_recommended_books"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/textView4"
-                app:layout_constraintTop_toBottomOf="@id/textView4" />
+                app:layout_constraintStart_toStartOf="@id/textView6"
+                app:layout_constraintTop_toBottomOf="@id/textView6"
+                tools:itemCount="0" />
 
             <ProgressBar
                 android:id="@+id/recommended_books_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:indeterminateTint="@color/accentColor5"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView4" />
+                app:layout_constraintTop_toTopOf="@+id/recycler_recommended_books" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

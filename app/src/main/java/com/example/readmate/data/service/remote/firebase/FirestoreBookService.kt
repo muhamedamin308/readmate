@@ -49,7 +49,8 @@ class FirestoreBookService(
             bookCollectionPath
                 .whereGreaterThanOrEqualTo("numberOfReviewers", 300)
                 .orderBy("averageRating", Query.Direction.DESCENDING),
-            onAction = onAction
+            onAction = onAction,
+            limit = 5
         )
     }
 

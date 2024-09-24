@@ -1,5 +1,7 @@
 package com.example.readmate.di
 
+import com.example.readmate.data.repo.remote.api.ApiBookRepository
+import com.example.readmate.data.repo.remote.api.ApiBookRepositoryImpl
 import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepository
 import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepositoryImpl
 import com.example.readmate.data.repo.remote.firebase.book.FirebaseBookRepository
@@ -15,4 +17,5 @@ import org.koin.dsl.module
 val repoModule = module {
     single<FirebaseUserRepository> { FirebaseUserRepositoryImpl(authService = get()) }
     single<FirebaseBookRepository> { FirebaseBookRepositoryImpl(bookService = get()) }
+    single<ApiBookRepository> { ApiBookRepositoryImpl(apiService = get()) }
 }

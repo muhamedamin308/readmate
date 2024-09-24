@@ -50,7 +50,6 @@
                     android:layout_height="64dp"
                     android:layout_marginStart="16dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/reading_book"
                     app:civ_border_color="@color/accentColor1"
                     app:civ_border_width="2dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_sans_7pt_semibold"
-                        android:text="Rahma Muhammed"
                         android:textColor="@color/primaryFont"
                         android:textSize="22sp" />
 
@@ -80,7 +78,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_sans_7pt_medium"
-                        android:text="rahma@example.com"
                         android:textColor="@color/secondaryFont" />
 
                 </LinearLayout>

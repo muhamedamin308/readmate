@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/libraryFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/libraryFragment"
         android:name="com.example.readmate.ui.library.fragments.LibraryFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_library">
@@ -21,9 +21,9 @@
             app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/exploreFragment2"
+        android:id="@+id/exploreFragment"
         android:name="com.example.readmate.ui.explore.fragments.ExploreFragment"
-        android:label="ExploreFragment"
+        android:label="exploreFragment"
         tools:layout="@layout/fragment_explore">
         <action
             android:id="@+id/action_exploreFragment2_to_exploreBookDetailsFragment"
@@ -36,18 +36,18 @@
             app:destination="@id/exploreShowAllFragment" />
     </fragment>
     <fragment
-        android:id="@+id/myBookFragment2"
+        android:id="@+id/myBookFragment"
         android:name="com.example.readmate.ui.mybook.fragments.MyBookFragment"
-        android:label="MyBookFragment"
+        android:label="myBookFragment"
         tools:layout="@layout/fragment_my_books">
         <action
             android:id="@+id/action_myBookFragment2_to_firebaseBookDetailsFragment"
             app:destination="@id/firebaseBookDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment2"
+        android:id="@+id/settingsFragment"
         android:name="com.example.readmate.ui.settings.fragments.SettingsFragment"
-        android:label="SettingsFragment"
+        android:label="settingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment2_to_profileFragment"
@@ -102,7 +102,7 @@
         android:id="@+id/bookReadingFragment"
         android:name="com.example.readmate.ui.mybook.fragments.BookReadingFragment"
         android:label="BookReadingFragment"
-        tools:layout="@layout/fragment_reading"/>
+        tools:layout="@layout/fragment_reading" />
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.readmate.ui.payment.fragments.PaymentFragment"
@@ -110,7 +110,7 @@
         tools:layout="@layout/fragment_payment">
         <action
             android:id="@+id/action_paymentFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/libraryFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
@@ -128,7 +128,7 @@
         android:id="@+id/profileFragment"
         android:name="com.example.readmate.ui.settings.fragments.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/bookcaseFragment"
         android:name="com.example.readmate.ui.settings.fragments.BookcaseFragment"
@@ -142,22 +142,22 @@
         android:id="@+id/addPaymentMethodFragment"
         android:name="com.example.readmate.ui.payment.fragments.AddPaymentMethodFragment"
         android:label="AddPaymentMethodFragment"
-        tools:layout="@layout/fragment_add_payment_method"/>
+        tools:layout="@layout/fragment_add_payment_method" />
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.example.readmate.ui.settings.fragments.NotificationsFragment"
         android:label="NotificationsFragment"
-        tools:layout="@layout/fragment_notifications"/>
+        tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/termsAndConditionsFragment"
         android:name="com.example.readmate.ui.settings.fragments.TermsAndConditionsFragment"
         android:label="TermsAndConditionsFragment"
-        tools:layout="@layout/fragment_terms_conditions"/>
+        tools:layout="@layout/fragment_terms_conditions" />
     <fragment
         android:id="@+id/helpAndSupportFragment"
         android:name="com.example.readmate.ui.settings.fragments.HelpAndSupportFragment"
         android:label="HelpAndSupportFragment"
-        tools:layout="@layout/fragment_help_support"/>
+        tools:layout="@layout/fragment_help_support" />
     <fragment
         android:id="@+id/showAllFragment"
         android:name="com.example.readmate.ui.library.fragments.FirebaseShowAllFragment"

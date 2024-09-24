@@ -1,8 +1,6 @@
 package com.example.readmate.ui.library.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.FragmentLibraryBinding
-import com.example.readmate.ui.library.adapter.BaseBookAdapter
+import com.example.readmate.ui.base.BaseBookAdapter
 import com.example.readmate.ui.library.adapter.BestSellersBookAdapter
 import com.example.readmate.ui.library.adapter.BookCategoriesAdapter
 import com.example.readmate.ui.library.adapter.NewestBooksAdapter
@@ -22,7 +20,6 @@ import com.example.readmate.util.AppState
 import com.example.readmate.util.showMessage
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.log
 
 @Suppress("UNCHECKED_CAST")
 class LibraryFragment : Fragment() {
@@ -72,7 +69,7 @@ class LibraryFragment : Fragment() {
         )
         collectState(
             viewModel.topRatedBooks,
-            binding.topRatedBooksProgressBar,
+            binding.top5BooksProgressBar,
             adapters[4] as BaseBookAdapter<Book>
         )
     }
@@ -83,7 +80,7 @@ class LibraryFragment : Fragment() {
             Pair(binding.recyclerRecommendedBooks, LinearLayoutManager.HORIZONTAL),
             Pair(binding.recyclerCategories, LinearLayoutManager.HORIZONTAL),
             Pair(binding.recyclerBestSellersBooks, LinearLayoutManager.HORIZONTAL),
-            Pair(binding.recyclerTopRatedBooks, LinearLayoutManager.VERTICAL)
+            Pair(binding.recyclerTop5Books, LinearLayoutManager.VERTICAL)
         )
 
         recyclerMappings.forEachIndexed { index, (recyclerView, orientation) ->
@@ -106,7 +103,6 @@ class LibraryFragment : Fragment() {
                     is AppState.Error -> {
                         progressBarVisibility(progressBar, false)
                         requireContext().showMessage(state.message.toString())
-                        Log.d("TAG_LIBRARY_FRAGMENT", state.message.toString())
                     }
 
                     is AppState.Success -> {

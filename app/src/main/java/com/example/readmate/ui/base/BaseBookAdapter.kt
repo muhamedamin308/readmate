@@ -1,4 +1,4 @@
-package com.example.readmate.ui.library.adapter
+package com.example.readmate.ui.base
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
