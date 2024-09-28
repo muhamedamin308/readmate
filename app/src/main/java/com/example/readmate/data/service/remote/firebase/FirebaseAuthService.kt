@@ -58,6 +58,27 @@ class FirebaseAuthService(
             }
     }
 
+    fun getUserProfile(onAction: (User?, Exception?) -> Unit) {
+        val userId = auth.currentUser?.uid
+        userId?.let {
+            userCollectionPath.document(userId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val user = documentSnapshot.toObject(User::class.java)
+                    user?.let { onAction(user, null) } ?: onAction(
+                        null,
+                        Exception("User not found")
+                    )
+                }
+                .addOnFailureListener { onAction(null, it) }
+        } ?: onAction(null, Exception("Not authenticated user!"))
+    }
+
+    fun logout() {
+        auth.signOut()
+        googleSignInClient.signOut()
+    }
+
     fun googleSignIn() = googleSignInClient.signInIntent
 
     fun firebaseAuthWithGoogle(idToken: String, onAction: (User?, Exception?) -> Unit) {

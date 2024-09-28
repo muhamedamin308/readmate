@@ -22,3 +22,9 @@ fun FirebaseUser.convertToUser() = User(
 fun Context.showMessage(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
+
+fun String.extractFetchRequestQuery(): String =
+    this
+        .lowercase()
+        .replace("&", "and")
+        .replace(Regex("\\s+"), "-")

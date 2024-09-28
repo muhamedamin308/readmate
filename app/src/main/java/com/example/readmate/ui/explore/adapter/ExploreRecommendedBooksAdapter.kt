@@ -7,14 +7,14 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.responses.BookItemResponse
 import com.example.readmate.databinding.ItemLayoutExploreResultBooksBinding
-import com.example.readmate.ui.base.BaseBookAdapter
+import com.example.readmate.ui.base.BaseAdapter
 
 /**
  * @author Muhamed Amin Hassan on 24,September,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class ExploreRecommendedBooksAdapter : BaseBookAdapter<BookItemResponse>(DIFF_CALLBACK) {
+class ExploreRecommendedBooksAdapter : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BookItemResponse>() {
             override fun areItemsTheSame(

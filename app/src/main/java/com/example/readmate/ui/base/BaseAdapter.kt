@@ -12,9 +12,9 @@ import androidx.viewbinding.ViewBinding
  * Egypt, Cairo.
  */
 
-abstract class BaseBookAdapter<T>(
+abstract class BaseAdapter<T>(
     diffCallback: DiffUtil.ItemCallback<T>
-) : RecyclerView.Adapter<BaseBookAdapter<T>.BookViewHolder>() {
+) : RecyclerView.Adapter<BaseAdapter<T>.BookViewHolder>() {
 
     inner class BookViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
 

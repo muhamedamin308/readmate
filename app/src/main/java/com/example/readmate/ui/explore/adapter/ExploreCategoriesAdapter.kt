@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.example.readmate.databinding.ItemLayoutCategoryBinding
-import com.example.readmate.ui.base.BaseBookAdapter
+import com.example.readmate.ui.base.BaseAdapter
 
 /**
  * @author Muhamed Amin Hassan on 24,September,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class ExploreCategoriesAdapter : BaseBookAdapter<String>(DIFF_CALLBACK) {
+class ExploreCategoriesAdapter : BaseAdapter<String>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>() {

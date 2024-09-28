@@ -48,6 +48,7 @@ class SplashFragment : Fragment() {
                                         Intent.FLAG_ACTIVITY_NEW_TASK
                             )
                             startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
 

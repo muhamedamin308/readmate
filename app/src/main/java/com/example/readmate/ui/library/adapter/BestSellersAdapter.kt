@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.ItemLayoutHomeBestSellersBinding
-import com.example.readmate.ui.base.BaseBookAdapter
+import com.example.readmate.ui.base.BaseAdapter
 
 /**
  * @author Muhamed Amin Hassan on 23,September,2024
@@ -16,7 +16,7 @@ import com.example.readmate.ui.base.BaseBookAdapter
  */
 
 
-class BestSellersBookAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
+class BestSellersAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Book>() {

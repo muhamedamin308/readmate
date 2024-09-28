@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.ItemLayoutHomeNewestBooksBinding
-import com.example.readmate.ui.base.BaseBookAdapter
+import com.example.readmate.ui.base.BaseAdapter
 
 /**
  * @author Muhamed Amin Hassan on 23,September,2024
@@ -15,7 +15,7 @@ import com.example.readmate.ui.base.BaseBookAdapter
  * Egypt, Cairo.
  */
 
-class NewestBooksAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
+class NewestBooksAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Book>() {
@@ -43,7 +43,7 @@ class NewestBooksAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
                 .error(R.drawable.not_found)
                 .into(imgBookImage)
 
-            val truncatedOverview = if (item.overview!!.length > 100) {
+            val truncatedOverview = if (item.overview!!.length > 60) {
                 item.overview.substring(0, item.overview.length / 2) + "..."
             } else {
                 item.overview

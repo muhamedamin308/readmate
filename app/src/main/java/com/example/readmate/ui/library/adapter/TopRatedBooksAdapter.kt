@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.ItemLayoutTopRatedBooksBinding
-import com.example.readmate.ui.base.BaseBookAdapter
+import com.example.readmate.ui.base.BaseAdapter
 import com.example.readmate.util.generateRandomColor
 
 /**
@@ -17,7 +17,7 @@ import com.example.readmate.util.generateRandomColor
  * Egypt, Cairo.
  */
 
-class TopRatedBooksAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
+class TopRatedBooksAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Book>() {
@@ -46,7 +46,7 @@ class TopRatedBooksAdapter : BaseBookAdapter<Book>(DIFF_CALLBACK) {
                 .error(R.drawable.not_found)
                 .into(imgBookImage)
 
-            val truncatedOverview = if (item.overview!!.length > 100) {
+            val truncatedOverview = if (item.overview!!.length > 60) {
                 item.overview.substring(0, item.overview.length / 2) + "..."
             } else {
                 item.overview

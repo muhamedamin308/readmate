@@ -9,9 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.FragmentLibraryBinding
-import com.example.readmate.ui.base.BaseBookAdapter
-import com.example.readmate.ui.library.adapter.BestSellersBookAdapter
-import com.example.readmate.ui.library.adapter.BookCategoriesAdapter
+import com.example.readmate.ui.base.BaseAdapter
+import com.example.readmate.ui.library.adapter.BestSellersAdapter
+import com.example.readmate.ui.library.adapter.CategoriesAdapter
 import com.example.readmate.ui.library.adapter.NewestBooksAdapter
 import com.example.readmate.ui.library.adapter.RecommendedBooksAdapter
 import com.example.readmate.ui.library.adapter.TopRatedBooksAdapter
@@ -26,11 +26,11 @@ class LibraryFragment : Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private val viewModel: LibraryViewModel by viewModel()
 
-    private val adapters: List<BaseBookAdapter<*>> = listOf(
+    private val adapters: List<BaseAdapter<*>> = listOf(
         NewestBooksAdapter(),
         RecommendedBooksAdapter(),
-        BookCategoriesAdapter(),
-        BestSellersBookAdapter(),
+        CategoriesAdapter(),
+        BestSellersAdapter(),
         TopRatedBooksAdapter()
     )
 
@@ -50,27 +50,27 @@ class LibraryFragment : Fragment() {
         collectState(
             viewModel.newestBooks,
             binding.newestBooksProgressBar,
-            adapters[0] as BaseBookAdapter<Book>
+            adapters[0] as BaseAdapter<Book>
         )
         collectState(
             viewModel.recommendedBooks,
             binding.recommendedBooksProgressBar,
-            adapters[1] as BaseBookAdapter<Book>
+            adapters[1] as BaseAdapter<Book>
         )
         collectState(
             viewModel.bookCategories,
             binding.categoryBooksProgressBar,
-            adapters[2] as BaseBookAdapter<String>
+            adapters[2] as BaseAdapter<String>
         )
         collectState(
             viewModel.bestSellersBooks,
             binding.bestSellersBooksProgressBar,
-            adapters[3] as BaseBookAdapter<Book>
+            adapters[3] as BaseAdapter<Book>
         )
         collectState(
             viewModel.topRatedBooks,
             binding.top5BooksProgressBar,
-            adapters[4] as BaseBookAdapter<Book>
+            adapters[4] as BaseAdapter<Book>
         )
     }
 
@@ -94,7 +94,7 @@ class LibraryFragment : Fragment() {
     private fun <T : Any> collectState(
         flow: StateFlow<AppState<List<T>>>,
         progressBar: View,
-        adapter: BaseBookAdapter<T>
+        adapter: BaseAdapter<T>
     ) {
         lifecycleScope.launchWhenStarted {
             flow.collect { state ->

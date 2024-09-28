@@ -22,4 +22,14 @@ class MyBookFragment : Fragment() {
         binding = FragmentMyBooksBinding.inflate(layoutInflater)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            recyclerMyBooks.visibility = View.GONE
+            myBooksProgressBar.visibility = View.GONE
+            imgEmptyList.visibility = View.VISIBLE
+            tvEmptyList.visibility = View.VISIBLE
+        }
+    }
 }

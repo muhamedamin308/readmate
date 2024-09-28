@@ -1,4 +1,4 @@
-package com.example.readmate.data.model.firebase
+package com.example.readmate.data.model.local
 
 /**
  * @author Muhamed Amin Hassan on 02,September,2024
