@@ -4,61 +4,53 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:elevation="2dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="9dp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/primaryBackground"
-        android:paddingBottom="3dp">
+        android:layout_height="match_parent">
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/bookImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
+        <ImageView
+            android:id="@+id/img_bookImage"
+            android:layout_width="210dp"
+            android:layout_height="320dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/test" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/img_bookImage"
-                    android:layout_width="200dp"
-                    android:layout_height="300dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/dummy_book" />
+        <ImageView
+            android:id="@+id/img_dark_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/dark_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline" />
 
-                <TextView
-                    android:id="@+id/tv_book_reviewers_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/input_cards_bg"
-                    android:backgroundTint="@color/randomColor3"
-                    android:fontFamily="@font/nunito_sans_10pt_black"
-                    android:text="491"
-                    android:textSize="17sp"
-                    android:padding="4dp"
-                    android:textColor="@color/black"
-                    android:drawableEnd="@drawable/baseline_clock_up_arrow_24"
-                    android:drawablePadding="3dp"
-                    android:drawableTint="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_book_reviewers_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/input_cards_bg"
+            android:backgroundTint="@color/accentColor2"
+            android:drawableEnd="@drawable/baseline_clock_up_arrow_24"
+            android:drawablePadding="3dp"
+            android:drawableTint="@color/secondaryBackground"
+            android:fontFamily="@font/nunito_sans_10pt_black"
+            android:padding="4dp"
+            android:text="491"
+            android:textColor="@color/secondaryBackground"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_book_title"
@@ -66,14 +58,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:fontFamily="@font/nunito_sans_10pt_bold"
-            android:text="Getting Along 2022"
-            android:textColor="@color/primaryFont"
-            android:textSize="17sp"
             android:maxLines="1"
+            android:text="Getting Along 2022"
+            android:textColor="@color/primaryBackground"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_book_author"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bookImage" />
-
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_book_author"
@@ -81,13 +72,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:fontFamily="@font/nunito_sans_10pt_regular"
-            android:text="Brad Mendoza"
             android:maxLines="1"
-            android:textColor="@color/secondaryFont"
+            android:text="Brad Mendoza"
+            android:textColor="@color/secondaryBackground"
+            app:layout_constraintBottom_toBottomOf="@id/img_dark_bg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_book_title" />
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/primaryBackground"
+    android:orientation="vertical"
     android:paddingBottom="12dp">
 
 
     <TextView
         android:id="@+id/tv_chapter_title"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/gentium_book_plus_bold"
-        android:text="Essays by Leading Scientists and Policymakers"
+        android:layout_margin="12dp"
+        android:fontFamily="@font/sourceserif4_48pt_bold"
+        android:text="Building and maintaining a font collection"
+        android:textAlignment="center"
         android:textColor="@color/primaryFont"
         android:textSize="30sp"
-        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_chapter_content"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/gentium_book_blus_regular"
-        android:text="@string/terms"
-        android:textColor="@color/primaryFont"
-        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_chapter_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_chapter_title"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_layout_chapter_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

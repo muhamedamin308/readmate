@@ -20,4 +20,22 @@ data class Book(
     val reviews: List<Review> = emptyList(),
     val chapters: List<Chapter> = emptyList(),
     val price: Float? = null
-)
+) {
+    // Explicit no-argument constructor for Firebase
+    constructor() : this(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        emptyList(),
+        emptyList(),
+        emptyList(),
+        null
+    )
+}

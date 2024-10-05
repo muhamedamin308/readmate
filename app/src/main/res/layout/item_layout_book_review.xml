@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans_10pt_medium"
-            android:text="The mind as a battleground: Our minds are often likened to battlefields, where positive and negative thoughts constantly clash."
+            android:text="@string/dummy_description"
             android:textColor="@color/primaryFont"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

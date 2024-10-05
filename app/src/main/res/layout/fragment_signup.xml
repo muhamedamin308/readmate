@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/primaryBackground">
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/primaryBackground"
@@ -150,7 +150,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/signup_progress_bar"

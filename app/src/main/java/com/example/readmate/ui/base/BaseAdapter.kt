@@ -27,7 +27,10 @@ abstract class BaseAdapter<T>(
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val item = differ.currentList[position]
         bind(holder, item)
+        holder.itemView.setOnClickListener { onClick?.invoke(item) }
     }
 
     override fun getItemCount(): Int = differ.currentList.size
+
+    var onClick: ((T) -> Unit)? = null
 }

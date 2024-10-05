@@ -9,4 +9,7 @@ data class Review(
     val user: User? = null,
     val comment: String? = null,
     val timestamp: Long? = null
-)
+) {
+    // Explicit no-argument constructor
+    constructor() : this(null, null, null)
+}

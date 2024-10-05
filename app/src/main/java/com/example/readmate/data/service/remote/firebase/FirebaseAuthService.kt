@@ -2,7 +2,7 @@ package com.example.readmate.data.service.remote.firebase
 
 import android.content.Context
 import com.example.readmate.data.model.firebase.User
-import com.example.readmate.util.convertToUser
+import com.example.readmate.util.toUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -58,22 +58,6 @@ class FirebaseAuthService(
             }
     }
 
-    fun getUserProfile(onAction: (User?, Exception?) -> Unit) {
-        val userId = auth.currentUser?.uid
-        userId?.let {
-            userCollectionPath.document(userId)
-                .get()
-                .addOnSuccessListener { documentSnapshot ->
-                    val user = documentSnapshot.toObject(User::class.java)
-                    user?.let { onAction(user, null) } ?: onAction(
-                        null,
-                        Exception("User not found")
-                    )
-                }
-                .addOnFailureListener { onAction(null, it) }
-        } ?: onAction(null, Exception("Not authenticated user!"))
-    }
-
     fun logout() {
         auth.signOut()
         googleSignInClient.signOut()
@@ -105,8 +89,8 @@ class FirebaseAuthService(
             .addOnSuccessListener {
                 val user = it.user
                 user?.let {
-                    saveUserData(user.uid, user.convertToUser(), onAction)
-                    onAction(user.convertToUser(), null)
+                    saveUserData(user.uid, user.toUser(), onAction)
+                    onAction(user.toUser(), null)
                 } ?: onAction(
                     null,
                     Exception("Unexpected error!!")

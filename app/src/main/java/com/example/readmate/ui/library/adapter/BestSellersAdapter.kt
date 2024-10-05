@@ -44,8 +44,16 @@ class BestSellersAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
                 .error(R.drawable.not_found)
                 .into(imgBookImage)
             tvBookReviewersNumber.text = item.numberOfReviewers.toString()
-            tvBookTitle.text = item.title
-            tvBookAuthor.text = item.author
+            tvBookAuthor.text = if (item.author!!.length >= 24) {
+                item.author.substring(0, item.author.length - 6) + "...."
+            } else {
+                item.author
+            }
+            tvBookTitle.text = if (item.title!!.length >= 20) {
+                item.title.substring(0, item.title.length - 6) + "...."
+            } else {
+                item.title
+            }
         }
     }
 }

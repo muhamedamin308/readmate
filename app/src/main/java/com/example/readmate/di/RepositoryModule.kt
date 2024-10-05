@@ -15,7 +15,12 @@ import org.koin.dsl.module
  */
 
 val repoModule = module {
-    single<FirebaseUserRepository> { FirebaseUserRepositoryImpl(authService = get()) }
+    single<FirebaseUserRepository> {
+        FirebaseUserRepositoryImpl(
+            authService = get(),
+            userService = get()
+        )
+    }
     single<FirebaseBookRepository> { FirebaseBookRepositoryImpl(bookService = get()) }
     single<ApiBookRepository> { ApiBookRepositoryImpl(apiService = get()) }
 }

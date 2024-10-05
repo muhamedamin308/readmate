@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.readmate.ui.library.fragments.LibraryFragment"
-        android:label="HomeFragment"
+        android:label="homeFragment"
         tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_homeFragment_to_firebaseBookDetailsFragment"

@@ -13,6 +13,7 @@ class FirestoreBookService(
     store: FirebaseFirestore
 ) {
     private val bookCollectionPath = store.collection("books")
+    private val numberOfReviews = "numberOfReviewers"
 
     fun fetchNewestBooks(onAction: (List<Book>?, Exception?) -> Unit) {
         fetchBooks(
@@ -38,7 +39,7 @@ class FirestoreBookService(
 
     fun fetchBestSellersBooks(onAction: (List<Book>?, Exception?) -> Unit) {
         fetchBooks(
-            bookCollectionPath.orderBy("numberOfReviewers", Query.Direction.DESCENDING),
+            bookCollectionPath.orderBy(numberOfReviews, Query.Direction.DESCENDING),
             8,
             onAction
         )
@@ -47,7 +48,7 @@ class FirestoreBookService(
     fun fetchTopRatedBooks(onAction: (List<Book>?, Exception?) -> Unit) {
         fetchBooks(
             bookCollectionPath
-                .whereGreaterThanOrEqualTo("numberOfReviewers", 300)
+                .whereGreaterThanOrEqualTo(numberOfReviews, 300)
                 .orderBy("averageRating", Query.Direction.DESCENDING),
             onAction = onAction,
             limit = 5

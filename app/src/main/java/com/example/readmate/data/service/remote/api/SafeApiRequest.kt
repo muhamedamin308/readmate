@@ -11,7 +11,11 @@ abstract class SafeApiRequest {
                     ApiResult.Success(it)
                 } ?: ApiResult.Error("No data found!")
             } else {
-                val message = "Error Code: ${response.code()} - ${response.message()}"
+                val message = when (response.code()) {
+                    404 -> "Resource not found"
+                    500 -> "Server error, try again later"
+                    else -> "Error Code: ${response.code()} - ${response.message()}"
+                }
                 ApiResult.Error(message)
             }
         } catch (e: Exception) {

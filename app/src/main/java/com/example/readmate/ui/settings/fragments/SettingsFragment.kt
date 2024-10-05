@@ -44,6 +44,9 @@ class SettingsFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
+            userinfo.setOnClickListener {
+                findNavController().navigate(R.id.action_settingsFragment2_to_profileFragment)
+            }
             btnBookcase.setOnClickListener {
                 findNavController().navigate(R.id.action_settingsFragment2_to_bookcaseFragment)
             }

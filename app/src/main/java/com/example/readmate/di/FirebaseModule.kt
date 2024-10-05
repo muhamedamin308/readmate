@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.example.readmate.R
 import com.example.readmate.data.service.remote.firebase.FirebaseAuthService
+import com.example.readmate.data.service.remote.firebase.FirebaseUserService
 import com.example.readmate.data.service.remote.firebase.FirestoreBookService
 import com.example.readmate.util.Constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -11,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -22,6 +24,7 @@ import org.koin.dsl.module
 val firebaseModule = module {
     single { FirebaseAuth.getInstance() }
     single { Firebase.firestore }
+    single { FirebaseStorage.getInstance().reference }
     single {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(androidContext().getString(R.string.default_web_client))
@@ -53,6 +56,14 @@ val firebaseModule = module {
     single {
         FirestoreBookService(
             store = get()
+        )
+    }
+
+    single {
+        FirebaseUserService(
+            auth = get(),
+            store = get(),
+            storage = get()
         )
     }
 }

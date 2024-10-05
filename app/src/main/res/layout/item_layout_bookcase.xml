@@ -49,6 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:maxLines="2"
             android:text="Teddy Wayne"
             android:textColor="@color/secondaryFont"
             android:textSize="13sp"
@@ -65,7 +66,7 @@
             android:padding="5dp"
             android:text="$69"
             android:textColor="@color/primaryFont"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_book_rate"
             app:layout_constraintStart_toStartOf="@id/tv_book_author"
             app:layout_constraintTop_toTopOf="@+id/tv_book_rate" />

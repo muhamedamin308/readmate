@@ -1,6 +1,7 @@
 package com.example.readmate.util
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import com.example.readmate.data.model.firebase.User
 import com.google.firebase.auth.FirebaseUser
@@ -11,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser
  * Egypt, Cairo.
  */
 
-fun FirebaseUser.convertToUser() = User(
+fun FirebaseUser.toUser() = User(
     email = email,
     name = displayName,
     profileImage = photoUrl?.toString(),
@@ -28,3 +29,18 @@ fun String.extractFetchRequestQuery(): String =
         .lowercase()
         .replace("&", "and")
         .replace(Regex("\\s+"), "-")
+
+fun String.extractSimilarBooksBasedOnName(): String =
+    takeIf { it.isNotBlank() }?.split(" ")?.firstOrNull()?.lowercase() ?: ""
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    visibility = View.INVISIBLE
+}

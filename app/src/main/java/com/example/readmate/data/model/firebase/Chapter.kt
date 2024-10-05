@@ -8,4 +8,7 @@ package com.example.readmate.data.model.firebase
 data class Chapter(
     val title: String? = null,
     val headlines: List<HeadLine> = emptyList()
-)
+) {
+    // Explicit no-argument constructor
+    constructor() : this(null, emptyList())
+}

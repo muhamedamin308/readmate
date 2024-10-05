@@ -62,14 +62,14 @@ class ExploreViewModel(
         }
     }
 
-    fun getBookDetails(bookId: String) {
-        viewModelScope.launch {
-            _bookDetailsState.emit(AppState.Loading())
-            val bookDetails = apiBookRepository.getBookDetails(bookId)
-            bookDetails?.let {
-                _bookDetailsState.emit(AppState.Success(bookDetails))
-            } ?: _bookDetailsState.emit(AppState.Error("No Book Details found!"))
+    fun getBookDetails(bookId: String) = viewModelScope.launch {
+        _bookDetailsState.value = AppState.Loading()
+        when (val result = apiBookRepository.getBookDetails(bookId)) {
+            is ApiResult.Success -> _bookDetailsState.value = AppState.Success(result.data)
+            is ApiResult.Error -> _bookDetailsState.value = AppState.Error(result.message)
+            ApiResult.Loading -> Unit
         }
     }
+
 
 }

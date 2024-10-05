@@ -18,7 +18,7 @@
         android:title="My Book" />
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/baseline_more_horiz_24"
+        android:icon="@drawable/baseline_menu_24"
         android:iconTint="@color/buttonBackground"
-        android:title="Settings" />
+        android:title="More" />
 </menu>

@@ -6,9 +6,11 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class User(
-    val name: String? = null,
+    var name: String? = null,
     val email: String? = null,
-    val profileImage: String? = null,
-    val books: List<String>? = emptyList(),
-    val booksToRead: List<String> = emptyList()
-)
+    var profileImage: String? = null,
+    var books: List<String>? = emptyList(),
+    var booksToRead: List<String> = emptyList()
+) {
+    constructor() : this(null, null, null, emptyList(), emptyList())
+}

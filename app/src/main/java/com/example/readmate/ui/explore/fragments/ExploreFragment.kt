@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.readmate.R
 import com.example.readmate.data.model.responses.BookResponse
 import com.example.readmate.data.service.remote.api.ApiResult
 import com.example.readmate.databinding.FragmentExploreBinding
@@ -48,6 +50,31 @@ class ExploreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclers()
         observeViewModel()
+        setUpClickListener()
+    }
+
+    private fun setUpClickListener() {
+        recentBooksAdapter.onClick = {
+            findNavController().navigate(
+                R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
+                    putString("apiBook", it.id.filter { it.isDigit() })
+                }
+            )
+        }
+        topCategoriesAdapter.onClick = {
+            findNavController().navigate(
+                R.id.action_exploreFragment2_to_exploreShowAllFragment, Bundle().apply {
+                    putString("category", it)
+                }
+            )
+        }
+        topRecommendedBooksAdapter.onClick = {
+            findNavController().navigate(
+                R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
+                    putString("apiBook", it.id.filter { it.isDigit() })
+                }
+            )
+        }
     }
 
     private fun observeViewModel() {
@@ -69,9 +96,11 @@ class ExploreFragment : Fragment() {
             is ApiResult.Success -> {
                 setLoadingState(binding.newestBooksProgressBar, false)
                 setLoadingState(binding.recommendedBooksProgressBar, false)
-                val shuffledRecentBooks = state.data.books.shuffled().take(5)
-                recentBooksAdapter.differ.submitList(shuffledRecentBooks)
-                topRecommendedBooksAdapter.differ.submitList(state.data.books)
+                state.data.books?.let {
+                    val shuffledRecentBooks = it.shuffled().take(5)
+                    recentBooksAdapter.differ.submitList(shuffledRecentBooks)
+                    topRecommendedBooksAdapter.differ.submitList(it)
+                }
             }
 
             is ApiResult.Error -> {

@@ -6,6 +6,9 @@ package com.example.readmate.data.model.firebase
  * Egypt, Cairo.
  */
 data class HeadLine(
-    val title: String? = "",
-    val content: String? = ""
-)
+    val title: String? = null,
+    val content: String? = null
+) {
+    // Explicit no-argument constructor
+    constructor() : this(null, null)
+}

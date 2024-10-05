@@ -12,5 +12,5 @@ import com.example.readmate.data.service.remote.api.ApiResult
 interface ApiBookRepository {
     suspend fun getRecentBooks(): ApiResult<BookResponse>
     suspend fun searchBooks(query: String): ApiResult<BookResponse>
-    suspend fun getBookDetails(bookId: String): BookDetailsResponse?
+    suspend fun getBookDetails(bookId: String): ApiResult<BookDetailsResponse>
 }

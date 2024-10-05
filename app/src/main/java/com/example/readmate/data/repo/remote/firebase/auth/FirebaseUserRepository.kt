@@ -1,6 +1,7 @@
 package com.example.readmate.data.repo.remote.firebase.auth
 
 import android.content.Intent
+import android.net.Uri
 import com.example.readmate.data.model.firebase.User
 import com.google.firebase.auth.FirebaseUser
 
@@ -12,4 +13,5 @@ interface FirebaseUserRepository {
     fun authWithGoogle(token: String, onAction: (User?, Exception?) -> Unit)
     fun signOut()
     fun getUserProfile(onAction: (User?, Exception?) -> Unit)
+    fun updateUserProfile(user: User, imageUri: Uri?, onAction: (User?, Exception?) -> Unit)
 }

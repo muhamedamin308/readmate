@@ -24,6 +24,6 @@ class ApiBookRepositoryImpl(
         return apiRequest { apiService.searchBooks(query) }
     }
 
-    override suspend fun getBookDetails(bookId: String): BookDetailsResponse =
-        apiService.getBookById(bookId)
+    override suspend fun getBookDetails(bookId: String): ApiResult<BookDetailsResponse> =
+        apiRequest { apiService.getBookById(bookId) }
 }
