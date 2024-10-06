@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.readmate.R
@@ -15,6 +17,8 @@ import com.example.readmate.ui.onboarding.activities.IntroActivity
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.showMessage
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -64,32 +68,42 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.userProfileState.collect {
-                when (it) {
-                    is AppState.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        requireContext().showMessage("Check your Network Connectivity!!")
-                    }
 
-                    is AppState.Loading -> binding.progressBar.visibility = View.VISIBLE
-                    is AppState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.apply {
-                            with(it.data!!) {
-                                Glide.with(requireView())
-                                    .load(profileImage)
-                                    .error(R.drawable.not_found)
-                                    .into(imgUserImage)
-                                tvUsername.text = name
-                                tvUseremail.text = email
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.userProfileState.collectLatest {
+                        when (it) {
+                            is AppState.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                requireContext().showMessage("Check your Network Connectivity!!")
                             }
+
+                            is AppState.Loading -> binding.progressBar.visibility = View.VISIBLE
+                            is AppState.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                binding.apply {
+                                    with(it.data!!) {
+                                        Glide.with(requireView())
+                                            .load(profileImage)
+                                            .error(R.drawable.not_found)
+                                            .into(imgUserImage)
+                                        tvUsername.text = name
+                                        tvUseremail.text = email
+                                    }
+                                }
+                            }
+
+                            else -> Unit
                         }
                     }
-
-                    else -> Unit
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fetchUserProfile()
     }
 }

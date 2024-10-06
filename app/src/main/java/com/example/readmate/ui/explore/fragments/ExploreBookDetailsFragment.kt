@@ -19,6 +19,7 @@ import com.example.readmate.databinding.FragmentExploreBookDetailsBinding
 import com.example.readmate.ui.explore.adapter.ExploreSimilarBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.Constants.API_BOOK
 import com.example.readmate.util.extractSimilarBooksBasedOnName
 import com.example.readmate.util.gone
 import com.example.readmate.util.show
@@ -39,14 +40,14 @@ class ExploreBookDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
 
-        arguments?.getString("apiBook")?.let { bookId ->
+        arguments?.getString(API_BOOK)?.let { bookId ->
             viewModel.getBookDetails(bookId)
         } ?: requireContext().showMessage("Book not found")
 
         similarBooksAdapter.onClick = { book ->
             findNavController().navigate(
                 R.id.action_exploreBookDetailsFragment_self, Bundle().apply {
-                    putString("apiBook", book.id.filter { it.isDigit() })
+                    putString(API_BOOK, book.id.filter { it.isDigit() })
                 }
             )
         }

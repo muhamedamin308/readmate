@@ -14,11 +14,13 @@ import com.example.readmate.R
 import com.example.readmate.data.model.responses.BookResponse
 import com.example.readmate.data.service.remote.api.ApiResult
 import com.example.readmate.databinding.FragmentExploreBinding
+import com.example.readmate.ui.explore.adapter.ExploreAllBooksAdapter
 import com.example.readmate.ui.explore.adapter.ExploreCategoriesAdapter
-import com.example.readmate.ui.explore.adapter.ExploreRecommendedBooksAdapter
 import com.example.readmate.ui.explore.adapter.RecentBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.Constants.API_BOOK
+import com.example.readmate.util.extractFetchRequestQuery
 import com.example.readmate.util.showMessage
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,7 +37,7 @@ class ExploreFragment : Fragment() {
 
     private val recentBooksAdapter by lazy { RecentBooksAdapter() }
     private val topCategoriesAdapter by lazy { ExploreCategoriesAdapter() }
-    private val topRecommendedBooksAdapter by lazy { ExploreRecommendedBooksAdapter() }
+    private val topRecommendedBooksAdapter by lazy { ExploreAllBooksAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +59,7 @@ class ExploreFragment : Fragment() {
         recentBooksAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString("apiBook", it.id.filter { it.isDigit() })
+                    putString(API_BOOK, it.id.filter { it.isDigit() })
                 }
             )
         }
@@ -71,7 +73,14 @@ class ExploreFragment : Fragment() {
         topRecommendedBooksAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString("apiBook", it.id.filter { it.isDigit() })
+                    putString(API_BOOK, it.id.filter { it.isDigit() })
+                }
+            )
+        }
+        binding.etExploreSearch.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_exploreFragment2_to_exploreResultsFragment, Bundle().apply {
+                    putString("search", binding.etExploreSearch.text.toString())
                 }
             )
         }

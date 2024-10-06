@@ -9,4 +9,5 @@ object Constants {
     val signInPath = R.id.action_splashFragment_to_signInFragment
     const val HOME_ACTIVITY_ID = 4723
     const val GOOGLE_SIGN_IN_REQUEST = 22
+    const val API_BOOK = "apiBook"
 }

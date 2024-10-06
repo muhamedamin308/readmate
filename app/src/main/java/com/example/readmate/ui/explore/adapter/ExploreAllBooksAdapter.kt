@@ -14,7 +14,7 @@ import com.example.readmate.ui.base.BaseAdapter
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class ExploreRecommendedBooksAdapter : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) {
+class ExploreAllBooksAdapter : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BookItemResponse>() {
             override fun areItemsTheSame(

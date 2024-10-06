@@ -25,7 +25,9 @@ class SettingsViewModel(
         fetchUserProfile()
     }
 
-    private fun fetchUserProfile() {
+
+
+    fun fetchUserProfile() {
         viewModelScope.launch { _userProfileState.emit(AppState.Loading()) }
         userRepository.getUserProfile { user, error ->
             error?.let {

@@ -30,25 +30,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <LinearLayout
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/input_cards_bg"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:drawablePadding="3dp"
-        android:drawableTint="@color/secondaryFont"
-        android:fontFamily="@font/nunito_sans_10pt_medium"
-        android:hint="Search..."
-        android:padding="10dp"
-        android:textColor="@color/primaryFont"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_bg_more_rounded"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/page_title"
-        app:layout_constraintVertical_bias="0.01" />
+        app:layout_constraintTop_toBottomOf="@id/page_title">
+
+        <EditText
+            android:id="@+id/et_search_books"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:drawablePadding="3dp"
+            android:drawableTint="@color/secondaryFont"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:gravity="center_vertical"
+            android:hint="Search...."
+            android:padding="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryFont"
+            android:textColorHint="@color/secondaryFont"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_appl_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/nunito_sans_10pt_semibold"
+            android:text="Search"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -72,5 +96,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_search" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/page_title">
+
+
+        <ImageView
+            android:id="@+id/img_empty_list"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:src="@drawable/empty_cart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:text="Nothing to show here!"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/img_empty_list"
+            app:layout_constraintStart_toStartOf="@id/img_empty_list"
+            app:layout_constraintTop_toBottomOf="@id/img_empty_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

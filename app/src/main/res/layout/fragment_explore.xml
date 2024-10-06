@@ -33,10 +33,10 @@
             android:background="@color/primaryBackground"
             android:paddingBottom="16dp">
 
-            <EditText
+            <TextView
                 android:id="@+id/et_explore_search"
-                android:layout_width="345dp"
-                android:layout_height="41dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/input_cards_bg"
@@ -44,9 +44,12 @@
                 android:drawablePadding="3dp"
                 android:drawableTint="@color/secondaryFont"
                 android:fontFamily="@font/nunito_sans_10pt_medium"
+                android:gravity="center_vertical"
                 android:hint="Search..."
                 android:padding="10dp"
                 android:textColor="@color/primaryFont"
+                android:textColorHint="@color/secondaryFont"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
