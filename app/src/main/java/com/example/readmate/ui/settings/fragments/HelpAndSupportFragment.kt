@@ -1,12 +1,9 @@
 package com.example.readmate.ui.settings.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.readmate.databinding.FragmentHelpSupportBinding
+import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.settings.adapter.HelpAndSupportAdapter
 import com.example.readmate.util.helpAndSupportList
 
@@ -15,21 +12,14 @@ import com.example.readmate.util.helpAndSupportList
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class HelpAndSupportFragment : Fragment() {
-    private lateinit var binding: FragmentHelpSupportBinding
+class HelpAndSupportFragment : BaseFragment<FragmentHelpSupportBinding>() {
     private val helpAndSupportAdapter by lazy { HelpAndSupportAdapter() }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHelpSupportBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentHelpSupportBinding =
+        FragmentHelpSupportBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewReady() {
+        super.onViewReady()
         helpAndSupportAdapter.differ.submitList(helpAndSupportList)
         setUpRecyclerView()
     }

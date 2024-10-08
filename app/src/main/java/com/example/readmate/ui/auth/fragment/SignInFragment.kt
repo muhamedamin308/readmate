@@ -1,21 +1,17 @@
 package com.example.readmate.ui.auth.fragment
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.readmate.R
 import com.example.readmate.databinding.FragmentLoginBinding
 import com.example.readmate.ui.auth.viewmodel.AuthViewModel
+import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.main.HomeActivity
 import com.example.readmate.util.AppState
 import com.example.readmate.util.Constants.GOOGLE_SIGN_IN_REQUEST
-import com.example.readmate.util.showMessage
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.flow.collectLatest
@@ -26,22 +22,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class SignInFragment : Fragment() {
-
-    private lateinit var binding: FragmentLoginBinding
+class SignInFragment : BaseFragment<FragmentLoginBinding>() {
     private val viewModel: AuthViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentLoginBinding =
+        FragmentLoginBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewReady() {
+        super.onViewReady()
         setupListeners()
         observeLoginState()
     }
@@ -64,7 +52,7 @@ class SignInFragment : Fragment() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             viewModel.login(email, password)
         } else {
-            requireContext().showMessage("Please enter both email and password")
+            showMessage("Please enter both email and password")
         }
     }
 
@@ -72,14 +60,14 @@ class SignInFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.loginState.collect { state ->
                 when (state) {
-                    is AppState.Loading -> showLoading(true)
+                    is AppState.Loading -> viewVisibility(binding.signInProgressBar, true)
                     is AppState.Error -> {
-                        showLoading(false)
-                        requireContext().showMessage(state.message!!)
+                        viewVisibility(binding.signInProgressBar, false)
+                        showMessage(state.message)
                     }
 
                     is AppState.Success -> {
-                        showLoading(false)
+                        viewVisibility(binding.signInProgressBar, false)
                         handleLoginSuccess()
                     }
 
@@ -89,12 +77,8 @@ class SignInFragment : Fragment() {
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.signInProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
     private fun handleLoginSuccess() {
-        requireContext().showMessage("Sign in successfully")
+        showMessage("Sign in successfully")
         Intent(requireActivity(), HomeActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(this)
@@ -131,7 +115,7 @@ class SignInFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.googleAuth.collectLatest { state ->
                 when (state) {
-                    is AppState.Error -> requireContext().showMessage(state.message!!)
+                    is AppState.Error -> showMessage(state.message!!)
                     is AppState.Success -> handleLoginSuccess()
                     else -> Unit
                 }

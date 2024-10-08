@@ -1,15 +1,13 @@
 package com.example.readmate.ui.library.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.FragmentLibraryBinding
 import com.example.readmate.ui.base.BaseAdapter
+import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.library.adapter.BestSellersAdapter
 import com.example.readmate.ui.library.adapter.CategoriesAdapter
 import com.example.readmate.ui.library.adapter.NewestBooksAdapter
@@ -17,15 +15,12 @@ import com.example.readmate.ui.library.adapter.RecommendedBooksAdapter
 import com.example.readmate.ui.library.adapter.TopRatedBooksAdapter
 import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.util.AppState
-import com.example.readmate.util.showMessage
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @Suppress("UNCHECKED_CAST")
-class LibraryFragment : Fragment() {
-    private lateinit var binding: FragmentLibraryBinding
+class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
     private val viewModel: LibraryViewModel by viewModel()
-
     private val adapters: List<BaseAdapter<*>> = listOf(
         NewestBooksAdapter(),
         RecommendedBooksAdapter(),
@@ -34,19 +29,12 @@ class LibraryFragment : Fragment() {
         TopRatedBooksAdapter()
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLibraryBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentLibraryBinding =
+        FragmentLibraryBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewReady() {
+        super.onViewReady()
         setUpRecyclers()
-
         collectState(
             viewModel.newestBooks,
             binding.newestBooksProgressBar,
@@ -99,14 +87,14 @@ class LibraryFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             flow.collect { state ->
                 when (state) {
-                    is AppState.Loading -> progressBarVisibility(progressBar, true)
+                    is AppState.Loading -> viewVisibility(progressBar, true)
                     is AppState.Error -> {
-                        progressBarVisibility(progressBar, false)
-                        requireContext().showMessage(state.message.toString())
+                        viewVisibility(progressBar, false)
+                        showMessage(state.message.toString())
                     }
 
                     is AppState.Success -> {
-                        progressBarVisibility(progressBar, false)
+                        viewVisibility(progressBar, false)
                         adapter.differ.submitList(state.data)
                     }
 
@@ -114,9 +102,5 @@ class LibraryFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun progressBarVisibility(progressBar: View, isLoading: Boolean) {
-        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

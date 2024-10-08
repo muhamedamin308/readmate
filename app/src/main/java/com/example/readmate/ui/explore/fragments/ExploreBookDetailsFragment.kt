@@ -6,8 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,33 +14,30 @@ import com.example.readmate.R
 import com.example.readmate.data.model.responses.BookDetailsResponse
 import com.example.readmate.data.service.remote.api.ApiResult
 import com.example.readmate.databinding.FragmentExploreBookDetailsBinding
+import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.explore.adapter.ExploreSimilarBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.Constants.API_BOOK
 import com.example.readmate.util.extractSimilarBooksBasedOnName
-import com.example.readmate.util.gone
-import com.example.readmate.util.show
 import com.example.readmate.util.showMessage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.URL
 
-class ExploreBookDetailsFragment : Fragment() {
-    private lateinit var binding: FragmentExploreBookDetailsBinding
+class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBinding>() {
     private val viewModel by viewModel<ExploreViewModel>()
     private val similarBooksAdapter by lazy { ExploreSimilarBooksAdapter() }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = FragmentExploreBookDetailsBinding.inflate(layoutInflater).also { binding = it }.root
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentExploreBookDetailsBinding =
+        FragmentExploreBookDetailsBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewReady() {
+        super.onViewReady()
         setupRecycler()
 
         arguments?.getString(API_BOOK)?.let { bookId ->
             viewModel.getBookDetails(bookId)
-        } ?: requireContext().showMessage("Book not found")
+        } ?: showMessage("Book not found")
 
         similarBooksAdapter.onClick = { book ->
             findNavController().navigate(
@@ -64,16 +59,24 @@ class ExploreBookDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.bookDetailsState.collect { state ->
                 when (state) {
-                    is AppState.Loading -> binding.exploreBookDetailsProgressBar.show()
+                    is AppState.Loading -> viewVisibility(
+                        binding.exploreBookDetailsProgressBar,
+                        true
+                    )
+
                     is AppState.Success -> {
-                        binding.exploreBookDetailsProgressBar.gone()
+                        viewVisibility(binding.exploreBookDetailsProgressBar, false)
                         state.data?.let {
                             bindBookDetails(it)
                             viewModel.getQueriedBooks(it.title.extractSimilarBooksBasedOnName())
                         }
                     }
 
-                    is AppState.Error -> showError("This book not found!")
+                    is AppState.Error -> {
+                        viewVisibility(binding.exploreBookDetailsProgressBar, false)
+                        showMessage(state.message)
+                    }
+
                     else -> Unit
                 }
             }
@@ -84,20 +87,27 @@ class ExploreBookDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.queriedBookState.collect { result ->
                 when (result) {
-                    is ApiResult.Loading -> binding.exploreSimilarBooksProgressBar.show()
+                    is ApiResult.Loading -> viewVisibility(
+                        binding.exploreSimilarBooksProgressBar,
+                        true
+                    )
+
                     is ApiResult.Success -> {
-                        binding.exploreSimilarBooksProgressBar.gone()
+                        viewVisibility(binding.exploreSimilarBooksProgressBar, false)
                         result.let {
                             if (it.data.books.isNullOrEmpty()) {
-                                binding.tvNoSimilarBooks.show()
+                                viewVisibility(binding.tvNoSimilarBooks, true)
                             } else {
-                                binding.tvNoSimilarBooks.gone()
+                                viewVisibility(binding.tvNoSimilarBooks, false)
                                 similarBooksAdapter.differ.submitList(it.data.books.take(10))
                             }
                         }
                     }
 
-                    is ApiResult.Error -> showError("Unexpected error occurred!")
+                    is ApiResult.Error -> {
+                        viewVisibility(binding.exploreSimilarBooksProgressBar, false)
+                        showMessage(result.message)
+                    }
                 }
             }
         }
@@ -109,9 +119,9 @@ class ExploreBookDetailsFragment : Fragment() {
         tvBookTitle.text = data.title
         tvBookAuthors.text = data.authors
         if (data.subtitle.isEmpty()) {
-            tvBookSubtitle.gone()
+            viewVisibility(tvBookSubtitle, false)
         } else {
-            tvBookSubtitle.show()
+            viewVisibility(tvBookSubtitle, true)
             tvBookSubtitle.text = data.subtitle
         }
         tvBookPublishYear.text = data.year
@@ -137,10 +147,5 @@ class ExploreBookDetailsFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
-    }
-
-    private fun showError(message: String) {
-        binding.exploreSimilarBooksProgressBar.gone()
-        requireContext().showMessage(message)
     }
 }
