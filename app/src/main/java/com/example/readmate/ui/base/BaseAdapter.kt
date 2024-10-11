@@ -12,6 +12,7 @@ import androidx.viewbinding.ViewBinding
  * Egypt, Cairo.
  */
 
+@Suppress("LeakingThis")
 abstract class BaseAdapter<T>(
     diffCallback: DiffUtil.ItemCallback<T>
 ) : RecyclerView.Adapter<BaseAdapter<T>.BookViewHolder>() {

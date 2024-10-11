@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
  */
 class FirebaseAuthService(
     private val auth: FirebaseAuth,
-    private val store: FirebaseFirestore,
+    store: FirebaseFirestore,
     private val googleClient: GoogleSignInOptions,
     private val context: Context
 ) {

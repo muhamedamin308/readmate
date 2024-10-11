@@ -1,4 +1,4 @@
-package com.example.readmate.data.service.local
+package com.example.readmate.data.service.local.dao
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024

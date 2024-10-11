@@ -2,6 +2,7 @@ package com.example.readmate.data.service.remote.firebase
 
 import android.net.Uri
 import com.example.readmate.data.model.firebase.User
+import com.example.readmate.data.model.firebase.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
@@ -38,7 +39,7 @@ class FirebaseUserService(
     fun updateUserProfile(
         user: User,
         imageUri: Uri?,
-        onAction: (User?, Exception?) -> Unit
+        onAction: (User?, Exception?) -> Unit,
     ) {
         if (imageUri == null) {
             saveUserInformation(user, true, onAction)
@@ -47,10 +48,47 @@ class FirebaseUserService(
         }
     }
 
+    fun saveUserNotification(
+        notification: Notification,
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath
+                .document(id)
+                .collection("notifications")
+                .document()
+                .set(notification)
+        }
+    }
+
+    fun getUserNotifications(
+        onAction: (List<Notification>?, Exception?) -> Unit,
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .collection("notifications")
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        onAction(null, exception)
+                        return@addSnapshotListener
+                    }
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        val notifications =
+                            snapshot.documents.mapNotNull { it.toObject(Notification::class.java) }
+                        onAction(notifications, null)
+                    } else
+                        onAction(emptyList(), null)
+                }
+        } ?: run {
+            onAction(null, Exception("User not logged in!"))
+        }
+    }
+
     private fun saveUserInformationWithNewImage(
         user: User,
         imageUri: Uri,
-        onAction: (User?, Exception?) -> Unit
+        onAction: (User?, Exception?) -> Unit,
     ) {
         val imageRef = storage.child("profile_images/${imageUri.lastPathSegment}")
         imageRef.putFile(imageUri)

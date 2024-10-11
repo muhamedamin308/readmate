@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
  */
 
 class OnBoardingViewModel(
-    private val userRepository: FirebaseUserRepository,
+    userRepository: FirebaseUserRepository,
     private val preferences: SharedPreferences
 ) : ViewModel() {
     private val _appState = MutableStateFlow(0)

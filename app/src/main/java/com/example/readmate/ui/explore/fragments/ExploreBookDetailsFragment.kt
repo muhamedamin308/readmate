@@ -20,7 +20,6 @@ import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.Constants.API_BOOK
 import com.example.readmate.util.extractSimilarBooksBasedOnName
-import com.example.readmate.util.showMessage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.URL
 

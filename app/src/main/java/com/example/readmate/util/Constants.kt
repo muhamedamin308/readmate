@@ -3,7 +3,6 @@ package com.example.readmate.util
 import com.example.readmate.R
 
 object Constants {
-    // Share Preferences
     const val SHARED_PREFERENCES_NAME = "ReadMateName"
     const val SHARED_PREFERENCES_KEY = "ReadMateKey"
     val signInPath = R.id.action_splashFragment_to_signInFragment

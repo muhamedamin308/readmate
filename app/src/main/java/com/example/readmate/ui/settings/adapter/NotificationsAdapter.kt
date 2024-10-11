@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
-import com.example.readmate.data.model.local.Notification
+import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.databinding.ItemLayoutNotificationsBinding
 import com.example.readmate.ui.base.BaseAdapter
 import java.time.Duration
@@ -42,9 +42,10 @@ class NotificationsAdapter : BaseAdapter<Notification>(DIFF_CALLBACK) {
         val binding = holder.binding as ItemLayoutNotificationsBinding
 
         binding.apply {
-            tvNotificationContent.text = item.title
+            tvNotificationContent.text = item.title ?: "No Title"
+            tvNotificationBody.text = item.body ?: "No Title"
             val notificationTime = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(item.timestamp),
+                Instant.ofEpochMilli(item.timestamp!!),
                 ZoneId.systemDefault()
             )
             val currentTime = LocalDateTime.now()

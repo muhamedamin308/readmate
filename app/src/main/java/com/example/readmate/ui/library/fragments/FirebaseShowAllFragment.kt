@@ -1,7 +1,6 @@
 package com.example.readmate.ui.library.fragments
 
 import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import com.example.readmate.databinding.FragmentFirebaseShowAllBinding
 import com.example.readmate.ui.base.BaseFragment
 

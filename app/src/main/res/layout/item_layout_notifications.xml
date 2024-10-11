@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primaryBackground">
+        android:background="@color/primaryBackground"
+        android:paddingBottom="4dp">
 
         <ImageView
             android:id="@+id/notification_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="16dp"
-            app:tint="@color/accentColor4"
             android:src="@drawable/baseline_warning_24"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/accentColor4" />
 
         <TextView
             android:id="@+id/tv_notification_content"
@@ -27,10 +28,9 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/nunito_sans_10pt_bold"
             android:maxLines="2"
-            android:text="Please, Verify your Email."
+            android:text="Hello"
             android:textColor="@color/primaryFont"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/notification_icon"
             app:layout_constraintEnd_toStartOf="@+id/tv_notification_duration"
             app:layout_constraintStart_toEndOf="@+id/notification_icon"
             app:layout_constraintTop_toTopOf="@+id/notification_icon" />
@@ -46,6 +46,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_notification_body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:text="Please, Verify your Email.Please, Verify your Email.Please, Verify your Email.Please, Verify your Email."
+            android:textColor="@color/secondaryFont"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_notification_content"
+            app:layout_constraintStart_toStartOf="@+id/tv_notification_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_notification_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

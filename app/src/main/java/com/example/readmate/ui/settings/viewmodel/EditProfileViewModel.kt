@@ -33,7 +33,7 @@ class EditProfileViewModel(
         fetchUserProfile()
     }
 
-    fun fetchUserProfile() {
+    private fun fetchUserProfile() {
         viewModelScope.launch { _profileState.emit(AppState.Loading()) }
         userRepository.getUserProfile { user, error ->
             error?.let {
