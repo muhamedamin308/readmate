@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
-        android:name="com.example.readmate.ui.payment.fragments.PaymentMethodFragment"
+        android:name="com.example.readmate.ui.payment.fragments.AddCreditCardFragment"
         android:label="PaymentMethodFragment"
         tools:layout="@layout/fragment_payment_methods">
         <action
@@ -140,9 +140,9 @@
     </fragment>
     <fragment
         android:id="@+id/addPaymentMethodFragment"
-        android:name="com.example.readmate.ui.payment.fragments.AddPaymentMethodFragment"
+        android:name="com.example.readmate.ui.payment.fragments.PaymentMethodsFragment"
         android:label="AddPaymentMethodFragment"
-        tools:layout="@layout/fragment_add_payment_method" />
+        tools:layout="@layout/fragment_add_credit_card" />
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.example.readmate.ui.settings.fragments.NotificationsFragment"

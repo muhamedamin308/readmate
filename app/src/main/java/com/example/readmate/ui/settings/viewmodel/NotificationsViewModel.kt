@@ -3,7 +3,7 @@ package com.example.readmate.ui.settings.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.Notification
-import com.example.readmate.data.repo.remote.firebase.user.NotificationsRepository
+import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
 import com.example.readmate.util.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
  * Egypt, Cairo.
  */
 class NotificationsViewModel(
-    private val notificationsRepository: NotificationsRepository,
+    private val userServicesRepository: UserServicesRepository,
 ) : ViewModel() {
     private val _notifications = MutableStateFlow<AppState<List<Notification>>>(AppState.Ideal())
     val notifications = _notifications.asStateFlow()
@@ -26,7 +26,7 @@ class NotificationsViewModel(
 
     private fun fetchUserNotifications() {
         viewModelScope.launch { _notifications.emit(AppState.Loading()) }
-        notificationsRepository.getNotifications { allNotifications, exception ->
+        userServicesRepository.getNotifications { allNotifications, exception ->
             if (exception == null)
                 viewModelScope.launch {
                     _notifications.emit(AppState.Success(allNotifications!!))
@@ -39,6 +39,6 @@ class NotificationsViewModel(
     }
 
     fun saveNotification(notification: Notification) {
-        notificationsRepository.saveNotification(notification)
+        userServicesRepository.saveNotification(notification)
     }
 }

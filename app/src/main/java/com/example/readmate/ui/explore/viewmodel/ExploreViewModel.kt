@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class ExploreViewModel(
     private val apiBookRepository: ApiBookRepository
 ) : ViewModel() {
+
     private val _apiRecentBookState = MutableStateFlow<ApiResult<BookResponse>>(ApiResult.Loading)
     val apiRecentBookState = _apiRecentBookState.asStateFlow()
 
@@ -39,37 +40,32 @@ class ExploreViewModel(
         fetchBookCategories()
     }
 
-    private fun fetchRecentBooks() {
-        viewModelScope.launch {
-            _apiRecentBookState.emit(ApiResult.Loading)
-            val result = apiBookRepository.getRecentBooks()
-            _apiRecentBookState.emit(result)
-        }
+    private fun fetchRecentBooks() = viewModelScope.launch {
+        updateApiState(_apiRecentBookState, apiBookRepository.getRecentBooks())
     }
 
-    private fun fetchBookCategories() {
-        viewModelScope.launch {
-            _categoriesState.emit(AppState.Loading())
-            _categoriesState.emit(AppState.Success(famousCategories))
-        }
+    private fun fetchBookCategories() = viewModelScope.launch {
+        _categoriesState.emit(AppState.Loading())
+        _categoriesState.emit(AppState.Success(famousCategories))
     }
 
-    fun getQueriedBooks(query: String) {
-        viewModelScope.launch {
-            _queriedBookState.emit(ApiResult.Loading)
-            val queriedBooks = apiBookRepository.searchBooks(query)
-            _queriedBookState.emit(queriedBooks)
-        }
+    fun getQueriedBooks(query: String) = viewModelScope.launch {
+        updateApiState(_queriedBookState, apiBookRepository.searchBooks(query))
     }
 
     fun getBookDetails(bookId: String) = viewModelScope.launch {
-        _bookDetailsState.value = AppState.Loading()
+        _bookDetailsState.emit(AppState.Loading())
         when (val result = apiBookRepository.getBookDetails(bookId)) {
-            is ApiResult.Success -> _bookDetailsState.value = AppState.Success(result.data)
-            is ApiResult.Error -> _bookDetailsState.value = AppState.Error(result.message)
+            is ApiResult.Success -> _bookDetailsState.emit(AppState.Success(result.data))
+            is ApiResult.Error -> _bookDetailsState.emit(AppState.Error(result.message))
             ApiResult.Loading -> Unit
         }
     }
 
-
+    private suspend fun <T> updateApiState(
+        stateFlow: MutableStateFlow<ApiResult<T>>,
+        result: ApiResult<T>
+    ) {
+        stateFlow.emit(result)
+    }
 }

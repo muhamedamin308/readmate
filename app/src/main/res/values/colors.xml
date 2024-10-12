@@ -32,6 +32,9 @@
     <color name="secondaryFont">#777777</color>
     <!-- Usage: Used for secondary text such as descriptions, labels, and subheadings. It’s softer and less prominent than the primary font color. -->
 
+    <color name="thirdFont">#ADACAC</color>
+    <!-- Usage: Used for secondary text such as descriptions, labels, and subheadings. It’s softer and less prominent than the primary font color. -->
+
     <!-- Utility Color -->
     <color name="borderDivider">#E0E0E0</color> <!-- Light Gray -->
     <!-- Usage: For borders, dividers, and lines that separate sections, providing subtle visual structure without overpowering the content. -->

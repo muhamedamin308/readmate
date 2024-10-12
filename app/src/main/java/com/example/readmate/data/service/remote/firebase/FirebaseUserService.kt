@@ -1,8 +1,8 @@
 package com.example.readmate.data.service.remote.firebase
 
 import android.net.Uri
-import com.example.readmate.data.model.firebase.User
 import com.example.readmate.data.model.firebase.Notification
+import com.example.readmate.data.model.firebase.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
@@ -66,24 +66,25 @@ class FirebaseUserService(
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
-            userCollectionPath.document(id)
-                .collection("notifications")
-                .addSnapshotListener { snapshot, exception ->
+            userCollectionPath.document(id).collection("notifications")
+                .addSnapshotListener { querySnapshot, exception ->
                     if (exception != null) {
                         onAction(null, exception)
                         return@addSnapshotListener
                     }
-                    if (snapshot != null && !snapshot.isEmpty) {
-                        val notifications =
-                            snapshot.documents.mapNotNull { it.toObject(Notification::class.java) }
+
+                    querySnapshot?.documents?.let {
+                        val notifications = it.mapNotNull { document ->
+                            document.toObject(Notification::class.java)
+                        }
                         onAction(notifications, null)
-                    } else
-                        onAction(emptyList(), null)
+                    }
                 }
         } ?: run {
             onAction(null, Exception("User not logged in!"))
         }
     }
+
 
     private fun saveUserInformationWithNewImage(
         user: User,

@@ -39,10 +39,10 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/nunito_sans_10pt_bold"
             android:maxLines="2"
-            android:text="Mastercard"
+            android:text="Muhamed Amin Hassan Ismail"
             android:textColor="@color/primaryFont"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_expire_date"
             app:layout_constraintStart_toEndOf="@id/cardImage"
             app:layout_constraintTop_toTopOf="@id/cardImage" />
 
@@ -51,12 +51,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans_10pt_medium"
-            android:text="****4129"
+            android:text="**** **** **** 4129"
+            android:textColor="@color/secondaryFont"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardImage"
+            app:layout_constraintEnd_toStartOf="@+id/tv_expire_date"
+            app:layout_constraintStart_toStartOf="@id/tv_card_title" />
+
+        <TextView
+            android:id="@+id/tv_expire_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:text="12/29"
             android:textColor="@color/secondaryFont"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/cardImage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_card_title" />
+            app:layout_constraintTop_toTopOf="@+id/cardImage" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

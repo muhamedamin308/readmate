@@ -23,6 +23,7 @@ class EditProfileViewModel(
     private val userRepository: FirebaseUserRepository,
     app: Application
 ) : AndroidViewModel(app) {
+
     private val _profileState = MutableStateFlow<AppState<User>>(AppState.Ideal())
     val profileState = _profileState.asStateFlow()
 
@@ -34,31 +35,48 @@ class EditProfileViewModel(
     }
 
     private fun fetchUserProfile() {
-        viewModelScope.launch { _profileState.emit(AppState.Loading()) }
+        updateAppState(_profileState, AppState.Loading())
         userRepository.getUserProfile { user, error ->
-            error?.let {
-                viewModelScope.launch { _profileState.emit(AppState.Error(it.message.toString())) }
-            } ?: viewModelScope.launch { _profileState.emit(AppState.Success(user!!)) }
+            handleResult(_profileState, user, error)
         }
     }
 
     fun updateUserProfile(user: User, imageUri: Uri?) {
         val nameParts = user.name?.split(" ")
-        val firstName = nameParts?.get(0)!!
-        val lastName = nameParts[1]
-        val validInput = validateEmail(user.email!!) is RegisterValidation.Success
-                && firstName.trim().isNotEmpty() && lastName.trim().isNotEmpty()
+        val firstName = nameParts?.get(0) ?: "unknown"
+        val lastName = nameParts?.get(1) ?: "unknown"
+        val validInput = isValidInput(user.email, firstName, lastName)
 
-        if (!validInput) {
-            viewModelScope.launch { _editProfile.emit(AppState.Error("Check your input!")) }
-            return
+        if (validInput) {
+            updateAppState(_editProfile, AppState.Loading())
+            userRepository.updateUserProfile(user, imageUri) { newUser, error ->
+                handleResult(_editProfile, newUser, error)
+            }
+        } else {
+            updateAppState(_editProfile, AppState.Error("Check your input!"))
         }
+    }
 
-        viewModelScope.launch { _editProfile.emit(AppState.Loading()) }
-        userRepository.updateUserProfile(user, imageUri) { newUser, error ->
-            error?.let {
-                viewModelScope.launch { _editProfile.emit(AppState.Error(it.message.toString())) }
-            } ?: viewModelScope.launch { _editProfile.emit(AppState.Success(newUser!!)) }
-        }
+    private fun isValidInput(email: String?, firstName: String, lastName: String): Boolean {
+        return validateEmail(email!!) is RegisterValidation.Success &&
+                firstName.trim().isNotEmpty() &&
+                lastName.trim().isNotEmpty()
+    }
+
+    private fun <T> handleResult(
+        stateFlow: MutableStateFlow<AppState<T>>,
+        result: T?,
+        exception: Exception?
+    ) {
+        exception?.let {
+            updateAppState(stateFlow, AppState.Error(it.message ?: "An error occurred"))
+        } ?: updateAppState(stateFlow, AppState.Success(result!!))
+    }
+
+    private fun <T> updateAppState(
+        stateFlow: MutableStateFlow<AppState<T>>,
+        newState: AppState<T>
+    ) {
+        viewModelScope.launch { stateFlow.emit(newState) }
     }
 }

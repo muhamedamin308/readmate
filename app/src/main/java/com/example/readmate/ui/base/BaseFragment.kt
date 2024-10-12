@@ -17,15 +17,24 @@ import com.example.readmate.util.showMessage
  */
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
-    protected lateinit var binding: VB
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
 
     abstract fun inflateBinding(layoutInflater: LayoutInflater): VB
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflateBinding(layoutInflater).also { binding = it }.root
+        savedInstanceState: Bundle?,
+    ): View {
+        _binding = inflateBinding(inflater)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
     open fun onViewReady() {}
 

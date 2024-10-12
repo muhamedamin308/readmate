@@ -10,33 +10,34 @@
         android:id="@+id/navigate_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_margin="16dp"
         android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/textView"
+        android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/nunito_sans_10pt_bold"
-        android:text="Payment Method"
+        android:text="Select CreditCard"
         android:textColor="@color/primaryFont"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/navigate_back"
+        app:layout_constraintEnd_toStartOf="@+id/add_payment"
+        app:layout_constraintStart_toEndOf="@+id/navigate_back"
+        app:layout_constraintTop_toTopOf="@+id/navigate_back" />
+
 
     <ImageView
         android:id="@+id/add_payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/baseline_add_24"
         android:padding="8dp"
+        android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView" />
@@ -46,13 +47,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="10dp"
-        tools:listitem="@layout/item_layout_payment_method"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_layout_payment_method" />
 
     <ProgressBar
         android:id="@+id/payment_method_progress_bar"
