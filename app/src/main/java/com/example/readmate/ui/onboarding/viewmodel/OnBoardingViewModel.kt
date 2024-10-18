@@ -1,6 +1,7 @@
 package com.example.readmate.ui.onboarding.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepository
@@ -16,9 +17,10 @@ import kotlinx.coroutines.launch
  */
 
 class OnBoardingViewModel(
-    userRepository: FirebaseUserRepository,
+    private val userRepository: FirebaseUserRepository,
     private val preferences: SharedPreferences
 ) : ViewModel() {
+
     private val _appState = MutableStateFlow(0)
     val appState = _appState.asStateFlow()
 
@@ -27,16 +29,21 @@ class OnBoardingViewModel(
             Constants.SHARED_PREFERENCES_KEY,
             false
         )
-        if (userRepository.isUserLoggedIn)
+        Log.i("SplashState", "login: ${userRepository.isUserLoggedIn}")
+        Log.i("SplashState", "started: $isStarted}")
+        if (userRepository.isUserLoggedIn) {
             viewModelScope.launch { _appState.emit(Constants.HOME_ACTIVITY_ID) }
-        else if (isStarted)
+        } else if (isStarted) {
             viewModelScope.launch { _appState.emit(Constants.signInPath) }
-        else Unit
+        } else Unit
     }
 
-    fun activateGetStarted() =
+
+    fun activateGetStarted() {
+        Log.i("SplashState", "Activated")
         preferences.edit().putBoolean(
             Constants.SHARED_PREFERENCES_KEY,
             true
         ).apply()
+    }
 }

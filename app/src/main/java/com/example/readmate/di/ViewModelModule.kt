@@ -8,7 +8,6 @@ import com.example.readmate.ui.payment.viewmodel.PaymentViewModel
 import com.example.readmate.ui.settings.viewmodel.EditProfileViewModel
 import com.example.readmate.ui.settings.viewmodel.NotificationsViewModel
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
-import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -24,7 +23,7 @@ val viewModelModule = module {
     viewModel { LibraryViewModel(bookRepository = get()) }
     viewModel { ExploreViewModel(apiBookRepository = get()) }
     viewModel { SettingsViewModel(userRepository = get()) }
-    viewModel { EditProfileViewModel(userRepository = get(), app = androidApplication()) }
+    viewModel { EditProfileViewModel(userRepository = get()) }
     viewModel { NotificationsViewModel(userServicesRepository = get()) }
     viewModel { PaymentViewModel(userServicesRepository = get()) }
 }

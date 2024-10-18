@@ -28,7 +28,8 @@ class FirebaseUserRepositoryImpl(
 
     override fun signInWithGoogle(): Intent = authService.googleSignIn()
 
-    override fun signOut() = authService.logout()
+    override fun signOut(onLogoutComplete: (Boolean) -> Unit) =
+        authService.logout(onLogoutComplete)
 
     override fun getUserProfile(onAction: (User?, Exception?) -> Unit) =
         userService.getUserProfile(onAction)

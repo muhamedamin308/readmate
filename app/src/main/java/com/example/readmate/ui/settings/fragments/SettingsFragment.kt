@@ -67,12 +67,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     private fun setUpClickListeners() {
         binding.apply {
             logout.setOnClickListener {
-                viewModel.signOut()
-                Intent(requireActivity(), IntroActivity::class.java).also { intent ->
-                    startActivity(intent)
-                    requireActivity().finish()
+                viewModel.signOut { isLoggedOut ->
+                    if (isLoggedOut) {
+                        Intent(requireActivity(), IntroActivity::class.java).also { intent ->
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                    } else {
+                        showMessage("Failed to log out!")
+                    }
                 }
             }
+
             userinfo.setOnClickListener {
                 findNavController().navigate(R.id.action_settingsFragment2_to_profileFragment)
             }

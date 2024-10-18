@@ -1,5 +1,6 @@
 package com.example.readmate.ui.onboarding.fragment.screens
 
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.navigation.fragment.findNavController
 import com.example.readmate.R
@@ -22,9 +23,9 @@ class OnBoardingThirdFragment : BaseFragment<FragmentOnboardingScreen3Binding>()
     override fun onViewReady() {
         super.onViewReady()
         binding.btnGetStart.setOnClickListener {
+            Log.i("SplashState", "Clicked")
             viewModel.activateGetStarted()
             findNavController().navigate(R.id.action_onBoardingMainFragment_to_signInFragment)
         }
     }
-
 }

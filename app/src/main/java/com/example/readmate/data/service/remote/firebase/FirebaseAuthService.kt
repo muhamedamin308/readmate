@@ -30,7 +30,8 @@ class FirebaseAuthService(
         GoogleSignIn.getClient(context, googleClient)
     }
 
-    val isLoggedIn: Boolean = auth.currentUser != null
+    val isLoggedIn: Boolean
+        get() = auth.currentUser != null
 
     fun loginWithEmailAndPassword(
         email: String,
@@ -58,9 +59,16 @@ class FirebaseAuthService(
             }
     }
 
-    fun logout() {
+    fun logout(onLogoutComplete: (Boolean) -> Unit) {
         auth.signOut()
         googleSignInClient.signOut()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onLogoutComplete(true)
+                } else {
+                    onLogoutComplete(false)
+                }
+            }
     }
 
     fun googleSignIn() = googleSignInClient.signInIntent

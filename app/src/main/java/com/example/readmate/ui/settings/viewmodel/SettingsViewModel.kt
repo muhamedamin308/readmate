@@ -26,7 +26,6 @@ class SettingsViewModel(
     }
 
 
-
     fun fetchUserProfile() {
         viewModelScope.launch { _userProfileState.emit(AppState.Loading()) }
         userRepository.getUserProfile { user, error ->
@@ -36,5 +35,13 @@ class SettingsViewModel(
         }
     }
 
-    fun signOut() = userRepository.signOut()
+    fun signOut(onLogoutComplete: (Boolean) -> Unit) {
+        userRepository.signOut { isLoggedOut ->
+            if (isLoggedOut) {
+                onLogoutComplete(true)
+            } else {
+                onLogoutComplete(false)
+            }
+        }
+    }
 }

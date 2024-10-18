@@ -11,7 +11,7 @@ interface FirebaseUserRepository {
     val isUserLoggedIn: Boolean
     fun signInWithGoogle(): Intent
     fun authWithGoogle(token: String, onAction: (User?, Exception?) -> Unit)
-    fun signOut()
+    fun signOut(onLogoutComplete: (Boolean) -> Unit)
     fun getUserProfile(onAction: (User?, Exception?) -> Unit)
     fun updateUserProfile(user: User, imageUri: Uri?, onAction: (User?, Exception?) -> Unit)
 }

@@ -1,9 +1,9 @@
 package com.example.readmate.ui.auth.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.User
 import com.example.readmate.data.repo.remote.firebase.auth.FirebaseUserRepository
+import com.example.readmate.ui.base.BaseViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.RegisterFieldState
 import com.example.readmate.util.RegisterValidation
@@ -25,7 +25,7 @@ import kotlinx.coroutines.runBlocking
 
 class AuthViewModel(
     private val userRepository: FirebaseUserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _registerState = MutableStateFlow<AppState<User>>(AppState.Ideal())
     val registerState = _registerState.asStateFlow()
@@ -68,23 +68,6 @@ class AuthViewModel(
                 handleResult(_googleAuth, user, error)
             }
         }
-    }
-
-    private fun <T> handleResult(
-        stateFlow: MutableStateFlow<AppState<T>>,
-        result: T?,
-        exception: Exception?
-    ) {
-        exception?.let {
-            updateAppState(stateFlow, AppState.Error(it.message ?: "An error occurred"))
-        } ?: updateAppState(stateFlow, AppState.Success(result!!))
-    }
-
-    private fun <T> updateAppState(
-        stateFlow: MutableStateFlow<AppState<T>>,
-        newState: AppState<T>
-    ) {
-        viewModelScope.launch { stateFlow.emit(newState) }
     }
 
     private fun accountValidation(email: String?, password: String): Boolean {

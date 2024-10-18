@@ -1,20 +1,20 @@
 package com.example.readmate.ui.payment.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.CreditCard
 import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
+import com.example.readmate.ui.base.BaseViewModel
 import com.example.readmate.util.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class PaymentViewModel(private val userServicesRepository: UserServicesRepository) : ViewModel() {
+class PaymentViewModel(
+    private val userServicesRepository: UserServicesRepository
+) : BaseViewModel() {
 
     private val _newCreditCard = MutableStateFlow<AppState<CreditCard>>(AppState.Ideal())
     val newCreditCard = _newCreditCard.asStateFlow()
@@ -49,23 +49,6 @@ class PaymentViewModel(private val userServicesRepository: UserServicesRepositor
         userServicesRepository.getAllCreditCards { creditCards, exception ->
             handleResult(_allCreditCards, creditCards, exception)
         }
-    }
-
-    private fun <T> handleResult(
-        stateFlow: MutableStateFlow<AppState<T>>,
-        result: T?,
-        exception: Exception?
-    ) {
-        exception?.let {
-            updateAppState(stateFlow, AppState.Error(it.message ?: "An error occurred"))
-        } ?: updateAppState(stateFlow, AppState.Success(result!!))
-    }
-
-    private fun <T> updateAppState(
-        stateFlow: MutableStateFlow<AppState<T>>,
-        newState: AppState<T>
-    ) {
-        viewModelScope.launch { stateFlow.emit(newState) }
     }
 
     private val isValidCreditCard: (CreditCard) -> Boolean = {
