@@ -1,7 +1,6 @@
 package com.example.readmate.ui.settings.fragments
 
 import android.view.LayoutInflater
-import androidx.navigation.fragment.findNavController
 import com.example.readmate.databinding.FragmentTermsConditionsBinding
 import com.example.readmate.ui.base.BaseFragment
 
@@ -17,8 +16,6 @@ class TermsAndConditionsFragment : BaseFragment<FragmentTermsConditionsBinding>(
 
     override fun onViewReady() {
         super.onViewReady()
-        binding.navigateBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        navigateBack(binding.navigateBack)
     }
 }

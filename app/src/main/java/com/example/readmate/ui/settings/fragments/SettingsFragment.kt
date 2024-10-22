@@ -33,31 +33,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         setUpClickListeners()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.userProfileState.collectLatest {
-                        when (it) {
-                            is AppState.Error -> {
-                                viewVisibility(binding.progressBar, false)
-                                showMessage(it.message)
-                            }
+                viewModel.userProfileState.collectLatest {
+                    when (it) {
+                        is AppState.Error -> {
+                            viewVisibility(binding.progressBar, false)
+                            showMessage(it.message)
+                        }
 
-                            is AppState.Loading -> viewVisibility(binding.progressBar, true)
-                            is AppState.Success -> {
-                                viewVisibility(binding.progressBar, false)
-                                binding.apply {
-                                    with(it.data!!) {
-                                        Glide.with(requireView())
-                                            .load(profileImage)
-                                            .error(R.drawable.not_found)
-                                            .into(imgUserImage)
-                                        tvUsername.text = name
-                                        tvUseremail.text = email
-                                    }
+                        is AppState.Loading -> viewVisibility(binding.progressBar, true)
+                        is AppState.Success -> {
+                            viewVisibility(binding.progressBar, false)
+                            binding.apply {
+                                with(it.data!!) {
+                                    Glide.with(requireView())
+                                        .load(profileImage)
+                                        .error(R.drawable.not_found)
+                                        .into(imgUserImage)
+                                    tvUsername.text = name
+                                    tvUseremail.text = email
                                 }
                             }
-
-                            else -> Unit
                         }
+
+                        else -> Unit
                     }
                 }
             }

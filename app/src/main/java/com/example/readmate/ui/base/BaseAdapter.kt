@@ -19,7 +19,9 @@ abstract class BaseAdapter<T>(
 
     inner class BookViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
 
-    val differ = AsyncListDiffer(this, diffCallback)
+    protected val differ = AsyncListDiffer(this, diffCallback)
+
+    var onListUpdated: ((isEmpty: Boolean, isDifferent: Boolean) -> Unit)? = null
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder
 
@@ -30,6 +32,18 @@ abstract class BaseAdapter<T>(
         bind(holder, item)
         holder.itemView.setOnClickListener { onClick?.invoke(item) }
     }
+
+    fun submitList(newList: List<T>): Boolean {
+        val oldList = differ.currentList
+        val isDifferent = oldList != newList
+        val isEmpty = newList.isEmpty()
+
+        if (isDifferent) differ.submitList(newList)
+        onListUpdated?.invoke(isEmpty, isDifferent)
+
+        return !isEmpty
+    }
+
 
     override fun getItemCount(): Int = differ.currentList.size
 

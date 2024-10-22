@@ -15,4 +15,8 @@ interface FirebaseBookRepository {
     fun fetchBestSellersBooks(onAction: (List<Book>?, Exception?) -> Unit)
     fun fetchTopRatedBooks(onAction: (List<Book>?, Exception?) -> Unit)
     fun fetchAllBooks(onAction: (List<Book>?, Exception?) -> Unit)
+    fun fetchSimilarBooks(
+        currentBookRating: Float,
+        onAction: (List<Book>?, Exception?) -> Unit
+    )
 }

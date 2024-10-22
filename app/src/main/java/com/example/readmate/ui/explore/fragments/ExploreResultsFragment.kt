@@ -11,7 +11,7 @@ import com.example.readmate.databinding.FragmentSearchResultsBinding
 import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.explore.adapter.ExploreAllBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
-import com.example.readmate.util.Constants.API_BOOK
+import com.example.readmate.util.Constants.CLICKED_BOOK
 import com.example.readmate.util.extractFetchRequestQuery
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,14 +22,20 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class ExploreResultsFragment : BaseFragment<FragmentSearchResultsBinding>() {
     private val viewModel by viewModel<ExploreViewModel>()
-    private val resultsAdapter by lazy { ExploreAllBooksAdapter() }
+    private val resultsAdapter by lazy {
+        ExploreAllBooksAdapter(binding.containerEmptyList)
+    }
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentSearchResultsBinding =
         FragmentSearchResultsBinding.inflate(layoutInflater)
 
     override fun onViewReady() {
         super.onViewReady()
-        setupRecycler()
+        setupRecyclerView(
+            binding.recyclerSearchResults,
+            resultsAdapter,
+            LinearLayoutManager.VERTICAL
+        )
         setupClickListeners()
         collectQueriedBookState()
     }
@@ -48,14 +54,12 @@ class ExploreResultsFragment : BaseFragment<FragmentSearchResultsBinding>() {
         resultsAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreResultsFragment_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString(API_BOOK, it.id.filter { it.isDigit() })
+                    putString(CLICKED_BOOK, it.id.filter { it.isDigit() })
                 }
             )
         }
 
-        binding.navigateBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        navigateBack(binding.navigateBack)
     }
 
     private fun collectQueriedBookState() {
@@ -76,7 +80,7 @@ class ExploreResultsFragment : BaseFragment<FragmentSearchResultsBinding>() {
                                 viewVisibility(binding.containerEmptyList, true)
                             } else {
                                 viewVisibility(binding.containerEmptyList, false)
-                                resultsAdapter.differ.submitList(result)
+                                resultsAdapter.submitList(result)
                             }
                         } ?: {
                             showMessage("No books found!")
@@ -88,11 +92,4 @@ class ExploreResultsFragment : BaseFragment<FragmentSearchResultsBinding>() {
         }
     }
 
-    private fun setupRecycler() {
-        binding.recyclerSearchResults.apply {
-            adapter = resultsAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-    }
 }

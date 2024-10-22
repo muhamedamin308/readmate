@@ -89,7 +89,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 viewModel.updateUserProfile(user, userProfileImageUri)
             }
             imgEditProfile.setOnClickListener { launchImagePicker() }
-            navigateBack.setOnClickListener { findNavController().navigateUp() }
+            navigateBack(binding.navigateBack)
         }
     }
 

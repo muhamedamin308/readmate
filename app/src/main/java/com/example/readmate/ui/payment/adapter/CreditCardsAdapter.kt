@@ -2,18 +2,34 @@ package com.example.readmate.ui.payment.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.example.readmate.data.model.firebase.CreditCard
 import com.example.readmate.databinding.ItemLayoutPaymentMethodBinding
 import com.example.readmate.ui.base.BaseAdapter
+import com.example.readmate.util.gone
+import com.example.readmate.util.show
 
 /**
  * @author Muhamed Amin Hassan on 12,October,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class CreditCardsAdapter : BaseAdapter<CreditCard>(DIFF_CALLBACK) {
+class CreditCardsAdapter(
+    private val emptyContainerLayout: View
+) : BaseAdapter<CreditCard>(DIFF_CALLBACK) {
+
+    init {
+        onListUpdated = { isEmpty, _ ->
+            if (isEmpty) {
+                emptyContainerLayout.show()
+            } else {
+                emptyContainerLayout.gone()
+            }
+        }
+    }
+
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CreditCard>() {
             override fun areItemsTheSame(oldItem: CreditCard, newItem: CreditCard): Boolean =

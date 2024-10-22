@@ -17,7 +17,7 @@ import com.example.readmate.ui.explore.adapter.ExploreCategoriesAdapter
 import com.example.readmate.ui.explore.adapter.RecentBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
-import com.example.readmate.util.Constants.API_BOOK
+import com.example.readmate.util.Constants.CLICKED_BOOK
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,23 +30,41 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
     private val viewModel by viewModel<ExploreViewModel>()
     private val recentBooksAdapter by lazy { RecentBooksAdapter() }
     private val topCategoriesAdapter by lazy { ExploreCategoriesAdapter() }
-    private val topRecommendedBooksAdapter by lazy { ExploreAllBooksAdapter() }
+    private val topRecommendedBooksAdapter by lazy { ExploreAllBooksAdapter(null) }
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentExploreBinding =
         FragmentExploreBinding.inflate(layoutInflater)
 
     override fun onViewReady() {
         super.onViewReady()
-        setUpRecyclers()
+        setupRecyclerViews()
         observeViewModel()
         setUpClickListener()
+    }
+
+    private fun setupRecyclerViews() {
+        setupRecyclerView(
+            binding.recyclerRecentBooks,
+            recentBooksAdapter,
+            LinearLayoutManager.HORIZONTAL
+        )
+        setupRecyclerView(
+            binding.recyclerTopCategories,
+            topCategoriesAdapter,
+            LinearLayoutManager.HORIZONTAL
+        )
+        setupRecyclerView(
+            binding.recyclerRecommendedBooks,
+            topRecommendedBooksAdapter,
+            LinearLayoutManager.VERTICAL
+        )
     }
 
     private fun setUpClickListener() {
         recentBooksAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString(API_BOOK, it.id.filter { it.isDigit() })
+                    putString(CLICKED_BOOK, it.id.filter { it.isDigit() })
                 }
             )
         }
@@ -60,7 +78,7 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
         topRecommendedBooksAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreFragment2_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString(API_BOOK, it.id.filter { it.isDigit() })
+                    putString(CLICKED_BOOK, it.id.filter { it.isDigit() })
                 }
             )
         }
@@ -92,8 +110,8 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
                 viewVisibility(binding.recommendedBooksProgressBar, false)
                 state.data.books?.let {
                     val shuffledRecentBooks = it.shuffled().take(5)
-                    recentBooksAdapter.differ.submitList(shuffledRecentBooks)
-                    topRecommendedBooksAdapter.differ.submitList(it)
+                    recentBooksAdapter.submitList(shuffledRecentBooks)
+                    topRecommendedBooksAdapter.submitList(it)
                 }
             }
 
@@ -109,30 +127,10 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
             is AppState.Loading -> viewVisibility(binding.topAuthorsProgressBar, true)
             is AppState.Success -> {
                 viewVisibility(binding.topAuthorsProgressBar, false)
-                topCategoriesAdapter.differ.submitList(state.data)
+                topCategoriesAdapter.submitList(state.data!!)
             }
 
             else -> Unit
-        }
-    }
-
-    private fun setUpRecyclers() {
-        binding.recyclerRecentBooks.apply {
-            adapter = recentBooksAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
-
-        binding.recyclerTopCategories.apply {
-            adapter = topCategoriesAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
-
-        binding.recyclerRecommendedBooks.apply {
-            adapter = topRecommendedBooksAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
 }

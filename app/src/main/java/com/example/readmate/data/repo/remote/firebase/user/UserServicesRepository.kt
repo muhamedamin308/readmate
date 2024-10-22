@@ -1,7 +1,9 @@
 package com.example.readmate.data.repo.remote.firebase.user
 
+import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
 import com.example.readmate.data.model.firebase.Notification
+import com.google.firebase.firestore.DocumentSnapshot
 
 /**
  * @author Muhamed Amin Hassan on 11,October,2024
@@ -27,4 +29,35 @@ interface UserServicesRepository {
         creditCard: CreditCard,
         onAction: (Boolean, Exception?) -> Unit,
     )
+
+    fun addBookToBookcase(
+        book: Book,
+        onAction: (Book?, Exception?) -> Unit
+    )
+
+    fun removeBookFromBookcase(
+        bookIndex: Int?,
+        bookDocument: List<DocumentSnapshot>
+    )
+
+    fun removeBookFromBookcase(
+        bookId: String,
+        onAction: (Exception?) -> Unit
+    )
+
+    fun getBookcaseBooks(
+        onAction: (List<Book>?, Exception?) -> Unit
+    )
+
+    fun buyNewBook(
+        book: Book,
+        onAction: (Book?, Exception?) -> Unit
+    )
+
+    fun getMyBooks(
+        onAction: (List<Book>?, Exception?) -> Unit
+    )
+
+    fun isInBookcase(bookId:String, onAction: (Boolean) -> Unit)
+    fun isInMyBooks(bookId:String, onAction: (Boolean) -> Unit)
 }

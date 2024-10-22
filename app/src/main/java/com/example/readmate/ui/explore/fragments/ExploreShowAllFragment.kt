@@ -11,7 +11,7 @@ import com.example.readmate.databinding.FragmentExploreShowAllBinding
 import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.explore.adapter.ExploreAllBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
-import com.example.readmate.util.Constants.API_BOOK
+import com.example.readmate.util.Constants.CLICKED_BOOK
 import com.example.readmate.util.extractFetchRequestQuery
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,7 +21,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * Egypt, Cairo.
  */
 class ExploreShowAllFragment : BaseFragment<FragmentExploreShowAllBinding>() {
-    private val exploreAllBooksAdapter by lazy { ExploreAllBooksAdapter() }
+    private val exploreAllBooksAdapter by lazy {
+        ExploreAllBooksAdapter(null)
+    }
     private val viewModel by viewModel<ExploreViewModel>()
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentExploreShowAllBinding =
@@ -29,7 +31,11 @@ class ExploreShowAllFragment : BaseFragment<FragmentExploreShowAllBinding>() {
 
     override fun onViewReady() {
         super.onViewReady()
-        setupRecycler()
+        setupRecyclerView(
+            binding.recyclerShowAll,
+            exploreAllBooksAdapter,
+            LinearLayoutManager.VERTICAL
+        )
         setupClickListener()
         val category = arguments?.getString("category")
         category?.let {
@@ -49,7 +55,7 @@ class ExploreShowAllFragment : BaseFragment<FragmentExploreShowAllBinding>() {
                     ApiResult.Loading -> viewVisibility(binding.showAllProgressBar, true)
                     is ApiResult.Success -> {
                         viewVisibility(binding.showAllProgressBar, false)
-                        exploreAllBooksAdapter.differ.submitList(it.data.books)
+                        exploreAllBooksAdapter.submitList(it.data.books!!)
                     }
                 }
             }
@@ -60,20 +66,10 @@ class ExploreShowAllFragment : BaseFragment<FragmentExploreShowAllBinding>() {
         exploreAllBooksAdapter.onClick = {
             findNavController().navigate(
                 R.id.action_exploreShowAllFragment_to_exploreBookDetailsFragment, Bundle().apply {
-                    putString(API_BOOK, it.id.filter { it.isDigit() })
+                    putString(CLICKED_BOOK, it.id.filter { it.isDigit() })
                 }
             )
         }
-        binding.navigateBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
-
-    private fun setupRecycler() {
-        binding.recyclerShowAll.apply {
-            adapter = exploreAllBooksAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
+        navigateBack(binding.navigateBack)
     }
 }

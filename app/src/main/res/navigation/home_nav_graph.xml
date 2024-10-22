@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_firebaseBookDetailsFragment_self"
             app:destination="@id/firebaseBookDetailsFragment" />
+        <argument
+            android:name="book"
+            app:argType="com.example.readmate.data.model.firebase.Book" />
     </fragment>
     <fragment
         android:id="@+id/exploreBookDetailsFragment"

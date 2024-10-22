@@ -77,7 +77,6 @@
                     android:layout_height="300dp"
                     android:layout_marginBottom="24dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dummy_book"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -92,7 +91,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/nunito_sans_10pt_bold"
-                android:text="The Economics of Big Science"
                 android:textColor="@color/primaryFont"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +102,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans_10pt_bold"
-                android:text="Hans Peter Beck, Panagiotis Charitos"
                 android:textColor="@color/primaryFont"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +114,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/nunito_sans_10pt_semibold"
-                android:text="Essays by Leading Scientists and Policymakers."
                 android:textColor="@color/primaryFont"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -132,6 +128,7 @@
                 android:layout_marginVertical="16dp"
                 android:orientation="horizontal"
                 android:paddingVertical="3dp"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_book_subtitle">
@@ -147,7 +144,6 @@
                     android:backgroundTint="@color/primaryBackground"
                     android:fontFamily="@font/nunito_sans_7pt_medium"
                     android:paddingVertical="8dp"
-                    android:text="Add to Bookcase"
                     android:textAllCaps="false"
                     android:textColor="@color/primaryFont"
                     android:textSize="16sp" />
@@ -210,7 +206,6 @@
                         android:drawableTint="@color/primaryFont"
                         android:fontFamily="@font/nunito_sans_10pt_semibold"
                         android:gravity="center_vertical"
-                        android:text="4.1"
                         android:textColor="@color/primaryFont"
                         android:textSize="17sp" />
 
@@ -223,7 +218,6 @@
                         android:drawablePadding="4dp"
                         android:drawableTint="@color/primaryFont"
                         android:fontFamily="@font/nunito_sans_10pt_semibold"
-                        android:text="8 Chapters"
                         android:textColor="@color/primaryFont"
                         android:textSize="17sp" />
 
@@ -247,7 +241,6 @@
                         android:drawableTint="@color/primaryFont"
                         android:fontFamily="@font/nunito_sans_10pt_semibold"
                         android:gravity="center_vertical"
-                        android:text="142 ratings"
                         android:textColor="@color/primaryFont"
                         android:textSize="17sp" />
 
@@ -260,7 +253,6 @@
                         android:drawablePadding="4dp"
                         android:drawableTint="@color/primaryFont"
                         android:fontFamily="@font/nunito_sans_10pt_semibold"
-                        android:text="193.21"
                         android:textColor="@color/primaryFont"
                         android:textSize="17sp" />
 
@@ -310,7 +302,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:fontFamily="@font/nunito_sans_10pt_semibold"
-                android:text="@string/dummy_description"
                 android:textColor="@color/primaryFont"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -353,6 +344,19 @@
                 app:layout_constraintStart_toStartOf="@id/textView28"
                 app:layout_constraintTop_toBottomOf="@id/textView28" />
 
+            <TextView
+                android:id="@+id/tv_no_similar_books"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/nunito_sans_10pt_bold"
+                android:text="No similar books found!"
+                android:textColor="@color/errorColor"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/divider4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_related_books"
@@ -364,7 +368,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView29"
-                tools:itemCount="1"
+                tools:itemCount="0"
                 tools:listitem="@layout/item_layout_home_recommended_books" />
 
             <View
@@ -390,6 +394,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider4" />
 
+            <TextView
+                android:id="@+id/tv_no_book_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/nunito_sans_10pt_bold"
+                android:text="No book reviews."
+                android:textColor="@color/errorColor"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView290" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_book_review"
                 android:layout_width="0dp"
@@ -400,7 +418,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView290"
-                tools:itemCount="3"
+                tools:itemCount="0"
                 tools:listitem="@layout/item_layout_book_review" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -412,7 +430,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/primaryFont"
+        android:indeterminateTint="@color/accentColor1"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

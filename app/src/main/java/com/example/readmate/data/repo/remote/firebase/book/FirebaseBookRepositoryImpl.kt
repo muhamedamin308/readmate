@@ -36,4 +36,9 @@ class FirebaseBookRepositoryImpl(
 
     override fun fetchAllBooks(onAction: (List<Book>?, Exception?) -> Unit) =
         fetchFromService(bookService::fetchAllBooks, onAction)
+
+    override fun fetchSimilarBooks(
+        currentBookRating: Float,
+        onAction: (List<Book>?, Exception?) -> Unit
+    ) = bookService.fetchBooksBySimilarity(currentBookRating, onAction = onAction)
 }

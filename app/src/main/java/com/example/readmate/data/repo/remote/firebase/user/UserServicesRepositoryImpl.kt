@@ -1,9 +1,11 @@
 package com.example.readmate.data.repo.remote.firebase.user
 
+import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
 import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.data.service.remote.firebase.FirebaseUserService
 import com.example.readmate.data.service.remote.firebase.FirestorePaymentService
+import com.google.firebase.firestore.DocumentSnapshot
 
 /**
  * @author Muhamed Amin Hassan on 11,October,2024
@@ -19,7 +21,7 @@ class UserServicesRepositoryImpl(
         userService.getUserNotifications(onAction)
 
     override fun saveNotification(notification: Notification) =
-        userService.saveUserNotification(notification)
+        userService.addUserNotification(notification)
 
     override fun addCreditCard(
         creditCard: CreditCard,
@@ -34,4 +36,27 @@ class UserServicesRepositoryImpl(
         onAction: (Boolean, Exception?) -> Unit,
     ) = paymentService.removePaymentMethod(creditCard, onAction)
 
+    override fun addBookToBookcase(book: Book, onAction: (Book?, Exception?) -> Unit) =
+        userService.addBookToUserBookCase(book, onAction)
+
+    override fun removeBookFromBookcase(bookIndex: Int?, bookDocument: List<DocumentSnapshot>) =
+        userService.removeBookFromBookcase(bookIndex, bookDocument)
+
+    override fun removeBookFromBookcase(bookId: String, onAction: (Exception?) -> Unit) =
+        userService.removeBookFromBookcase(bookId, onAction)
+
+    override fun getBookcaseBooks(onAction: (List<Book>?, Exception?) -> Unit) =
+        userService.fetchBookcase(onAction)
+
+    override fun buyNewBook(book: Book, onAction: (Book?, Exception?) -> Unit) =
+        paymentService.buyBook(book, onAction)
+
+    override fun getMyBooks(onAction: (List<Book>?, Exception?) -> Unit) =
+        userService.fetchBoughtBooks(onAction)
+
+    override fun isInBookcase(bookId: String, onAction: (Boolean) -> Unit) =
+        userService.checkIfInBookcase(bookId, onAction)
+
+    override fun isInMyBooks(bookId: String, onAction: (Boolean) -> Unit) =
+        userService.checkIfInMyBooks(bookId, onAction)
 }

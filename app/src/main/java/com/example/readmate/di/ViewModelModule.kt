@@ -2,6 +2,7 @@ package com.example.readmate.di
 
 import com.example.readmate.ui.auth.viewmodel.AuthViewModel
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
+import com.example.readmate.ui.library.viewmodel.FirebaseBookDetailViewModel
 import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.ui.onboarding.viewmodel.OnBoardingViewModel
 import com.example.readmate.ui.payment.viewmodel.PaymentViewModel
@@ -26,4 +27,10 @@ val viewModelModule = module {
     viewModel { EditProfileViewModel(userRepository = get()) }
     viewModel { NotificationsViewModel(userServicesRepository = get()) }
     viewModel { PaymentViewModel(userServicesRepository = get()) }
+    viewModel {
+        FirebaseBookDetailViewModel(
+            userServicesRepository = get(),
+            bookServicesRepository = get()
+        )
+    }
 }

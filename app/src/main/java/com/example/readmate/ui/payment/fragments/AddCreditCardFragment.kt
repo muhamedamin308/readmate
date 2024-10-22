@@ -40,6 +40,7 @@ class AddCreditCardFragment : BaseFragment<FragmentAddCreditCardBinding>() {
                 )
                 viewModel.addCreditCard(creditCard = newCreditCard)
             }
+            navigateBack(navigateBack)
         }
 
 

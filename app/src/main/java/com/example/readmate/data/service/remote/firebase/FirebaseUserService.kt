@@ -1,9 +1,13 @@
 package com.example.readmate.data.service.remote.firebase
 
 import android.net.Uri
+import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.data.model.firebase.User
+import com.example.readmate.util.Constants.CollectionPaths
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 
@@ -18,7 +22,7 @@ class FirebaseUserService(
     private val store: FirebaseFirestore,
     private val storage: StorageReference,
 ) {
-    private val userCollectionPath = store.collection("users")
+    private val userCollectionPath = store.collection(CollectionPaths.USERS)
 
     fun getUserProfile(onAction: (User?, Exception?) -> Unit) {
         val userId = auth.currentUser?.uid
@@ -48,14 +52,14 @@ class FirebaseUserService(
         }
     }
 
-    fun saveUserNotification(
+    fun addUserNotification(
         notification: Notification,
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
             userCollectionPath
                 .document(id)
-                .collection("notifications")
+                .collection(CollectionPaths.NOTIFICATIONS)
                 .document()
                 .set(notification)
         }
@@ -66,7 +70,7 @@ class FirebaseUserService(
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
-            userCollectionPath.document(id).collection("notifications")
+            userCollectionPath.document(id).collection(CollectionPaths.NOTIFICATIONS)
                 .addSnapshotListener { querySnapshot, exception ->
                     if (exception != null) {
                         onAction(null, exception)
@@ -82,6 +86,131 @@ class FirebaseUserService(
                 }
         } ?: run {
             onAction(null, Exception("User not logged in!"))
+        }
+    }
+
+    fun addBookToUserBookCase(
+        book: Book,
+        onAction: (Book?, Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .update("booksToRead", FieldValue.arrayUnion(book.bookId))
+            userCollectionPath.document(id)
+                .collection(CollectionPaths.USER_BOOKCASE)
+                .document()
+                .set(book)
+                .addOnSuccessListener { onAction(book, null) }
+                .addOnFailureListener { onAction(null, it) }
+        }
+    }
+
+    fun removeBookFromBookcase(
+        bookId: String,
+        onAction: (Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .update("booksToRead", FieldValue.arrayRemove(bookId))
+            userCollectionPath.document(id)
+                .collection(CollectionPaths.USER_BOOKCASE)
+                .whereEqualTo("bookId", bookId)
+                .get()
+                .addOnSuccessListener {
+                    it.documents.firstOrNull()?.reference?.delete()
+                        ?.addOnSuccessListener { onAction(null) }
+                        ?.addOnFailureListener { exception -> onAction(exception) }
+                }
+                .addOnFailureListener { onAction(it) }
+        }
+    }
+
+    fun removeBookFromBookcase(
+        bookIndex: Int?,
+        bookDocument: List<DocumentSnapshot>
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            if (bookIndex != null && bookIndex != -1) {
+                userCollectionPath.document(id)
+                    .update("booksToRead", FieldValue.arrayRemove(bookDocument[bookIndex].id))
+                userCollectionPath.document(id)
+                    .collection(CollectionPaths.USER_BOOKCASE)
+                    .document(bookDocument[bookIndex].id)
+                    .delete()
+            }
+        }
+    }
+
+    fun fetchBookcase(
+        onAction: (List<Book>?, Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .collection(CollectionPaths.USER_BOOKCASE)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val books = querySnapshot.documents.mapNotNull { document ->
+                        document.toObject(Book::class.java)
+                    }
+                    onAction(books, null)
+                }
+                .addOnFailureListener { onAction(null, it) }
+        }
+    }
+
+    fun fetchBoughtBooks(
+        onAction: (List<Book>?, Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .collection(CollectionPaths.USER_MY_BOOKS)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val books = querySnapshot.documents.mapNotNull { document ->
+                        document.toObject(Book::class.java)
+                    }
+                    onAction(books, null)
+                }
+                .addOnFailureListener { onAction(null, it) }
+        }
+    }
+
+    fun checkIfInBookcase(
+        bookId: String,
+        onAction: (Boolean) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val user = documentSnapshot.toObject(User::class.java)
+                    user?.booksToRead?.contains(bookId)?.let { onAction(it) }
+                        ?: onAction(false)
+                }
+                .addOnFailureListener { onAction(false) }
+        }
+    }
+
+    fun checkIfInMyBooks(
+        bookId: String,
+        onAction: (Boolean) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val user = documentSnapshot.toObject(User::class.java)
+                    user?.books?.contains(bookId)?.let { onAction(it) }
+                        ?: onAction(false)
+                }
+                .addOnFailureListener { onAction(false) }
         }
     }
 

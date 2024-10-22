@@ -22,6 +22,7 @@ class BookcaseFragment : BaseFragment<FragmentBookcaseBinding>() {
             bookcaseProgressBar.visibility = View.GONE
             imgEmptyList.visibility = View.VISIBLE
             tvEmptyList.visibility = View.VISIBLE
+            navigateBack(binding.navigateBack)
         }
     }
 }

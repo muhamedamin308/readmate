@@ -21,13 +21,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
     private val viewModel by viewModel<PaymentViewModel>()
-    private val cardsAdapter by lazy { CreditCardsAdapter() }
+    private val cardsAdapter by lazy { CreditCardsAdapter(binding.containerEmptyList) }
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentPaymentMethodsBinding =
         FragmentPaymentMethodsBinding.inflate(layoutInflater)
 
     override fun onViewReady() {
         super.onViewReady()
-        setupRecyclerview()
+        setupRecyclerView(
+            binding.recyclerPaymentMethods,
+            cardsAdapter,
+            LinearLayoutManager.VERTICAL
+        )
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -46,7 +50,7 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
 
                             is AppState.Success -> {
                                 viewVisibility(binding.paymentMethodProgressBar, false)
-                                cardsAdapter.differ.submitList(it.data)
+                                cardsAdapter.submitList(it.data!!)
                             }
                         }
                     }
@@ -58,12 +62,5 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
     override fun onStart() {
         super.onStart()
         viewModel.fetchCreditCards()
-    }
-
-    private fun setupRecyclerview() {
-        binding.recyclerPaymentMethods.apply {
-            adapter = cardsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
     }
 }

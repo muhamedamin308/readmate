@@ -41,7 +41,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_layout_notifications"/>
+        tools:listitem="@layout/item_layout_notifications" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+
+        <ImageView
+            android:id="@+id/img_empty_list"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:src="@drawable/empty_cart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_10pt_medium"
+            android:text="Nothing to show here!"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/img_empty_list"
+            app:layout_constraintStart_toStartOf="@id/img_empty_list"
+            app:layout_constraintTop_toBottomOf="@id/img_empty_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/notifications_progress_bar"

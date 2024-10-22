@@ -1,7 +1,10 @@
 package com.example.readmate.data.service.remote.firebase
 
+import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.util.Constants.CollectionPaths
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 /**
@@ -14,7 +17,24 @@ class FirestorePaymentService(
     private val store: FirebaseFirestore,
     private val auth: FirebaseAuth,
 ) {
-    private val userCollectionPath = store.collection("users")
+    private val userCollectionPath = store.collection(CollectionPaths.USERS)
+
+    fun buyBook(
+        book: Book,
+        onAction: (Book?, Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .update("books", FieldValue.arrayUnion(book.bookId))
+            userCollectionPath.document(id)
+                .collection(CollectionPaths.USER_MY_BOOKS)
+                .document()
+                .set(book)
+                .addOnSuccessListener { onAction(book, null) }
+                .addOnFailureListener { onAction(null, it) }
+        }
+    }
 
     fun addPaymentMethod(
         creditCard: CreditCard,
@@ -24,7 +44,7 @@ class FirestorePaymentService(
         userId?.let { id ->
             userCollectionPath
                 .document(id)
-                .collection("credit_cards")
+                .collection(CollectionPaths.USER_CREDIT_CARDS)
                 .document()
                 .set(creditCard)
                 .addOnSuccessListener { onAction(creditCard, null) }
@@ -37,7 +57,7 @@ class FirestorePaymentService(
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
-            userCollectionPath.document(id).collection("credit_cards")
+            userCollectionPath.document(id).collection(CollectionPaths.USER_CREDIT_CARDS)
                 .addSnapshotListener { querySnapshot, exception ->
                     if (exception != null) {
                         onAction(null, exception)
@@ -62,7 +82,7 @@ class FirestorePaymentService(
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
-            userCollectionPath.document(id).collection("credit_cards")
+            userCollectionPath.document(id).collection(CollectionPaths.USER_CREDIT_CARDS)
                 .whereEqualTo("cardNumber", creditCard.cardNumber)
                 .get()
                 .addOnSuccessListener { querySnapshot ->

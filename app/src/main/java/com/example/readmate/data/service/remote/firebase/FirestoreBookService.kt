@@ -1,6 +1,7 @@
 package com.example.readmate.data.service.remote.firebase
 
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.util.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -12,7 +13,7 @@ import com.google.firebase.firestore.Query
 class FirestoreBookService(
     store: FirebaseFirestore
 ) {
-    private val bookCollectionPath = store.collection("books")
+    private val bookCollectionPath = store.collection(Constants.CollectionPaths.BOOKS)
     private val numberOfReviews = "numberOfReviewers"
 
     fun fetchNewestBooks(onAction: (List<Book>?, Exception?) -> Unit) {
@@ -54,6 +55,19 @@ class FirestoreBookService(
             limit = 5
         )
     }
+
+    fun fetchBooksBySimilarity(
+        currentBookRating: Float,
+        ratingRange: Float = 0.5f,
+        onAction: (List<Book>?, Exception?) -> Unit
+    ) {
+        val query = bookCollectionPath
+            .whereGreaterThanOrEqualTo("averageRating", currentBookRating - ratingRange)
+            .whereLessThanOrEqualTo("averageRating", currentBookRating + ratingRange)
+
+        fetchBooks(query = query, limit = 8, onAction = onAction)
+    }
+
 
     fun fetchAllBooks(onAction: (List<Book>?, Exception?) -> Unit) {
         fetchBooks(onAction = onAction)

@@ -2,6 +2,7 @@ package com.example.readmate.data.service.remote.firebase
 
 import android.content.Context
 import com.example.readmate.data.model.firebase.User
+import com.example.readmate.util.Constants
 import com.example.readmate.util.toUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,7 +25,7 @@ class FirebaseAuthService(
     private val googleClient: GoogleSignInOptions,
     private val context: Context
 ) {
-    private val userCollectionPath = store.collection("users")
+    private val userCollectionPath = store.collection(Constants.CollectionPaths.USERS)
 
     private val googleSignInClient: GoogleSignInClient by lazy {
         GoogleSignIn.getClient(context, googleClient)

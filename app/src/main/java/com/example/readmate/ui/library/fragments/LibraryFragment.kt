@@ -1,9 +1,12 @@
 package com.example.readmate.ui.library.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.databinding.FragmentLibraryBinding
 import com.example.readmate.ui.base.BaseAdapter
@@ -18,68 +21,89 @@ import com.example.readmate.util.AppState
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("UNCHECKED_CAST")
 class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
     private val viewModel: LibraryViewModel by viewModel()
-    private val adapters: List<BaseAdapter<*>> = listOf(
-        NewestBooksAdapter(),
-        RecommendedBooksAdapter(),
-        CategoriesAdapter(),
-        BestSellersAdapter(),
-        TopRatedBooksAdapter()
-    )
 
-    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentLibraryBinding =
-        FragmentLibraryBinding.inflate(layoutInflater)
+    private val newestBooksAdapter = NewestBooksAdapter()
+    private val recommendedBooksAdapter = RecommendedBooksAdapter(null)
+    private val categoriesAdapter = CategoriesAdapter()
+    private val bestSellersAdapter = BestSellersAdapter()
+    private val topRatedBooksAdapter = TopRatedBooksAdapter()
+
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentLibraryBinding {
+        return FragmentLibraryBinding.inflate(layoutInflater)
+    }
 
     override fun onViewReady() {
-        super.onViewReady()
-        setUpRecyclers()
-        collectState(
-            viewModel.newestBooks,
-            binding.newestBooksProgressBar,
-            adapters[0] as BaseAdapter<Book>
+        setupRecyclerViews()
+        observeAllViewModelData()
+        setupAllClickListeners()
+    }
+
+    private fun setupRecyclerViews() {
+        setupRecyclerView(
+            binding.recyclerNewestBooks,
+            newestBooksAdapter,
+            LinearLayoutManager.HORIZONTAL
         )
-        collectState(
-            viewModel.recommendedBooks,
-            binding.recommendedBooksProgressBar,
-            adapters[1] as BaseAdapter<Book>
+        setupRecyclerView(
+            binding.recyclerRecommendedBooks,
+            recommendedBooksAdapter,
+            LinearLayoutManager.HORIZONTAL
         )
-        collectState(
-            viewModel.bookCategories,
-            binding.categoryBooksProgressBar,
-            adapters[2] as BaseAdapter<String>
+        setupRecyclerView(
+            binding.recyclerCategories,
+            categoriesAdapter,
+            LinearLayoutManager.HORIZONTAL
         )
-        collectState(
-            viewModel.bestSellersBooks,
-            binding.bestSellersBooksProgressBar,
-            adapters[3] as BaseAdapter<Book>
+        setupRecyclerView(
+            binding.recyclerBestSellersBooks,
+            bestSellersAdapter,
+            LinearLayoutManager.HORIZONTAL
         )
-        collectState(
-            viewModel.topRatedBooks,
-            binding.top5BooksProgressBar,
-            adapters[4] as BaseAdapter<Book>
+        setupRecyclerView(
+            binding.recyclerTop5Books,
+            topRatedBooksAdapter,
+            LinearLayoutManager.VERTICAL
         )
     }
 
-    private fun setUpRecyclers() {
-        val recyclerMappings = listOf(
-            Pair(binding.recyclerNewestBooks, LinearLayoutManager.HORIZONTAL),
-            Pair(binding.recyclerRecommendedBooks, LinearLayoutManager.HORIZONTAL),
-            Pair(binding.recyclerCategories, LinearLayoutManager.HORIZONTAL),
-            Pair(binding.recyclerBestSellersBooks, LinearLayoutManager.HORIZONTAL),
-            Pair(binding.recyclerTop5Books, LinearLayoutManager.VERTICAL)
-        )
+    private fun setupAllClickListeners() {
+        val onClickAction: (book: Book) -> Unit = { book ->
+            findNavController().navigate(
+                R.id.action_homeFragment_to_firebaseBookDetailsFragment,
+                Bundle().apply { putParcelable("book", book) }
+            )
+        }
 
-        recyclerMappings.forEachIndexed { index, (recyclerView, orientation) ->
-            recyclerView.apply {
-                adapter = adapters[index]
-                layoutManager = LinearLayoutManager(requireContext(), orientation, false)
-            }
+        bestSellersAdapter.onClick = onClickAction
+        newestBooksAdapter.onClick = onClickAction
+        recommendedBooksAdapter.onClick = onClickAction
+        topRatedBooksAdapter.onClick = onClickAction
+        binding.tvRecommendedSeeAll.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_showAllFragment
+            )
         }
     }
 
-    private fun <T : Any> collectState(
+    private fun observeAllViewModelData() {
+        observeState(viewModel.newestBooks, binding.newestBooksProgressBar, newestBooksAdapter)
+        observeState(
+            viewModel.recommendedBooks,
+            binding.recommendedBooksProgressBar,
+            recommendedBooksAdapter
+        )
+        observeState(viewModel.bookCategories, binding.categoryBooksProgressBar, categoriesAdapter)
+        observeState(
+            viewModel.bestSellersBooks,
+            binding.bestSellersBooksProgressBar,
+            bestSellersAdapter
+        )
+        observeState(viewModel.topRatedBooks, binding.top5BooksProgressBar, topRatedBooksAdapter)
+    }
+
+    private fun <T> observeState(
         flow: StateFlow<AppState<List<T>>>,
         progressBar: View,
         adapter: BaseAdapter<T>
@@ -95,7 +119,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
 
                     is AppState.Success -> {
                         viewVisibility(progressBar, false)
-                        adapter.differ.submitList(state.data)
+                        adapter.submitList(state.data!!)
                     }
 
                     else -> Unit

@@ -20,14 +20,12 @@ class HelpAndSupportFragment : BaseFragment<FragmentHelpSupportBinding>() {
 
     override fun onViewReady() {
         super.onViewReady()
-        helpAndSupportAdapter.differ.submitList(helpAndSupportList)
-        setUpRecyclerView()
-    }
-
-    private fun setUpRecyclerView() {
-        binding.recyclerExpendable.apply {
-            adapter = helpAndSupportAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
+        helpAndSupportAdapter.submitList(helpAndSupportList)
+        setupRecyclerView(
+            binding.recyclerExpendable,
+            helpAndSupportAdapter,
+            LinearLayoutManager.VERTICAL
+        )
+        navigateBack(binding.navigateBack)
     }
 }

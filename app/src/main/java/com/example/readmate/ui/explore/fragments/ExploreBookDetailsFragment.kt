@@ -18,7 +18,7 @@ import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.explore.adapter.ExploreSimilarBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
-import com.example.readmate.util.Constants.API_BOOK
+import com.example.readmate.util.Constants.CLICKED_BOOK
 import com.example.readmate.util.extractSimilarBooksBasedOnName
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.URL
@@ -32,24 +32,25 @@ class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBindin
 
     override fun onViewReady() {
         super.onViewReady()
-        setupRecycler()
+        setupRecyclerView(
+            binding.recyclerRelatedBooks,
+            similarBooksAdapter,
+            LinearLayoutManager.HORIZONTAL
+        )
 
-        arguments?.getString(API_BOOK)?.let { bookId ->
+        arguments?.getString(CLICKED_BOOK)?.let { bookId ->
             viewModel.getBookDetails(bookId)
         } ?: showMessage("Book not found")
 
         similarBooksAdapter.onClick = { book ->
             findNavController().navigate(
                 R.id.action_exploreBookDetailsFragment_self, Bundle().apply {
-                    putString(API_BOOK, book.id.filter { it.isDigit() })
+                    putString(CLICKED_BOOK, book.id.filter { it.isDigit() })
                 }
             )
         }
 
-        binding.navigateBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
+        navigateBack(binding.navigateBack)
         collectBookDetailsState()
         collectQueriedBookState()
     }
@@ -93,12 +94,12 @@ class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBindin
 
                     is ApiResult.Success -> {
                         viewVisibility(binding.exploreSimilarBooksProgressBar, false)
-                        result.let {
-                            if (it.data.books.isNullOrEmpty()) {
-                                viewVisibility(binding.tvNoSimilarBooks, true)
-                            } else {
-                                viewVisibility(binding.tvNoSimilarBooks, false)
-                                similarBooksAdapter.differ.submitList(it.data.books.take(10))
+                        result.data.books?.let { books ->
+                            val isEmptyList = books.isEmpty()
+                            viewVisibility(binding.tvNoSimilarBooks, isEmptyList)
+
+                            if (!isEmptyList) {
+                                similarBooksAdapter.submitList(books.take(10))
                             }
                         }
                     }
@@ -137,14 +138,6 @@ class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBindin
             view.setOnClickListener {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
-        }
-    }
-
-    private fun setupRecycler() {
-        binding.recyclerRelatedBooks.apply {
-            adapter = similarBooksAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 }

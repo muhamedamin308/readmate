@@ -1,6 +1,7 @@
 package com.example.readmate.ui.explore.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
@@ -8,13 +9,30 @@ import com.example.readmate.R
 import com.example.readmate.data.model.responses.BookItemResponse
 import com.example.readmate.databinding.ItemLayoutExploreResultBooksBinding
 import com.example.readmate.ui.base.BaseAdapter
+import com.example.readmate.util.gone
+import com.example.readmate.util.show
 
 /**
  * @author Muhamed Amin Hassan on 24,September,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
-class ExploreAllBooksAdapter : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) {
+class ExploreAllBooksAdapter(
+    private val emptyContainerLayout: View?
+) : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) {
+
+    init {
+        onListUpdated = { isEmpty, _ ->
+            emptyContainerLayout?.let {
+                if (isEmpty) {
+                    it.show()
+                } else {
+                    it.gone()
+                }
+            }
+        }
+    }
+
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<BookItemResponse>() {
             override fun areItemsTheSame(

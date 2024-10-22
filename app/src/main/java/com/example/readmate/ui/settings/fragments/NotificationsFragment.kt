@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
-    private val notificationsAdapter by lazy { NotificationsAdapter() }
+    private val notificationsAdapter by lazy { NotificationsAdapter(binding.containerEmptyList) }
     private val viewModel by viewModel<NotificationsViewModel>()
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentNotificationsBinding =
@@ -23,10 +23,12 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
     override fun onViewReady() {
         super.onViewReady()
-        setUpRecyclerView()
-        binding.navigateBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        setupRecyclerView(
+            binding.recyclerNotifications,
+            notificationsAdapter,
+            LinearLayoutManager.VERTICAL
+        )
+        navigateBack(binding.navigateBack)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -45,19 +47,12 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
 
                             is AppState.Success -> {
                                 viewVisibility(binding.notificationsProgressBar, false)
-                                notificationsAdapter.differ.submitList(it.data)
+                                notificationsAdapter.submitList(it.data!!)
                             }
                         }
                     }
                 }
             }
-        }
-    }
-
-    private fun setUpRecyclerView() {
-        binding.recyclerNotifications.apply {
-            adapter = notificationsAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
     }
 }

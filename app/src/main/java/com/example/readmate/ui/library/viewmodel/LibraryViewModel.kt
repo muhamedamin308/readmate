@@ -33,12 +33,21 @@ class LibraryViewModel(
     private val _topRatedBooks = MutableStateFlow<AppState<List<Book>>>(AppState.Ideal())
     val topRatedBooks = _topRatedBooks.asStateFlow()
 
+    private val _allBooks = MutableStateFlow<AppState<List<Book>>>(AppState.Ideal())
+    val allBooks = _allBooks.asStateFlow()
+
     init {
         fetchData(_newestBooks) { onAction -> bookRepository.fetchNewestBooks(onAction) }
         fetchData(_recommendedBooks) { onAction -> bookRepository.fetchRecommendedBooks(onAction) }
         fetchData(_bookCategories) { onAction -> bookRepository.fetchBookCategories(onAction) }
         fetchData(_bestSellersBooks) { onAction -> bookRepository.fetchBestSellersBooks(onAction) }
         fetchData(_topRatedBooks) { onAction -> bookRepository.fetchTopRatedBooks(onAction) }
+    }
+
+    fun fetAllBooks() {
+        fetchData(_allBooks) { onAction ->
+            bookRepository.fetchAllBooks(onAction)
+        }
     }
 
     private fun <T> fetchData(
