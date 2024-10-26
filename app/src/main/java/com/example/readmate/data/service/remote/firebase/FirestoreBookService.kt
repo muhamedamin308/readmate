@@ -1,7 +1,8 @@
 package com.example.readmate.data.service.remote.firebase
 
 import com.example.readmate.data.model.firebase.Book
-import com.example.readmate.util.Constants
+import com.example.readmate.data.model.firebase.Review
+import com.example.readmate.util.Constants.CollectionPaths
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -13,7 +14,7 @@ import com.google.firebase.firestore.Query
 class FirestoreBookService(
     store: FirebaseFirestore
 ) {
-    private val bookCollectionPath = store.collection(Constants.CollectionPaths.BOOKS)
+    private val bookCollectionPath = store.collection(CollectionPaths.BOOKS)
     private val numberOfReviews = "numberOfReviewers"
 
     fun fetchNewestBooks(onAction: (List<Book>?, Exception?) -> Unit) {
@@ -71,6 +72,62 @@ class FirestoreBookService(
 
     fun fetchAllBooks(onAction: (List<Book>?, Exception?) -> Unit) {
         fetchBooks(onAction = onAction)
+    }
+
+    fun addBookReview(
+        bookId: String,
+        review: Review,
+        onAction: (Boolean) -> Unit = {}
+    ) {
+        bookCollectionPath
+            .whereEqualTo("bookId", bookId)
+            .get()
+            .addOnSuccessListener {
+                if (it.documents.isEmpty())
+                    onAction(false)
+                else {
+                    it.documents.firstOrNull()?.reference?.let { document ->
+                        document.collection(CollectionPaths.USER_BOOK_REVIEW)
+                            .document()
+                            .set(review)
+                            .addOnSuccessListener { onAction(true) }
+                            .addOnFailureListener { onAction(false) }
+                    }
+                }
+            }
+            .addOnFailureListener { onAction(false) }
+    }
+
+    fun fetchBookReviews(
+        bookId: String,
+        onAction: (List<Review>?, Exception?) -> Unit
+    ) {
+        bookCollectionPath
+            .whereEqualTo("bookId", bookId)
+            .get()
+            .addOnSuccessListener {
+                if (it.documents.isEmpty())
+                    onAction(null, Exception("No documents!"))
+                else {
+                    it.documents.firstOrNull()?.reference?.let { document ->
+                        document.collection(CollectionPaths.USER_BOOK_REVIEW)
+                            .addSnapshotListener { querySnapshot, exception ->
+                                if (exception != null) {
+                                    onAction(null, exception)
+                                    return@addSnapshotListener
+                                }
+
+                                querySnapshot?.documents?.let { listOfDocuments ->
+                                    val reviews = listOfDocuments.mapNotNull { document ->
+                                        document.toObject(Review::class.java)
+                                    }
+                                    onAction(reviews, null)
+                                }
+                            }
+                    }
+                }
+            }
+            .addOnFailureListener { onAction(null, it) }
     }
 
     private fun fetchBooks(

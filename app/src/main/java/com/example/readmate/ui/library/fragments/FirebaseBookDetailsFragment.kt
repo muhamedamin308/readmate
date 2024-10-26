@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -45,6 +46,7 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
         book.bookId?.let { viewModel.checkIfBookIsBookcase(it) }
         book.bookId?.let { viewModel.checkIfBookIsMyBooks(it) }
         book.averageRating?.let { viewModel.fetchSimilarBooks(it) }
+        book.bookId?.let { viewModel.fetchBookReviews(it) }
     }
 
     override fun onViewReady() {
@@ -55,6 +57,13 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
 
     private fun handleActions() {
         binding.btnAddToBookcase.setOnClickListener { toggleBookcaseState(book) }
+        binding.addNewBookReview.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_firebaseBookDetailsFragment_to_addBookReviewFragment, Bundle().apply {
+                    putString("book_id", book.bookId)
+                }
+            )
+        }
         navigateBack(binding.navigateBack)
     }
 
@@ -80,6 +89,27 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
                 launch { observeBookcaseState() }
                 launch { observeMyBooksState() }
                 launch { observeSimilarBooks() }
+                launch { observeBookReviews() }
+            }
+        }
+    }
+
+    private suspend fun observeBookReviews() {
+        viewModel.allBookReviews.collect {
+            when (it) {
+                is AppState.Loading -> viewVisibility(binding.firebaseBookDetailsProgressBar, true)
+                is AppState.Success -> {
+                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
+                    val sortedReviews = it.data!!.sortedByDescending { review -> review.timestamp }
+                    reviewsAdapter.submitList(sortedReviews)
+                }
+
+                is AppState.Error -> {
+                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
+                    showMessage(it.message)
+                }
+
+                else -> Unit
             }
         }
     }
@@ -163,12 +193,12 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
             tvBookSubtitle.text = book.subTitle
             tvBookOverview.text = book.overview
             tvBookRate.text = book.averageRating.toString()
-            tvBookTotalReviewers.text = "${book.numberOfReviewers} reviewers"
+            tvBookTotalReviewers.text = "${book.numberOfReviewers} reviewer/s"
             tvBookPrice.text = book.price.toString()
             tvBookTotalChapters.text = "${book.chapters?.size} chapters"
         }
         book.categories?.let { categoriesAdapter.submitList(it) }
-        book.reviews?.let { reviewsAdapter.submitList(it) }
+//        book.reviews?.let { reviewsAdapter.submitList(it) }
     }
 }
 

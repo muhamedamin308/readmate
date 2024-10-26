@@ -3,6 +3,7 @@ package com.example.readmate.ui.library.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.firebase.Review
 import com.example.readmate.data.repo.remote.firebase.book.FirebaseBookRepository
 import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
 import com.example.readmate.util.AppState
@@ -29,6 +30,10 @@ class FirebaseBookDetailViewModel(
     val removeBookFromBookcase = _removeBookFromBookcase.asStateFlow()
     private val _similarBooks = MutableStateFlow<AppState<List<Book>>>(AppState.Ideal())
     val similarBooks = _similarBooks.asStateFlow()
+    private val _newBookReview = MutableStateFlow(false)
+    val newBookReview = _newBookReview.asStateFlow()
+    private val _allBookReviews = MutableStateFlow<AppState<List<Review>>>(AppState.Ideal())
+    val allBookReviews = _allBookReviews.asStateFlow()
 
 
     fun checkIfBookIsBookcase(bookId: String) {
@@ -97,6 +102,30 @@ class FirebaseBookDetailViewModel(
             } ?: viewModelScope.launch {
                 _similarBooks.emit(AppState.Success(books ?: emptyList()))
             }
+        }
+    }
+
+    fun fetchBookReviews(bookId: String) {
+        viewModelScope.launch { _allBookReviews.emit(AppState.Loading()) }
+        bookServicesRepository.getBookReviews(bookId) { reviews, exception ->
+            exception?.let {
+                viewModelScope.launch {
+                    _allBookReviews.emit(
+                        AppState.Error(
+                            exception.message ?: "An error occurred"
+                        )
+                    )
+                }
+            } ?: viewModelScope.launch {
+                _allBookReviews.emit(AppState.Success(reviews ?: emptyList()))
+            }
+        }
+    }
+
+    fun addNewBookReview(bookId: String, review: Review) {
+        viewModelScope.launch { _newBookReview.emit(false) }
+        bookServicesRepository.addReview(bookId, review) { isAdded ->
+            viewModelScope.launch { _newBookReview.emit(isAdded) }
         }
     }
 }

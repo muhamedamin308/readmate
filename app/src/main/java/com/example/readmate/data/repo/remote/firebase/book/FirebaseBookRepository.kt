@@ -1,6 +1,7 @@
 package com.example.readmate.data.repo.remote.firebase.book
 
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.firebase.Review
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024
@@ -18,5 +19,14 @@ interface FirebaseBookRepository {
     fun fetchSimilarBooks(
         currentBookRating: Float,
         onAction: (List<Book>?, Exception?) -> Unit
+    )
+    fun addReview(
+        bookId: String,
+        review: Review,
+        onAction: (Boolean) -> Unit
+    )
+    fun getBookReviews(
+        bookId: String,
+        onAction: (List<Review>?, Exception?) -> Unit
     )
 }

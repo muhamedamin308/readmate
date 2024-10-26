@@ -1,5 +1,6 @@
 package com.example.readmate
 
+import android.annotation.SuppressLint
 import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.ui.settings.viewmodel.NotificationsViewModel
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -12,6 +13,7 @@ import org.koin.android.ext.android.inject
  * Egypt, Cairo.
  */
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FirebaseNotifications : FirebaseMessagingService() {
 
     private val notificationViewModel: NotificationsViewModel by inject()

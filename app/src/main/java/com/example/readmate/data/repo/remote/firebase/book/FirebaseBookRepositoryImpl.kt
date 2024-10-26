@@ -1,6 +1,7 @@
 package com.example.readmate.data.repo.remote.firebase.book
 
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.firebase.Review
 import com.example.readmate.data.service.remote.firebase.FirestoreBookService
 
 /**
@@ -41,4 +42,10 @@ class FirebaseBookRepositoryImpl(
         currentBookRating: Float,
         onAction: (List<Book>?, Exception?) -> Unit
     ) = bookService.fetchBooksBySimilarity(currentBookRating, onAction = onAction)
+
+    override fun addReview(bookId: String, review: Review, onAction: (Boolean) -> Unit) =
+        bookService.addBookReview(bookId, review, onAction)
+
+    override fun getBookReviews(bookId: String, onAction: (List<Review>?, Exception?) -> Unit) =
+        bookService.fetchBookReviews(bookId, onAction)
 }

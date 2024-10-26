@@ -17,5 +17,6 @@ object Constants {
         const val USER_BOOKCASE = "bookcase"
         const val USER_MY_BOOKS = "myBooks"
         const val USER_CREDIT_CARDS = "creditCards"
+        const val USER_BOOK_REVIEW = "review"
     }
 }

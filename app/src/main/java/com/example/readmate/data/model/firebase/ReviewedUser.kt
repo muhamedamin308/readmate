@@ -4,16 +4,15 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
- * @author Muhamed Amin Hassan on 02,September,2024
+ * @author Muhamed Amin Hassan on 26,October,2024
  * @see <a href="https://github.com/muhamedamin308">Muhamed's Github</a>,
  * Egypt, Cairo.
  */
 @Parcelize
-data class Review(
-    val user: ReviewedUser? = null,
-    val comment: String? = null,
-    val timestamp: Long? = null
-): Parcelable {
-    // Explicit no-argument constructor
+data class ReviewedUser(
+    var name: String? = null,
+    val email: String? = null,
+    var profileImage: String? = null,
+) : Parcelable {
     constructor() : this(null, null, null)
 }

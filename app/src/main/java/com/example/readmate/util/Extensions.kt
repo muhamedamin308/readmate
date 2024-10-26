@@ -3,6 +3,7 @@ package com.example.readmate.util
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import com.example.readmate.data.model.firebase.ReviewedUser
 import com.example.readmate.data.model.firebase.User
 import com.google.firebase.auth.FirebaseUser
 
@@ -18,6 +19,12 @@ fun FirebaseUser.toUser() = User(
     profileImage = photoUrl?.toString(),
     books = emptyList(),
     booksToRead = emptyList()
+)
+
+fun User.toReviewedUser() = ReviewedUser(
+    email = email,
+    name = name,
+    profileImage = profileImage
 )
 
 fun Context.showMessage(message: String, duration: Int = Toast.LENGTH_SHORT) {
