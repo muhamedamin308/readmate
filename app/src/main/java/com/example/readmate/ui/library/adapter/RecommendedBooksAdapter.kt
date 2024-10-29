@@ -57,7 +57,7 @@ class RecommendedBooksAdapter(
         binding.apply {
             Glide.with(holder.itemView)
                 .load(item.image)
-                .error(R.drawable.not_found)
+                .error(R.drawable.dummy_book)
                 .into(imgBookImage)
             tvBookAuthor.text = if (item.author!!.length >= 24) {
                 item.author.substring(0, item.author.length - 6) + "...."

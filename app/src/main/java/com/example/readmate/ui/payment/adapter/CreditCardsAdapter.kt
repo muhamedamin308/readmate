@@ -54,7 +54,7 @@ class CreditCardsAdapter(
 
         binding.apply {
             tvCardTitle.text = item.cardHolderName
-            tvCardNumber.text = "**** **** **** ${item.cardNumber.substring(12)}"
+            tvCardNumber.text = "**** **** **** ${item.cardNumber?.substring(12)}"
             tvExpireDate.text = item.expirationDate
         }
     }

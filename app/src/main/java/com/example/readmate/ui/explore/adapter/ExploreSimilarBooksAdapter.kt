@@ -42,7 +42,7 @@ class ExploreSimilarBooksAdapter : BaseAdapter<BookItemResponse>(DIFF_CALLBACK) 
         binding.apply {
             Glide.with(holder.itemView)
                 .load(item.image)
-                .error(R.drawable.not_found)
+                .error(R.drawable.dummy_book)
                 .into(imgBookImage)
             tvBookAuthor.text = if (item.authors.length >= 24) {
                 item.authors.substring(0, item.authors.length - 6) + "...."

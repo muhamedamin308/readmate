@@ -1,7 +1,9 @@
 package com.example.readmate.ui.library.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,15 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.firebase.User
+import com.example.readmate.data.model.local.BookState
 import com.example.readmate.databinding.FragmentFirebaseBookDetailsBinding
 import com.example.readmate.ui.base.BaseFragment
+import com.example.readmate.ui.dialog.addNewBookReview
 import com.example.readmate.ui.library.adapter.BookReviewsAdapter
 import com.example.readmate.ui.library.adapter.CategoriesAdapter
 import com.example.readmate.ui.library.adapter.RecommendedBooksAdapter
 import com.example.readmate.ui.library.viewmodel.FirebaseBookDetailViewModel
+import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
 import com.example.readmate.util.AppState
-import com.example.readmate.util.gone
+import com.example.readmate.util.convertToMyBook
 import com.example.readmate.util.show
+import com.example.readmate.util.toReviewedUser
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,11 +34,23 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBinding>() {
     private val args by navArgs<FirebaseBookDetailsFragmentArgs>()
+    private val settingsViewModel by viewModel<SettingsViewModel>()
+    private val viewModel by viewModel<FirebaseBookDetailViewModel>()
+
     private val categoriesAdapter by lazy { CategoriesAdapter() }
     private val reviewsAdapter by lazy { BookReviewsAdapter(binding.tvNoBookReviews) }
     private val similarBooksAdapter by lazy { RecommendedBooksAdapter(binding.tvNoSimilarBooks) }
-    private val viewModel by viewModel<FirebaseBookDetailViewModel>()
+
     private lateinit var book: Book
+    private lateinit var bookState: BookState
+    private lateinit var currentUser: User
+
+    companion object {
+        const val ADD_TO_BOOKCASE_TEXT = "Add to Bookcase"
+        const val REMOVE_FROM_BOOKCASE_TEXT = "Remove from Bookcase"
+        const val BUY_NOW_TEXT = "Buy Now"
+        const val READ_BOOK_TEXT = "Read Book"
+    }
 
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentFirebaseBookDetailsBinding =
         FragmentFirebaseBookDetailsBinding.inflate(layoutInflater)
@@ -39,44 +58,69 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         book = args.book
+        bookState =
+            BookState.fromString(arguments?.getString("bookState") ?: "other") ?: BookState.OTHER
     }
 
     override fun onStart() {
         super.onStart()
-        book.bookId?.let { viewModel.checkIfBookIsBookcase(it) }
-        book.bookId?.let { viewModel.checkIfBookIsMyBooks(it) }
+        book.bookId?.let { bookId ->
+            viewModel.checkIfBookIsBookcase(bookId)
+            viewModel.checkIfBookIsMyBooks(bookId)
+            viewModel.fetchBookReviews(bookId)
+        }
         book.averageRating?.let { viewModel.fetchSimilarBooks(it) }
-        book.bookId?.let { viewModel.fetchBookReviews(it) }
     }
 
     override fun onViewReady() {
+        observeUserProfile()
         setupRecyclers()
-        handleActions()
+        setupActions()
         observeViewModel()
     }
 
-    private fun handleActions() {
-        binding.btnAddToBookcase.setOnClickListener { toggleBookcaseState(book) }
-        binding.addNewBookReview.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_firebaseBookDetailsFragment_to_addBookReviewFragment, Bundle().apply {
-                    putString("book_id", book.bookId)
-                }
-            )
-        }
+    private fun setupActions() {
+        binding.btnAddToBookcase.setOnClickListener { toggleBookcaseState() }
+        binding.btnBuyNow.setOnClickListener { navigateToPayment() }
+        binding.addNewBookReview.setOnClickListener { initiateBookReview() }
+
+        similarBooksAdapter.onClick = { book -> navigateToBookDetails(book) }
         navigateBack(binding.navigateBack)
     }
 
-    private fun toggleBookcaseState(book: Book) {
-        when (viewModel.isInBookcase.value) {
-            true -> {
-                binding.btnAddToBookcase.text = "Remove from Bookcase"
-                book.bookId?.let { viewModel.removeFromBookcase(it) }
-            }
+    private fun toggleBookcaseState() {
+        viewModel.isInBookcase.value.let { isInBookcase ->
+            binding.btnAddToBookcase.text =
+                if (isInBookcase) REMOVE_FROM_BOOKCASE_TEXT else ADD_TO_BOOKCASE_TEXT
+            if (isInBookcase) book.bookId?.let { viewModel.removeFromBookcase(it) } else viewModel.addToBookcase(
+                book
+            )
+        }
+    }
 
-            false -> {
-                binding.btnAddToBookcase.text = "Add to Bookcase"
-                viewModel.addToBookcase(book)
+    private fun navigateToPayment() {
+        val myBook = book.convertToMyBook(bookState)
+        findNavController().navigate(
+            R.id.action_firebaseBookDetailsFragment_to_paymentMethodFragment,
+            Bundle().apply { putParcelable("myBook", myBook) }
+        )
+    }
+
+    private fun navigateToBookDetails(book: Book) {
+        findNavController().navigate(
+            R.id.action_firebaseBookDetailsFragment_self,
+            Bundle().apply {
+                putParcelable("book", book)
+                putString("bookState", BookState.OTHER.name)
+            }
+        )
+    }
+
+    private fun initiateBookReview() {
+        addNewBookReview(currentUser.toReviewedUser()) { review ->
+            book.bookId?.let { bookId ->
+                viewModel.addNewBookReview(bookId, review)
+                viewModel.fetchBookReviews(bookId)
             }
         }
     }
@@ -84,8 +128,8 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { collectBookcaseState(viewModel.addBookToBookcase) }
-                launch { collectBookcaseState(viewModel.removeBookFromBookcase) }
+                launch { collectState(viewModel.addBookToBookcase) }
+                launch { collectState(viewModel.removeBookFromBookcase) }
                 launch { observeBookcaseState() }
                 launch { observeMyBooksState() }
                 launch { observeSimilarBooks() }
@@ -95,79 +139,66 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
     }
 
     private suspend fun observeBookReviews() {
-        viewModel.allBookReviews.collect {
-            when (it) {
-                is AppState.Loading -> viewVisibility(binding.firebaseBookDetailsProgressBar, true)
-                is AppState.Success -> {
-                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    val sortedReviews = it.data!!.sortedByDescending { review -> review.timestamp }
-                    reviewsAdapter.submitList(sortedReviews)
-                }
-
-                is AppState.Error -> {
-                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    showMessage(it.message)
-                }
-
-                else -> Unit
+        viewModel.allBookReviews.collect { state ->
+            viewVisibility(binding.firebaseBookDetailsProgressBar, state is AppState.Loading)
+            when (state) {
+                is AppState.Success -> reviewsAdapter.submitList(state.data!!.sortedByDescending { it.timestamp })
+                is AppState.Error -> showMessage(state.message)
+                else -> {}
             }
         }
     }
 
     private suspend fun observeBookcaseState() {
-        viewModel.isInBookcase.collectLatest {
-            binding.btnAddToBookcase.text = if (it) "Remove from Bookcase" else "Add to Bookcase"
+        viewModel.isInBookcase.collectLatest { isInBookcase ->
+            binding.btnAddToBookcase.text =
+                if (isInBookcase) REMOVE_FROM_BOOKCASE_TEXT else ADD_TO_BOOKCASE_TEXT
         }
     }
 
     private suspend fun observeMyBooksState() {
-        viewModel.isInMyBooks.collectLatest {
-            if (it) {
-                binding.btnBuyNow.text = "Read Book"
-                binding.btnAddToBookcase.gone()
-            } else {
-                binding.btnBuyNow.text = "Buy Now"
-                binding.btnAddToBookcase.show()
-            }
+        viewModel.isInMyBooks.collectLatest { isInMyBooks ->
+            binding.btnBuyNow.text = if (isInMyBooks) READ_BOOK_TEXT else BUY_NOW_TEXT
+            binding.btnAddToBookcase.visibility = if (isInMyBooks) View.GONE else View.VISIBLE
         }
     }
 
     private suspend fun observeSimilarBooks() {
-        viewModel.similarBooks.collect {
-            when (it) {
-                is AppState.Loading -> viewVisibility(binding.firebaseBookDetailsProgressBar, true)
+        viewModel.similarBooks.collect { state ->
+            when (state) {
                 is AppState.Success -> {
                     viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    similarBooksAdapter.submitList(it.data!!)
-                    fillBookDetails(book)
+                    similarBooksAdapter.submitList(state.data!!)
+                    fillBookDetails()
                 }
 
                 is AppState.Error -> {
                     viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    showMessage(it.message)
+                    showMessage(state.message)
                 }
 
+                is AppState.Loading -> viewVisibility(binding.firebaseBookDetailsProgressBar, true)
                 else -> Unit
             }
         }
     }
 
-    private suspend fun <T> collectBookcaseState(stateFlow: StateFlow<AppState<T>>) {
-        stateFlow.collectLatest {
-            when (it) {
-                is AppState.Loading -> viewVisibility(binding.firebaseBookDetailsProgressBar, true)
-                is AppState.Success -> {
-                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    showMessage("Operation completed successfully.")
+    private fun observeUserProfile() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                settingsViewModel.userProfileState.collectLatest { state ->
+                    if (state is AppState.Success) currentUser = state.data!!
+                    else if (state is AppState.Error) showMessage(state.message)
                 }
-
-                is AppState.Error -> {
-                    viewVisibility(binding.firebaseBookDetailsProgressBar, false)
-                    showMessage(it.message)
-                }
-
-                else -> Unit
             }
+        }
+    }
+
+    private suspend fun <T> collectState(stateFlow: StateFlow<AppState<T>>) {
+        stateFlow.collectLatest { state ->
+            viewVisibility(binding.firebaseBookDetailsProgressBar, state is AppState.Loading)
+            if (state is AppState.Success) showMessage("Operation completed successfully.")
+            else if (state is AppState.Error) showMessage(state.message)
         }
     }
 
@@ -185,9 +216,11 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
         )
     }
 
-    private fun fillBookDetails(book: Book) {
+    @SuppressLint("SetTextI18n")
+    private fun fillBookDetails() {
         binding.apply {
-            Glide.with(requireView()).load(book.image).error(R.drawable.dummy_book).into(bookImage)
+            Glide.with(this@FirebaseBookDetailsFragment).load(book.image)
+                .error(R.drawable.dummy_book).into(bookImage)
             tvBookTitle.text = book.title
             tvBookAuthors.text = book.author
             tvBookSubtitle.text = book.subTitle
@@ -196,10 +229,17 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
             tvBookTotalReviewers.text = "${book.numberOfReviewers} reviewer/s"
             tvBookPrice.text = book.price.toString()
             tvBookTotalChapters.text = "${book.chapters?.size} chapters"
+            tvDiscountValue.apply {
+                visibility = if (bookState == BookState.OTHER) View.GONE else View.VISIBLE
+                text = "-${bookState.getDiscountValue(bookState.name) * 100}%"
+            }
         }
         book.categories?.let { categoriesAdapter.submitList(it) }
-//        book.reviews?.let { reviewsAdapter.submitList(it) }
+        showButtonsAfterLoading()
+    }
+
+    private fun showButtonsAfterLoading() {
+        binding.btnBuyNow.show()
+        binding.btnAddToBookcase.show()
     }
 }
-
-

@@ -16,13 +16,11 @@ class ApiBookRepositoryImpl(
     private val apiService: BookApiService
 ) : ApiBookRepository, SafeApiRequest() {
 
-    override suspend fun getRecentBooks(): ApiResult<BookResponse> {
-        return apiRequest { apiService.getRecentBooks() }
-    }
+    override suspend fun getRecentBooks(): ApiResult<BookResponse> =
+        apiRequest { apiService.getRecentBooks() }
 
-    override suspend fun searchBooks(query: String): ApiResult<BookResponse> {
-        return apiRequest { apiService.searchBooks(query) }
-    }
+    override suspend fun searchBooks(query: String): ApiResult<BookResponse> =
+        apiRequest { apiService.searchBooks(query) }
 
     override suspend fun getBookDetails(bookId: String): ApiResult<BookDetailsResponse> =
         apiRequest { apiService.getBookById(bookId) }

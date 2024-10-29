@@ -117,18 +117,24 @@
         <action
             android:id="@+id/action_paymentFragment_to_homeFragment"
             app:destination="@id/libraryFragment" />
+        <argument
+            android:name="myBook"
+            app:argType="com.example.readmate.data.model.firebase.MyBook" />
+        <argument
+            android:name="creditCard"
+            app:argType="com.example.readmate.data.model.firebase.CreditCard" />
     </fragment>
     <fragment
         android:id="@+id/paymentMethodFragment"
-        android:name="com.example.readmate.ui.payment.fragments.AddCreditCardFragment"
+        android:name="com.example.readmate.ui.payment.fragments.PaymentMethodsFragment"
         android:label="PaymentMethodFragment"
         tools:layout="@layout/fragment_payment_methods">
         <action
             android:id="@+id/action_paymentMethodFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
-        <action
-            android:id="@+id/action_paymentMethodFragment_to_addPaymentMethodFragment"
-            app:destination="@id/addPaymentMethodFragment" />
+        <argument
+            android:name="myBook"
+            app:argType="com.example.readmate.data.model.firebase.MyBook" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -144,11 +150,6 @@
             android:id="@+id/action_bookcaseFragment_to_firebaseBookDetailsFragment"
             app:destination="@id/firebaseBookDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/addPaymentMethodFragment"
-        android:name="com.example.readmate.ui.payment.fragments.PaymentMethodsFragment"
-        android:label="AddPaymentMethodFragment"
-        tools:layout="@layout/fragment_add_credit_card" />
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.example.readmate.ui.settings.fragments.NotificationsFragment"

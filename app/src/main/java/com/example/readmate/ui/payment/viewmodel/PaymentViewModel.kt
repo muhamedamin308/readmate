@@ -52,11 +52,11 @@ class PaymentViewModel(
     }
 
     private val isValidCreditCard: (CreditCard) -> Boolean = {
-        it.cardNumber.length == 16 &&
+        it.cardNumber?.length == 16 &&
                 it.cardNumber.trim().isNotEmpty() &&
-                it.cardHolderName.trim().isNotEmpty() &&
-                it.expirationDate.trim().isNotEmpty() &&
-                it.cvv.length == 3 &&
+                it.cardHolderName?.trim()!!.isNotEmpty() &&
+                it.expirationDate?.trim()!!.isNotEmpty() &&
+                it.cvv?.length == 3 &&
                 it.cvv.trim().isNotEmpty()
     }
 }

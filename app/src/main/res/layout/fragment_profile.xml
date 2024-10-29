@@ -46,15 +46,17 @@
             android:background="@color/primaryBackground"
             android:paddingBottom="20dp">
 
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/user_profile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/primaryBackground"
+                android:paddingBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1">
+                app:layout_constraintVertical_bias="0.01">
 
                 <!-- Avatar Image -->
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -62,18 +64,35 @@
                     android:layout_width="124dp"
                     android:layout_height="124dp"
                     android:contentDescription="Avatar"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/not_found"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.1" />
 
-                <!-- Edit Icon Overlay -->
-                <ImageView
-                    android:id="@+id/img_edit_profile"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="4dp"
-                    android:contentDescription="Edit icon"
-                    android:src="@drawable/edit_button" />
-            </FrameLayout>
+                <!-- Change Button -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_change_profile_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/button_bg"
+                    android:drawableStart="@drawable/baseline_edit_24"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="@font/nunito_sans_10pt_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:text="Change"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_user_profile" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <EditText
                 android:id="@+id/et_first_name"
@@ -149,7 +168,8 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
             <TextView
                 android:id="@+id/textView9"

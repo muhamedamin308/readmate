@@ -42,6 +42,9 @@
     <color name="errorColor">#FF4C4C</color> <!-- Bright Red -->
     <!-- Usage: For error messages, warnings, or critical alerts. Instantly catches the user's attention when something needs immediate attention. -->
 
+    <color name="discountColor">#D50000</color> <!-- Bright Red -->
+    <!-- Usage: For error messages, warnings, or critical alerts. Instantly catches the user's attention when something needs immediate attention. -->
+
     <color name="successColor">#4CAF50</color> <!-- Green -->
     <!-- Usage: To indicate successful actions, confirmations, or positive statuses. It’s a reassuring color that signals everything is in order. -->
 

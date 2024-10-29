@@ -88,7 +88,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     User("${etFirstName.text} ${etLastName.text}", etEmail.text.toString().trim())
                 viewModel.updateUserProfile(user, userProfileImageUri)
             }
-            imgEditProfile.setOnClickListener { launchImagePicker() }
+            btnChangeProfileImage.setOnClickListener { launchImagePicker() }
             navigateBack(binding.navigateBack)
         }
     }
@@ -117,7 +117,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             etFirstName.visibility = visibility
             etLastName.visibility = visibility
             etEmail.visibility = visibility
-            imgEditProfile.visibility = visibility
+            btnChangeProfileImage.visibility = visibility
             btnSaveChanges.visibility = visibility
         }
     }

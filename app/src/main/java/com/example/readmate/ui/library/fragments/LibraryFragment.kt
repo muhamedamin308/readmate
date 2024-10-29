@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.local.BookState
 import com.example.readmate.databinding.FragmentLibraryBinding
 import com.example.readmate.ui.base.BaseAdapter
 import com.example.readmate.ui.base.BaseFragment
@@ -69,23 +70,28 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
     }
 
     private fun setupAllClickListeners() {
-        val onClickAction: (book: Book) -> Unit = { book ->
+        val onClickAction: (book: Book, state: BookState) -> Unit = { book, state ->
             findNavController().navigate(
                 R.id.action_homeFragment_to_firebaseBookDetailsFragment,
-                Bundle().apply { putParcelable("book", book) }
+                Bundle().apply {
+                    putParcelable("book", book)
+                    putString("bookState", state.name)
+                }
             )
         }
 
-        bestSellersAdapter.onClick = onClickAction
-        newestBooksAdapter.onClick = onClickAction
-        recommendedBooksAdapter.onClick = onClickAction
-        topRatedBooksAdapter.onClick = onClickAction
+        bestSellersAdapter.onClick = { book -> onClickAction(book, BookState.BEST_SELLER) }
+        newestBooksAdapter.onClick = { book -> onClickAction(book, BookState.NEW) }
+        recommendedBooksAdapter.onClick = { book -> onClickAction(book, BookState.RECOMMENDED) }
+        topRatedBooksAdapter.onClick = { book -> onClickAction(book, BookState.HIGH_RATED) }
+
         binding.tvRecommendedSeeAll.setOnClickListener {
             findNavController().navigate(
                 R.id.action_homeFragment_to_showAllFragment
             )
         }
     }
+
 
     private fun observeAllViewModelData() {
         observeState(viewModel.newestBooks, binding.newestBooksProgressBar, newestBooksAdapter)

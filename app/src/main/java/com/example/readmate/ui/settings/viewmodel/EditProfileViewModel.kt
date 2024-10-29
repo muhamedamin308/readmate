@@ -33,9 +33,14 @@ class EditProfileViewModel(
     private fun fetchUserProfile() {
         updateAppState(_profileState, AppState.Loading())
         userRepository.getUserProfile { user, error ->
-            handleResult(_profileState, user, error)
+            if (user?.profileImage != null) {
+                handleResult(_profileState, user, error)
+            } else {
+                handleResult(_profileState, null, error ?: Exception("Profile not found"))
+            }
         }
     }
+
 
     fun updateUserProfile(user: User, imageUri: Uri?) {
         val nameParts = user.name?.split(" ")

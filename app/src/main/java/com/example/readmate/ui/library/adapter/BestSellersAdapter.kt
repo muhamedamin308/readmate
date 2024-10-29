@@ -41,7 +41,7 @@ class BestSellersAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
         binding.apply {
             Glide.with(holder.itemView)
                 .load(item.image)
-                .error(R.drawable.not_found)
+                .error(R.drawable.dummy_book)
                 .into(imgBookImage)
             tvBookReviewersNumber.text = item.numberOfReviewers.toString()
             tvBookAuthor.text = if (item.author!!.length >= 24) {

@@ -40,7 +40,7 @@ class NewestBooksAdapter : BaseAdapter<Book>(DIFF_CALLBACK) {
         binding.apply {
             Glide.with(holder.itemView)
                 .load(item.image)
-                .error(R.drawable.not_found)
+                .error(R.drawable.dummy_book)
                 .into(imgBookImage)
 
             val truncatedOverview = if (item.overview!!.length > 60) {

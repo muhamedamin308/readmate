@@ -77,8 +77,30 @@ class FirebaseAuthService(
     fun firebaseAuthWithGoogle(idToken: String, onAction: (User?, Exception?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener { task -> handleFirebaseActions(task, onAction) }
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = auth.currentUser
+                    firebaseUser?.let { user ->
+                        userCollectionPath.document(user.uid).get()
+                            .addOnSuccessListener { document ->
+                                if (document.exists()) {
+                                    val customUser = document.toObject(User::class.java)
+                                    onAction(customUser, null) // Use Firestore data
+                                } else {
+                                    val newUser = user.toUser()
+                                    saveUserData(user.uid, newUser, onAction)
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                onAction(null, exception)
+                            }
+                    } ?: onAction(null, Exception("User is null"))
+                } else {
+                    onAction(null, task.exception)
+                }
+            }
     }
+
 
     private fun saveUserData(
         userId: String,

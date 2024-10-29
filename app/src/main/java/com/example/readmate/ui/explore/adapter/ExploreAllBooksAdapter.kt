@@ -61,7 +61,7 @@ class ExploreAllBooksAdapter(
         binding.apply {
             Glide.with(holder.itemView)
                 .load(item.image)
-                .error(R.drawable.not_found)
+                .error(R.drawable.dummy_book)
                 .into(imgBookImage)
             tvBookTitle.text = item.title
             tvBookAuthor.text = item.subtitle.ifEmpty { "No Subtitle" }

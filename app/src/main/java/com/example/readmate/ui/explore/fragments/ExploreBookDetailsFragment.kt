@@ -115,7 +115,7 @@ class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBindin
 
     @SuppressLint("SetTextI18n")
     private fun bindBookDetails(data: BookDetailsResponse) = binding.apply {
-        Glide.with(requireView()).load(data.image).error(R.drawable.not_found).into(bookImage)
+        Glide.with(requireView()).load(data.image).error(R.drawable.dummy_book).into(bookImage)
         tvBookTitle.text = data.title
         tvBookAuthors.text = data.authors
         if (data.subtitle.isEmpty()) {

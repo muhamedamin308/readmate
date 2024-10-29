@@ -44,6 +44,8 @@ abstract class BaseAdapter<T>(
         return !isEmpty
     }
 
+    fun getItem(position: Int): T = differ.currentList[position]
+
 
     override fun getItemCount(): Int = differ.currentList.size
 

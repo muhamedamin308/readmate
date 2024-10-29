@@ -55,9 +55,10 @@
                 android:background="@color/primaryBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.04">
+                app:layout_constraintVertical_bias="0.02">
 
                 <View
                     android:id="@+id/view_book_background"
@@ -80,6 +81,23 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_discount_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/input_cards_bg"
+                    android:backgroundTint="@color/discountColor"
+                    android:fontFamily="@font/nunito_sans_10pt_bold"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="3dp"
+                    android:text="-10.0%"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,7 +164,8 @@
                     android:paddingVertical="8dp"
                     android:textAllCaps="false"
                     android:textColor="@color/primaryFont"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_buy_now"
@@ -160,7 +179,8 @@
                     android:text="Buy Now"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 

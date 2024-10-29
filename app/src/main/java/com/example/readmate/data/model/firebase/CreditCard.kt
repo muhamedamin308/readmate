@@ -10,8 +10,8 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class CreditCard(
-    val cardNumber: String,
-    val expirationDate: String,
-    val cvv: String,
-    val cardHolderName: String
+    val cardNumber: String? = null,
+    val expirationDate: String? = null,
+    val cvv: String? = null,
+    val cardHolderName: String? = null
 ) : Parcelable

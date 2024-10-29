@@ -56,17 +56,6 @@ class AddBookReviewFragment : BaseFragment<FragmentAddNewReviewBinding>() {
     private fun observeUserProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                settingsViewModel.userProfileState.collectLatest {
-                    when (it) {
-                        is AppState.Error -> showMessage(it.message)
-
-                        is AppState.Success -> {
-                            currentUser = it.data!!
-                        }
-
-                        else -> Unit
-                    }
-                }
             }
         }
     }
