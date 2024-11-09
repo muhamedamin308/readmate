@@ -1,5 +1,9 @@
 # **ReadMate App**
 
+## Overview
+
+**ReadMate** is an app designed for reading e-books and exploring downloadable books from APIs. It allows users to browse, purchase, and read e-books while providing a seamless experience with Firebase for user authentication, data storage, notifications, and more. The app also includes an admin module for managing book collections.
+
 ## Preview
 ![Preview1](MergedImages(1).png)
 ![Preview2](MergedImages(2).png)
@@ -7,10 +11,6 @@
 ![Preview3](MergedImages(4).png)
 ![Preview3](MergedImages(5).png)
 
-
-## Overview
-
-**ReadMate** is an app designed for reading e-books and exploring downloadable books from APIs. It allows users to browse, purchase, and read e-books while providing a seamless experience with Firebase for user authentication, data storage, notifications, and more. The app also includes an admin module for managing book collections.
 
 ## Features
 
@@ -72,10 +72,10 @@ The application utilizes the [dBooks API](https://www.dbooks.org/api/) to fetch 
 
 This API is used to:
 - Retrieve book details.
-- Retrieve recent books and provide download link for each book.
+- Retrieve recent books and provide a download link for each book.
 - Search for any book you want and you are looking for.
 
-For more information on how to interact with the API, refer to the official documentation at [dBooks official website](https://www.dbooks.org/).
+For more information on how to interact with the API, refer to the official website at [dbooks official website](https://www.dbooks.org/).
 
 
 ### Remote Database:
@@ -99,7 +99,7 @@ For more information on how to interact with the API, refer to the official docu
 
 1. Clone the repository.
 2. Add your **Firebase project credentials** in the app.
-3. Set up necessary dependencies (Koin, Retrofit, Room, etc.).
+3. Set up necessary dependencies (Koin, Retrofit, etc.).
 4. Build and run the app on an Android device or emulator.
 
 ## How to Use
@@ -111,4 +111,4 @@ For more information on how to interact with the API, refer to the official docu
 
 ## Future Enhancements
 
-- **Dark Mode**: Provide an alternate theme for users who prefer darker colors.
+- **Dark Mode**: Provide an alternate theme for users who prefer darker colours.
