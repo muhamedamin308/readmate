@@ -2,6 +2,7 @@ package com.example.readmate.data.repo.remote.firebase.user
 
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.firebase.Notification
 import com.google.firebase.firestore.DocumentSnapshot
 
@@ -49,12 +50,12 @@ interface UserServicesRepository {
     )
 
     fun buyNewBook(
-        book: Book,
-        onAction: (Book?, Exception?) -> Unit
+        book: MyBook,
+        onAction: (MyBook?, Exception?) -> Unit
     )
 
     fun getMyBooks(
-        onAction: (List<Book>?, Exception?) -> Unit
+        onAction: (List<MyBook>?, Exception?) -> Unit
     )
 
     fun isInBookcase(bookId: String, onAction: (Boolean) -> Unit)

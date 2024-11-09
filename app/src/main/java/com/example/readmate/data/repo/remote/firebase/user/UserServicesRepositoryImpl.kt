@@ -2,6 +2,7 @@ package com.example.readmate.data.repo.remote.firebase.user
 
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.data.service.remote.firebase.FirebaseUserService
 import com.example.readmate.data.service.remote.firebase.FirestorePaymentService
@@ -26,7 +27,7 @@ class UserServicesRepositoryImpl(
     }
 
     override fun addCreditCard(creditCard: CreditCard) {
-        paymentService.addPaymentMethod(creditCard)
+        paymentService.addCreditCard(creditCard)
     }
 
     override fun getAllCreditCards(onAction: (List<CreditCard>?, Exception?) -> Unit) {
@@ -36,7 +37,7 @@ class UserServicesRepositoryImpl(
     override fun deleteCreditCard(
         creditCard: CreditCard
     ) {
-        paymentService.removePaymentMethod(creditCard)
+        paymentService.removeCreditCard(creditCard)
     }
 
     override fun checkForUniqueCreditCardNumber(cardNumber: String, onAction: (Boolean) -> Unit) {
@@ -59,11 +60,11 @@ class UserServicesRepositoryImpl(
         userService.fetchBookcase(onAction)
     }
 
-    override fun buyNewBook(book: Book, onAction: (Book?, Exception?) -> Unit) {
+    override fun buyNewBook(book: MyBook, onAction: (MyBook?, Exception?) -> Unit) {
         paymentService.buyBook(book, onAction)
     }
 
-    override fun getMyBooks(onAction: (List<Book>?, Exception?) -> Unit) {
+    override fun getMyBooks(onAction: (List<MyBook>?, Exception?) -> Unit) {
         userService.fetchBoughtBooks(onAction)
     }
 

@@ -21,6 +21,7 @@ class CustomAlertDialog(
     private val title: String,
     private val message: String,
     private val positiveTitle: String,
+    private val positiveButtonColor: Int? = null, // Add color parameter
     private val onPositiveAction: (() -> Unit)? = null,
     private val onNegativeAction: (() -> Unit)? = null
 ) : Dialog(context) {
@@ -33,7 +34,7 @@ class CustomAlertDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val view =
-            LayoutInflater.from(context).inflate(R.layout.layou_dialog_custom_alert_dialog, null)
+            LayoutInflater.from(context).inflate(R.layout.layout_dialog_custom_alert_dialog, null)
         setContentView(view)
         setCancelable(false)
 
@@ -45,6 +46,10 @@ class CustomAlertDialog(
         tvTitle.text = title
         tvBody.text = message
         btnPositive.text = positiveTitle
+
+        positiveButtonColor?.let {
+            btnPositive.setBackgroundColor(it)
+        }
 
         btnPositive.setOnClickListener {
             onPositiveAction?.invoke()
@@ -63,6 +68,7 @@ fun Fragment.customAlertDialog(
     title: String,
     message: String,
     positiveTitle: String,
+    positiveButtonColor: Int? = R.color.discountColor,
     onPositiveAction: (() -> Unit)? = null,
     onNegativeAction: (() -> Unit)? = null
 ) {
@@ -71,8 +77,10 @@ fun Fragment.customAlertDialog(
         title,
         message,
         positiveTitle,
+        positiveButtonColor,
         onPositiveAction,
         onNegativeAction
     )
     dialog.show()
 }
+

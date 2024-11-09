@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_settingsFragment2_to_helpAndSupportFragment"
             app:destination="@id/helpAndSupportFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_fragmentViewPaymentMethods"
+            app:destination="@id/fragmentViewPaymentMethods" />
     </fragment>
     <fragment
         android:id="@+id/firebaseBookDetailsFragment"
@@ -105,7 +108,11 @@
         android:id="@+id/bookReadingFragment"
         android:name="com.example.readmate.ui.mybook.fragments.BookReadingFragment"
         android:label="BookReadingFragment"
-        tools:layout="@layout/fragment_reading" />
+        tools:layout="@layout/fragment_reading">
+        <argument
+            android:name="mybook"
+            app:argType="com.example.readmate.data.model.firebase.MyBook" />
+    </fragment>
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.readmate.ui.payment.fragments.PaymentFragment"
@@ -180,4 +187,9 @@
             android:id="@+id/action_exploreShowAllFragment_to_exploreBookDetailsFragment"
             app:destination="@id/exploreBookDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentViewPaymentMethods"
+        android:name="com.example.readmate.ui.settings.fragments.FragmentViewPaymentMethods"
+        android:label="FragmentViewPaymentMethods"
+        tools:layout="@layout/fragment_view_payment_methods" />
 </navigation>

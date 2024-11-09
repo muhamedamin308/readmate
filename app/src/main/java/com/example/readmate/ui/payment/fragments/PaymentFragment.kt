@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.readmate.R
@@ -13,8 +14,11 @@ import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.local.DiscountState
 import com.example.readmate.databinding.FragmentPaymentBinding
 import com.example.readmate.ui.base.BaseFragment
+import com.example.readmate.ui.dialog.customAlertDialog
+import com.example.readmate.ui.mybook.viewmodel.MyBookViewModel
 import com.example.readmate.ui.payment.viewmodel.PaymentViewModel
 import com.example.readmate.util.AppState
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -29,6 +33,11 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
     private lateinit var book: MyBook
     private lateinit var creditCard: CreditCard
     private val viewModel by viewModel<PaymentViewModel>()
+    private val myBookViewModel by viewModel<MyBookViewModel>()
+
+    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentPaymentBinding =
+        FragmentPaymentBinding.inflate(layoutInflater)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +45,6 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
         creditCard = navArgs.creditCard
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewReady() {
         super.onViewReady()
         fillBillDetails()
@@ -47,41 +55,75 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
             if (enteredCode.isNotEmpty()) {
                 viewModel.applyPromoCode(enteredCode)
                 observeDiscountState()
-            } else
+            } else {
                 showMessage("Please enter code!!")
+            }
+        }
+
+        binding.btnPay.setOnClickListener {
+            customAlertDialog(
+                title = "Buy this book?",
+                message = "Are you sure you want to buy this book?",
+                positiveTitle = "Buy Now!",
+                positiveButtonColor = R.color.accentColor1,
+                onPositiveAction = {
+                    viewModel.buyBook(book)
+                    observeBuyBook()
+                }
+            )
         }
     }
 
-    private fun observeDiscountState() {
+    private fun <T> observeState(
+        stateFlow: StateFlow<AppState<T>>,
+        onLoading: () -> Unit,
+        onError: (String) -> Unit,
+        onSuccess: (AppState.Success<T>) -> Unit
+    ) {
         lifecycleScope.launchWhenStarted {
-            viewModel.discountPercentage.collect {
-                when (it) {
-                    is AppState.Error -> {
-                        binding.promoCodeMessage.apply {
-                            text = it.message
-                            setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.errorColor
-                                )
-                            )
-                        }
-                        viewVisibility(binding.paymentProgressBar, false)
-                    }
-
-                    is AppState.Ideal -> Unit
-                    is AppState.Loading -> viewVisibility(binding.paymentProgressBar, true)
-                    is AppState.Success -> {
-                        val discountResult = it.data
-                        viewVisibility(binding.paymentProgressBar, false)
-                        binding.etPromoCode.isEnabled = false
-                        binding.btnApplyCode.isEnabled = false
-                        applyDiscountToTotal(discountResult!!)
-                        binding.promoCodeMessage.text = discountResult.message
-                    }
+            stateFlow.collect { state ->
+                when (state) {
+                    is AppState.Loading -> onLoading()
+                    is AppState.Error -> onError(state.message!!)
+                    is AppState.Success -> onSuccess(state)
+                    else -> Unit
                 }
             }
         }
+    }
+
+    private fun observeBuyBook() {
+        observeState(
+            stateFlow = viewModel.buyNewBook,
+            onLoading = { viewVisibility(binding.paymentProgressBar, true) },
+            onError = { showMessage(it) },
+            onSuccess = {
+                viewVisibility(binding.paymentProgressBar, false)
+                showMessage("Book purchased successfully!")
+                findNavController().popBackStack(R.id.libraryFragment, false)
+            }
+        )
+    }
+
+    private fun observeDiscountState() {
+        observeState(
+            stateFlow = viewModel.discountPercentage,
+            onLoading = { viewVisibility(binding.paymentProgressBar, true) },
+            onError = {
+                binding.promoCodeMessage.apply {
+                    text = it
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                }
+                viewVisibility(binding.paymentProgressBar, false)
+            },
+            onSuccess = { discountState ->
+                viewVisibility(binding.paymentProgressBar, false)
+                binding.etPromoCode.isEnabled = false
+                binding.btnApplyCode.isEnabled = false
+                applyDiscountToTotal(discountState.data!!)
+                binding.promoCodeMessage.text = discountState.message
+            }
+        )
     }
 
     @SuppressLint("SetTextI18n")
@@ -91,6 +133,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
                 .load(book.image)
                 .error(R.drawable.dummy_book)
                 .into(imgBookImage)
+
             tvBookTitle.text = book.title
             tvBookAuthors.text = book.author
             tvCardTitle.text = creditCard.cardHolderName
@@ -98,6 +141,7 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
             val currentDateTime = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
             tvPaymentDate.text = currentDateTime.format(formatter)
+
             val bookPrice = book.price!!
             tvBookPrice.text = "$${bookPrice}"
             book.bookState?.let {
@@ -108,10 +152,6 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
             }
         }
     }
-
-    override fun inflateBinding(layoutInflater: LayoutInflater): FragmentPaymentBinding =
-        FragmentPaymentBinding.inflate(layoutInflater)
-
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun applyDiscountToTotal(discountPercentage: DiscountState) {
@@ -137,5 +177,4 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
             )
         }
     }
-
 }

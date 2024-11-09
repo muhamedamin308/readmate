@@ -93,6 +93,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             btnHelpAndSupport.setOnClickListener {
                 findNavController().navigate(R.id.action_settingsFragment2_to_helpAndSupportFragment)
             }
+            btnPaymentMethods.setOnClickListener {
+                findNavController().navigate(R.id.action_settingsFragment_to_fragmentViewPaymentMethods)
+            }
             btnDarkTheme.setOnClickListener {
                 showMessage("Not supported yet!")
             }

@@ -2,6 +2,7 @@ package com.example.readmate.data.service.remote.firebase
 
 import android.net.Uri
 import com.example.readmate.data.model.firebase.Book
+import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.firebase.Notification
 import com.example.readmate.data.model.firebase.User
 import com.example.readmate.util.Constants.CollectionPaths
@@ -169,20 +170,27 @@ class FirebaseUserService(
     }
 
     fun fetchBoughtBooks(
-        onAction: (List<Book>?, Exception?) -> Unit
+        onAction: (List<MyBook>?, Exception?) -> Unit
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
             userCollectionPath.document(id)
                 .collection(CollectionPaths.USER_MY_BOOKS)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    val books = querySnapshot.documents.mapNotNull { document ->
-                        document.toObject(Book::class.java)
+                .addSnapshotListener { querySnapshot, exception ->
+                    if (exception != null) {
+                        onAction(null, exception)
+                        return@addSnapshotListener
                     }
-                    onAction(books, null)
+
+                    querySnapshot?.documents?.let {
+                        val books = it.mapNotNull { document ->
+                            document.toObject(MyBook::class.java)
+                        }
+                        onAction(books, null)
+                    }
                 }
-                .addOnFailureListener { onAction(null, it) }
+        } ?: run {
+            onAction(null, Exception("User not logged in!"))
         }
     }
 

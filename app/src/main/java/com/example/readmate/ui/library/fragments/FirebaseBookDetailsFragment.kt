@@ -25,6 +25,7 @@ import com.example.readmate.ui.library.viewmodel.FirebaseBookDetailViewModel
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.convertToMyBook
+import com.example.readmate.util.gone
 import com.example.readmate.util.hideBottomNavigation
 import com.example.readmate.util.show
 import com.example.readmate.util.toReviewedUser
@@ -66,8 +67,8 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
     override fun onStart() {
         super.onStart()
         book.bookId?.let { bookId ->
-            viewModel.checkIfBookIsBookcase(bookId)
             viewModel.checkIfBookIsMyBooks(bookId)
+            viewModel.checkIfBookIsBookcase(bookId)
             viewModel.fetchBookReviews(bookId)
         }
         book.averageRating?.let { viewModel.fetchSimilarBooks(it) }
@@ -83,7 +84,7 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
 
     private fun setupActions() {
         binding.btnAddToBookcase.setOnClickListener { toggleBookcaseState() }
-        binding.btnBuyNow.setOnClickListener { navigateToPayment() }
+        binding.btnBuyNow.setOnClickListener { toggleMyBookState() }
         binding.addNewBookReview.setOnClickListener { initiateBookReview() }
 
         similarBooksAdapter.onClick = { book -> navigateToBookDetails(book) }
@@ -96,6 +97,22 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
                 if (isInBookcase) REMOVE_FROM_BOOKCASE_TEXT else ADD_TO_BOOKCASE_TEXT
             if (isInBookcase) book.bookId?.let { viewModel.removeFromBookcase(it) }
             else viewModel.addToBookcase(book)
+        }
+    }
+
+    private fun toggleMyBookState() {
+        viewModel.isInMyBooks.value.let { isInMyBooks ->
+            if (isInMyBooks) {
+                book.convertToMyBook(bookState).let {
+                    findNavController().navigate(
+                        R.id.action_firebaseBookDetailsFragment_to_bookReadingFragment,
+                        Bundle().apply {
+                            putParcelable("mybook", it)
+                        })
+                }
+            } else {
+                navigateToPayment()
+            }
         }
     }
 
@@ -154,8 +171,13 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
 
     private suspend fun observeMyBooksState() {
         viewModel.isInMyBooks.collectLatest { isInMyBooks ->
-            binding.btnBuyNow.text = if (isInMyBooks) READ_BOOK_TEXT else BUY_NOW_TEXT
-            binding.btnAddToBookcase.visibility = if (isInMyBooks) View.GONE else View.VISIBLE
+            binding.btnBuyNow.text = if (isInMyBooks) {
+                binding.btnAddToBookcase.gone()
+                READ_BOOK_TEXT
+            } else {
+                binding.btnAddToBookcase.show()
+                BUY_NOW_TEXT
+            }
         }
     }
 

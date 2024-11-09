@@ -2,6 +2,7 @@ package com.example.readmate.ui.payment.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.local.DiscountState
 import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
 import com.example.readmate.ui.base.BaseViewModel
@@ -21,6 +22,9 @@ class PaymentViewModel(
 
     private val _allCreditCards = MutableStateFlow<AppState<List<CreditCard>>>(AppState.Ideal())
     val allCreditCards = _allCreditCards.asStateFlow()
+
+    private val _buyNewBook = MutableStateFlow<AppState<MyBook>>(AppState.Ideal())
+    val buyNewBook = _buyNewBook.asStateFlow()
 
     private val _discountPercentage = MutableStateFlow<AppState<DiscountState>>(AppState.Ideal())
     val discountPercentage = _discountPercentage.asStateFlow()
@@ -64,6 +68,13 @@ class PaymentViewModel(
                     }
                 }
             }
+        }
+    }
+
+    fun buyBook(book: MyBook) {
+        updateAppState(_buyNewBook, AppState.Loading())
+        userServicesRepository.buyNewBook(book) { newBook, error ->
+            handleResult(_buyNewBook, newBook, error)
         }
     }
 

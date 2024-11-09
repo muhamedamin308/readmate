@@ -6,20 +6,44 @@
     android:layout_height="match_parent"
     android:background="@color/primaryBackground">
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/navigate_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:fontFamily="@font/nunito_sans_10pt_bold"
-        android:text="My Book"
-        android:textColor="@color/primaryFont"
-        android:textSize="24sp"
+        android:padding="8dp"
+        android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/nunito_sans_10pt_bold"
+        android:text="Your all CreditCard"
+        android:textColor="@color/primaryFont"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/navigate_back"
+        app:layout_constraintEnd_toStartOf="@+id/add_payment"
+        app:layout_constraintStart_toEndOf="@+id/navigate_back"
+        app:layout_constraintTop_toTopOf="@+id/navigate_back" />
+
+
+    <ImageView
+        android:id="@+id/add_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:src="@drawable/baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_my_books"
+        android:id="@+id/recycler_payment_methods"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="10dp"
@@ -29,20 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_layout_my_books" />
-
-    <ProgressBar
-        android:id="@+id/my_books_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/primaryFont"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:listitem="@layout/item_layout_payment_method" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_empty_list"
@@ -78,6 +89,18 @@
             app:layout_constraintTop_toBottomOf="@id/img_empty_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/payment_method_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primaryFont"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.example.readmate.data.service.remote.firebase
 
-import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.util.Constants.CollectionPaths
 import com.example.readmate.util.availablePromoCodes
 import com.google.firebase.auth.FirebaseAuth
@@ -21,8 +21,8 @@ class FirestorePaymentService(
     private val userCollectionPath = store.collection(CollectionPaths.USERS)
 
     fun buyBook(
-        book: Book,
-        onAction: (Book?, Exception?) -> Unit
+        book: MyBook,
+        onAction: (MyBook?, Exception?) -> Unit
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
@@ -37,7 +37,7 @@ class FirestorePaymentService(
         }
     }
 
-    fun addPaymentMethod(
+    fun addCreditCard(
         creditCard: CreditCard,
     ) {
         val userId = auth.currentUser?.uid
@@ -74,7 +74,7 @@ class FirestorePaymentService(
         }
     }
 
-    fun removePaymentMethod(
+    fun removeCreditCard(
         creditCard: CreditCard
     ) {
         val userId = auth.currentUser?.uid
