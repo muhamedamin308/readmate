@@ -8,6 +8,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.readmate.R
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.ui.payment.viewmodel.PaymentViewModel
 import com.example.readmate.util.showMessage
 import com.google.android.material.textfield.TextInputEditText
 
@@ -19,7 +20,9 @@ import com.google.android.material.textfield.TextInputEditText
 
 class CreditCardDialog(
     context: Context,
-    private val onAddClick: (CreditCard) -> Unit
+    private val onAddClick: (CreditCard) -> Unit,
+    private val checkForUniqueCardNumber: (String, (Boolean) -> Unit) -> Unit,
+    private val checkForCardValidation: (CreditCard) -> Boolean
 ) : Dialog(context) {
 
     private lateinit var cardNumberInput: TextInputEditText
@@ -56,8 +59,19 @@ class CreditCardDialog(
                 expirationDate = expiryDate,
                 cvv = cvv
             )
-            onAddClick(creditCard)
-            dismiss()
+
+            if (checkForCardValidation(creditCard)) {
+                checkForUniqueCardNumber(cardNumber) { exists ->
+                    if (exists) {
+                        context.showMessage("This card number is already in use.")
+                    } else {
+                        onAddClick(creditCard)
+                        dismiss()
+                    }
+                }
+            } else {
+                context.showMessage("Please enter valid card details!")
+            }
         }
 
         view.findViewById<View>(R.id.btn_cancel).setOnClickListener {
@@ -68,8 +82,18 @@ class CreditCardDialog(
 
 
 fun Fragment.addNewCreditCardDialog(
+    viewModel: PaymentViewModel,
     onAddClick: (CreditCard) -> Unit
 ) {
-    val dialog = CreditCardDialog(requireContext(), onAddClick)
+    val dialog = CreditCardDialog(
+        requireContext(),
+        onAddClick,
+        checkForUniqueCardNumber = { cardNumber, callback ->
+            viewModel.checkForUniqueCreditCardNumber(cardNumber, callback)
+        },
+        checkForCardValidation = { creditCard ->
+            viewModel.isValidCreditCard(creditCard)
+        }
+    )
     dialog.show()
 }

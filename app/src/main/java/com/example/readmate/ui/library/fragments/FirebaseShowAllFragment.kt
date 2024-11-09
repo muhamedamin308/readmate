@@ -15,6 +15,7 @@ import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.library.adapter.ShowAllBooksAdapter
 import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.hideBottomNavigation
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -80,5 +81,6 @@ class FirebaseShowAllFragment : BaseFragment<FragmentFirebaseShowAllBinding>() {
     override fun onStart() {
         super.onStart()
         viewModel.fetAllBooks()
+        hideBottomNavigation()
     }
 }

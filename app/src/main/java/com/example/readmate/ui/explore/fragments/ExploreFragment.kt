@@ -18,6 +18,7 @@ import com.example.readmate.ui.explore.adapter.RecentBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.Constants.CLICKED_BOOK
+import com.example.readmate.util.showBottomNavigation
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -132,5 +133,10 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding>() {
 
             else -> Unit
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigation()
     }
 }

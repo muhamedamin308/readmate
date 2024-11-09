@@ -6,6 +6,7 @@ import com.example.readmate.ui.library.viewmodel.FirebaseBookDetailViewModel
 import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.ui.onboarding.viewmodel.OnBoardingViewModel
 import com.example.readmate.ui.payment.viewmodel.PaymentViewModel
+import com.example.readmate.ui.settings.viewmodel.BookcaseViewModel
 import com.example.readmate.ui.settings.viewmodel.EditProfileViewModel
 import com.example.readmate.ui.settings.viewmodel.NotificationsViewModel
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
@@ -33,4 +34,5 @@ val viewModelModule = module {
             bookServicesRepository = get()
         )
     }
+    viewModel { BookcaseViewModel(userServicesRepository = get()) }
 }

@@ -5,7 +5,8 @@
     android:background="@drawable/dialog_background"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:minWidth="300dp">
 
     <TextView
         android:id="@+id/tv_title"
@@ -14,7 +15,7 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/nunito_sans_10pt_bold"
         android:gravity="center"
-        android:text="Add New Credit Card"
+        android:text="Add New Book Review"
         android:textColor="@color/primaryFont"
         android:textSize="20sp"
         android:textStyle="bold" />

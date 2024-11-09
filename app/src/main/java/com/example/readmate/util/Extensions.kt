@@ -3,11 +3,15 @@ package com.example.readmate.util
 import android.content.Context
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.readmate.R
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.MyBook
 import com.example.readmate.data.model.firebase.ReviewedUser
 import com.example.readmate.data.model.firebase.User
 import com.example.readmate.data.model.local.BookState
+import com.example.readmate.ui.main.HomeActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseUser
 
 /**
@@ -35,6 +39,7 @@ fun Book.convertToMyBook(bookState: BookState) = MyBook(
     title = title,
     author = author,
     image = image,
+    price = price,
     chapters = chapters,
     bookState = bookState
 )
@@ -58,4 +63,20 @@ fun View.gone() {
 
 fun View.show() {
     visibility = View.VISIBLE
+}
+
+fun Fragment.hideBottomNavigation() {
+    val navigationView =
+        (activity as HomeActivity).findViewById<BottomNavigationView>(
+            R.id.bottom_nav_view
+        )
+    navigationView.gone()
+}
+
+fun Fragment.showBottomNavigation() {
+    val navigationView =
+        (activity as HomeActivity).findViewById<BottomNavigationView>(
+            R.id.bottom_nav_view
+        )
+    navigationView.show()
 }

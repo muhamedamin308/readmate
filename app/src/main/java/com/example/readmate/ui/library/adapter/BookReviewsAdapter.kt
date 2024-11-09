@@ -70,7 +70,14 @@ class BookReviewsAdapter(
             val currentTime = LocalDateTime.now()
             val duration = Duration.between(notificationTime, currentTime)
             tvReviewDuration.text = when {
-                duration.toHours() > 0 -> "${duration.toHours()}h"
+                duration.toHours() > 0 -> {
+                    val hours = duration.toHours()
+                    if (hours > 100)
+                        "more than 3 days"
+                    else
+                        "${hours}h"
+                }
+
                 duration.toMinutes() > 0 -> "${duration.toMinutes()}m"
                 else -> "Just now"
             }

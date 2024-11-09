@@ -25,6 +25,7 @@ import com.example.readmate.ui.library.viewmodel.FirebaseBookDetailViewModel
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.convertToMyBook
+import com.example.readmate.util.hideBottomNavigation
 import com.example.readmate.util.show
 import com.example.readmate.util.toReviewedUser
 import kotlinx.coroutines.flow.StateFlow
@@ -59,7 +60,7 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
         super.onCreate(savedInstanceState)
         book = args.book
         bookState =
-            BookState.fromString(arguments?.getString("bookState") ?: "other") ?: BookState.OTHER
+            BookState.fromString(arguments?.getString("bookState") ?: "other")
     }
 
     override fun onStart() {
@@ -70,6 +71,7 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
             viewModel.fetchBookReviews(bookId)
         }
         book.averageRating?.let { viewModel.fetchSimilarBooks(it) }
+        hideBottomNavigation()
     }
 
     override fun onViewReady() {
@@ -92,28 +94,22 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
         viewModel.isInBookcase.value.let { isInBookcase ->
             binding.btnAddToBookcase.text =
                 if (isInBookcase) REMOVE_FROM_BOOKCASE_TEXT else ADD_TO_BOOKCASE_TEXT
-            if (isInBookcase) book.bookId?.let { viewModel.removeFromBookcase(it) } else viewModel.addToBookcase(
-                book
-            )
+            if (isInBookcase) book.bookId?.let { viewModel.removeFromBookcase(it) }
+            else viewModel.addToBookcase(book)
         }
     }
 
     private fun navigateToPayment() {
         val myBook = book.convertToMyBook(bookState)
-        findNavController().navigate(
-            R.id.action_firebaseBookDetailsFragment_to_paymentMethodFragment,
-            Bundle().apply { putParcelable("myBook", myBook) }
-        )
+        findNavController().navigate(R.id.action_firebaseBookDetailsFragment_to_paymentMethodFragment,
+            Bundle().apply { putParcelable("myBook", myBook) })
     }
 
     private fun navigateToBookDetails(book: Book) {
-        findNavController().navigate(
-            R.id.action_firebaseBookDetailsFragment_self,
-            Bundle().apply {
-                putParcelable("book", book)
-                putString("bookState", BookState.OTHER.name)
-            }
-        )
+        findNavController().navigate(R.id.action_firebaseBookDetailsFragment_self, Bundle().apply {
+            putParcelable("book", book)
+            putString("bookState", BookState.OTHER.name)
+        })
     }
 
     private fun initiateBookReview() {
@@ -204,15 +200,11 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
 
     private fun setupRecyclers() {
         setupRecyclerView(
-            binding.recyclerBookCategories,
-            categoriesAdapter,
-            LinearLayoutManager.HORIZONTAL
+            binding.recyclerBookCategories, categoriesAdapter, LinearLayoutManager.HORIZONTAL
         )
         setupRecyclerView(binding.recyclerBookReview, reviewsAdapter, LinearLayoutManager.VERTICAL)
         setupRecyclerView(
-            binding.recyclerRelatedBooks,
-            similarBooksAdapter,
-            LinearLayoutManager.HORIZONTAL
+            binding.recyclerRelatedBooks, similarBooksAdapter, LinearLayoutManager.HORIZONTAL
         )
     }
 
@@ -231,7 +223,7 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
             tvBookTotalChapters.text = "${book.chapters?.size} chapters"
             tvDiscountValue.apply {
                 visibility = if (bookState == BookState.OTHER) View.GONE else View.VISIBLE
-                text = "-${bookState.getDiscountValue(bookState.name) * 100}%"
+                text = "-${bookState.discount * 100}%"
             }
         }
         book.categories?.let { categoriesAdapter.submitList(it) }
@@ -242,4 +234,5 @@ class FirebaseBookDetailsFragment : BaseFragment<FragmentFirebaseBookDetailsBind
         binding.btnBuyNow.show()
         binding.btnAddToBookcase.show()
     }
+
 }

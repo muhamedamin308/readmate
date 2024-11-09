@@ -11,6 +11,7 @@ import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.settings.adapter.NotificationsAdapter
 import com.example.readmate.ui.settings.viewmodel.NotificationsViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.hideBottomNavigation
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,5 +55,10 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding>() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

@@ -33,6 +33,7 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
     private val navArgs by navArgs<PaymentMethodsFragmentArgs>()
     private val viewModel by viewModel<PaymentViewModel>()
     private val cardsAdapter by lazy { CreditCardsAdapter(binding.containerEmptyList) }
+
     override fun inflateBinding(layoutInflater: LayoutInflater): FragmentPaymentMethodsBinding =
         FragmentPaymentMethodsBinding.inflate(layoutInflater)
 
@@ -68,11 +69,12 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
 
     private fun setupAddPaymentButton() {
         binding.addPayment.setOnClickListener {
-            addNewCreditCardDialog { creditCard ->
+            addNewCreditCardDialog(viewModel) { creditCard ->
                 viewModel.addCreditCard(creditCard)
             }
         }
     }
+
 
     private fun setupSwipeToDelete() {
         val itemTouchHelperCallback = object :

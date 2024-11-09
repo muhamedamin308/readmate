@@ -20,6 +20,7 @@ import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.AppState
 import com.example.readmate.util.Constants.CLICKED_BOOK
 import com.example.readmate.util.extractSimilarBooksBasedOnName
+import com.example.readmate.util.hideBottomNavigation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.net.URL
 
@@ -139,5 +140,10 @@ class ExploreBookDetailsFragment : BaseFragment<FragmentExploreBookDetailsBindin
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

@@ -16,18 +16,20 @@ interface UserServicesRepository {
     )
 
     fun saveNotification(notification: Notification)
-    fun addCreditCard(
-        creditCard: CreditCard,
-        onAction: (CreditCard?, Exception?) -> Unit,
-    )
+
+    fun addCreditCard(creditCard: CreditCard)
 
     fun getAllCreditCards(
         onAction: (List<CreditCard>?, Exception?) -> Unit,
     )
 
     fun deleteCreditCard(
-        creditCard: CreditCard,
-        onAction: (Boolean, Exception?) -> Unit,
+        creditCard: CreditCard
+    )
+
+    fun checkForUniqueCreditCardNumber(
+        cardNumber: String,
+        onAction: (Boolean) -> Unit
     )
 
     fun addBookToBookcase(
@@ -40,10 +42,7 @@ interface UserServicesRepository {
         bookDocument: List<DocumentSnapshot>
     )
 
-    fun removeBookFromBookcase(
-        bookId: String,
-        onAction: (Exception?) -> Unit
-    )
+    fun removeBookFromBookcase(bookId: String, onAction: () -> Unit)
 
     fun getBookcaseBooks(
         onAction: (List<Book>?, Exception?) -> Unit
@@ -58,6 +57,11 @@ interface UserServicesRepository {
         onAction: (List<Book>?, Exception?) -> Unit
     )
 
-    fun isInBookcase(bookId:String, onAction: (Boolean) -> Unit)
-    fun isInMyBooks(bookId:String, onAction: (Boolean) -> Unit)
+    fun isInBookcase(bookId: String, onAction: (Boolean) -> Unit)
+    fun isInMyBooks(bookId: String, onAction: (Boolean) -> Unit)
+
+    fun applyPromoCode(
+        code: String,
+        onAction: (Float?, Exception?) -> Unit
+    )
 }

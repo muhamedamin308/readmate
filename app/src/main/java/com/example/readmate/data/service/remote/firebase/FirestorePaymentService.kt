@@ -3,6 +3,7 @@ package com.example.readmate.data.service.remote.firebase
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.CreditCard
 import com.example.readmate.util.Constants.CollectionPaths
+import com.example.readmate.util.availablePromoCodes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,7 +39,6 @@ class FirestorePaymentService(
 
     fun addPaymentMethod(
         creditCard: CreditCard,
-        onAction: (CreditCard?, Exception?) -> Unit,
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
@@ -47,9 +47,7 @@ class FirestorePaymentService(
                 .collection(CollectionPaths.USER_CREDIT_CARDS)
                 .document()
                 .set(creditCard)
-                .addOnSuccessListener { onAction(creditCard, null) }
-                .addOnFailureListener { onAction(null, it) }
-        } ?: run { onAction(null, Exception("Not Authenticated User!")) }
+        }
     }
 
     fun getUserCreditCards(
@@ -77,8 +75,7 @@ class FirestorePaymentService(
     }
 
     fun removePaymentMethod(
-        creditCard: CreditCard,
-        onAction: (Boolean, Exception?) -> Unit,
+        creditCard: CreditCard
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
@@ -86,14 +83,62 @@ class FirestorePaymentService(
                 .whereEqualTo("cardNumber", creditCard.cardNumber)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
-                    querySnapshot.documents.firstOrNull()?.let { document ->
-                        document.reference.delete()
-                            .addOnSuccessListener { onAction(true, null) }
-                            .addOnFailureListener { onAction(false, it) }
-                    } ?: run {
-                        onAction(false, Exception("Card not found!"))
+                    querySnapshot.documents.firstOrNull()?.reference?.delete()
+                }
+        }
+    }
+
+    fun checkForUniqueCreditCardNumber(
+        cardNumber: String,
+        onAction: (Boolean) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id).collection(CollectionPaths.USER_CREDIT_CARDS)
+                .whereEqualTo("cardNumber", cardNumber)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val exists = !querySnapshot.isEmpty
+                    onAction(exists)
+                }
+                .addOnFailureListener { onAction(false) }
+        }
+    }
+
+    fun applyPromoCode(
+        code: String,
+        onAction: (Float?, Exception?) -> Unit
+    ) {
+        val userId = auth.currentUser?.uid
+        userId?.let { id ->
+            userCollectionPath.document(id)
+                .collection("promoCodes")
+                .document(code)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists() && document.getBoolean("used") == true) {
+                        onAction(null, Exception("Invalid or already used promo code."))
+                    } else {
+                        val promoCode = availablePromoCodes.find {
+                            it.code.equals(code, ignoreCase = true)
+                        }
+                        promoCode?.let {
+                            userCollectionPath.document(id)
+                                .collection("promoCodes")
+                                .document(code)
+                                .set(mapOf("used" to true))
+                                .addOnSuccessListener {
+                                    onAction(promoCode.discountPercentage, null)
+                                }
+                                .addOnFailureListener {
+                                    onAction(null, it)
+                                }
+                        } ?: onAction(null, Exception("Promo code not found."))
                     }
                 }
-        } ?: run { onAction(false, Exception("Not authenticated User!")) }
+                .addOnFailureListener {
+                    onAction(null, it)
+                }
+        } ?: onAction(null, Exception("User not authenticated."))
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.example.readmate.databinding.FragmentMyBooksBinding
 import com.example.readmate.ui.base.BaseFragment
+import com.example.readmate.util.showBottomNavigation
 
 /**
  * @author Muhamed Amin Hassan on 07,September,2024
@@ -23,5 +24,10 @@ class MyBookFragment : BaseFragment<FragmentMyBooksBinding>() {
             imgEmptyList.visibility = View.VISIBLE
             tvEmptyList.visibility = View.VISIBLE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigation()
     }
 }

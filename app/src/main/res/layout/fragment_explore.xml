@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground">
+    android:background="@color/primaryBackground"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/textView2"
@@ -24,14 +25,14 @@
         android:padding="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2">
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-            android:background="@color/primaryBackground"
-            android:paddingBottom="16dp">
+            android:background="@color/primaryBackground">
 
             <TextView
                 android:id="@+id/et_explore_search"
@@ -54,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.01" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView40"

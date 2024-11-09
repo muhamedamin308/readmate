@@ -48,7 +48,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     }
 
     fun showMessage(message: String?) {
-        requireContext().showMessage("Message: ${message ?: "Unknown Message!"}")
+        requireContext().showMessage(message ?: "Unknown Message!")
     }
 
     fun viewVisibility(progressBar: View, isVisible: Boolean) {

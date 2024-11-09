@@ -13,6 +13,7 @@ import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.onboarding.activities.IntroActivity
 import com.example.readmate.ui.settings.viewmodel.SettingsViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.showBottomNavigation
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -101,5 +102,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     override fun onStart() {
         super.onStart()
         viewModel.fetchUserProfile()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigation()
     }
 }

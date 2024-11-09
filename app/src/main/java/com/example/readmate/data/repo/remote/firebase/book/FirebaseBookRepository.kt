@@ -22,8 +22,7 @@ interface FirebaseBookRepository {
     )
     fun addReview(
         bookId: String,
-        review: Review,
-        onAction: (Boolean) -> Unit
+        review: Review
     )
     fun getBookReviews(
         bookId: String,

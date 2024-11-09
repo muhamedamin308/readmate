@@ -76,26 +76,20 @@ class FirestoreBookService(
 
     fun addBookReview(
         bookId: String,
-        review: Review,
-        onAction: (Boolean) -> Unit = {}
+        review: Review
     ) {
         bookCollectionPath
             .whereEqualTo("bookId", bookId)
             .get()
             .addOnSuccessListener {
-                if (it.documents.isEmpty())
-                    onAction(false)
-                else {
+                if (it.documents.isNotEmpty()) {
                     it.documents.firstOrNull()?.reference?.let { document ->
                         document.collection(CollectionPaths.USER_BOOK_REVIEW)
                             .document()
                             .set(review)
-                            .addOnSuccessListener { onAction(true) }
-                            .addOnFailureListener { onAction(false) }
                     }
                 }
             }
-            .addOnFailureListener { onAction(false) }
     }
 
     fun fetchBookReviews(

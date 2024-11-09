@@ -1,11 +1,14 @@
 package com.example.readmate.ui.payment.viewmodel
 
+import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.CreditCard
+import com.example.readmate.data.model.local.DiscountState
 import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
 import com.example.readmate.ui.base.BaseViewModel
 import com.example.readmate.util.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * @author Muhamed Amin Hassan on 17,September,2024
@@ -16,32 +19,22 @@ class PaymentViewModel(
     private val userServicesRepository: UserServicesRepository
 ) : BaseViewModel() {
 
-    private val _newCreditCard = MutableStateFlow<AppState<CreditCard>>(AppState.Ideal())
-    val newCreditCard = _newCreditCard.asStateFlow()
-
     private val _allCreditCards = MutableStateFlow<AppState<List<CreditCard>>>(AppState.Ideal())
     val allCreditCards = _allCreditCards.asStateFlow()
 
-    private val _removeCreditCard = MutableStateFlow<AppState<Boolean>>(AppState.Ideal())
-    val removeCreditCard = _removeCreditCard.asStateFlow()
-
+    private val _discountPercentage = MutableStateFlow<AppState<DiscountState>>(AppState.Ideal())
+    val discountPercentage = _discountPercentage.asStateFlow()
 
     fun addCreditCard(creditCard: CreditCard) {
-        if (isValidCreditCard(creditCard)) {
-            updateAppState(_newCreditCard, AppState.Loading())
-            userServicesRepository.addCreditCard(creditCard) { newCard, exception ->
-                handleResult(_newCreditCard, newCard, exception)
-            }
-        } else {
-            updateAppState(_newCreditCard, AppState.Error("Invalid credit card details"))
-        }
+        userServicesRepository.addCreditCard(creditCard)
     }
 
     fun removeCreditCard(creditCard: CreditCard) {
-        updateAppState(_removeCreditCard, AppState.Loading())
-        userServicesRepository.deleteCreditCard(creditCard) { isCardRemoved, exception ->
-            handleResult(_removeCreditCard, isCardRemoved, exception)
-        }
+        userServicesRepository.deleteCreditCard(creditCard)
+    }
+
+    fun checkForUniqueCreditCardNumber(cardNumber: String, onResult: (Boolean) -> Unit) {
+        userServicesRepository.checkForUniqueCreditCardNumber(cardNumber, onResult)
     }
 
     fun fetchCreditCards() {
@@ -51,12 +44,34 @@ class PaymentViewModel(
         }
     }
 
-    private val isValidCreditCard: (CreditCard) -> Boolean = {
-        it.cardNumber?.length == 16 &&
-                it.cardNumber.trim().isNotEmpty() &&
-                it.cardHolderName?.trim()!!.isNotEmpty() &&
-                it.expirationDate?.trim()!!.isNotEmpty() &&
-                it.cvv?.length == 3 &&
-                it.cvv.trim().isNotEmpty()
+    fun applyPromoCode(promoCode: String) {
+        viewModelScope.launch { _discountPercentage.emit(AppState.Loading()) }
+        userServicesRepository.applyPromoCode(promoCode) { discount, error ->
+            viewModelScope.launch {
+                if (error != null) {
+                    _discountPercentage.emit(AppState.Error(error.message!!))
+                } else {
+                    discount?.let {
+                        _discountPercentage.emit(
+                            AppState.Success(
+                                DiscountState(
+                                    it,
+                                    "Promo code applied: -${(it * 100).toInt()}%",
+                                    isValid = true
+                                )
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
+
+    fun isValidCreditCard(creditCard: CreditCard): Boolean =
+        creditCard.cardNumber?.length == 16 &&
+                creditCard.cardNumber.trim().isNotEmpty() &&
+                creditCard.cardHolderName?.trim()!!.isNotEmpty() &&
+                creditCard.expirationDate?.trim()!!.isNotEmpty() &&
+                creditCard.cvv?.length == 3 &&
+                creditCard.cvv.trim().isNotEmpty()
 }

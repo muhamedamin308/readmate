@@ -108,7 +108,7 @@ class FirebaseUserService(
 
     fun removeBookFromBookcase(
         bookId: String,
-        onAction: (Exception?) -> Unit
+        onAction: () -> Unit
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
@@ -120,10 +120,10 @@ class FirebaseUserService(
                 .get()
                 .addOnSuccessListener {
                     it.documents.firstOrNull()?.reference?.delete()
-                        ?.addOnSuccessListener { onAction(null) }
-                        ?.addOnFailureListener { exception -> onAction(exception) }
+                        ?.addOnSuccessListener { onAction() }
+                        ?.addOnFailureListener { onAction() }
                 }
-                .addOnFailureListener { onAction(it) }
+                .addOnFailureListener { onAction() }
         }
     }
 
@@ -149,16 +149,22 @@ class FirebaseUserService(
     ) {
         val userId = auth.currentUser?.uid
         userId?.let { id ->
-            userCollectionPath.document(id)
-                .collection(CollectionPaths.USER_BOOKCASE)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    val books = querySnapshot.documents.mapNotNull { document ->
-                        document.toObject(Book::class.java)
+            userCollectionPath.document(id).collection(CollectionPaths.USER_BOOKCASE)
+                .addSnapshotListener { querySnapshot, exception ->
+                    if (exception != null) {
+                        onAction(null, exception)
+                        return@addSnapshotListener
                     }
-                    onAction(books, null)
+
+                    querySnapshot?.documents?.let {
+                        val books = it.mapNotNull { document ->
+                            document.toObject(Book::class.java)
+                        }
+                        onAction(books, null)
+                    }
                 }
-                .addOnFailureListener { onAction(null, it) }
+        } ?: run {
+            onAction(null, Exception("User not logged in!"))
         }
     }
 

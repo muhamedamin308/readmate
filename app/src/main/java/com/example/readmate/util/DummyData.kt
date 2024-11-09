@@ -1,6 +1,7 @@
 package com.example.readmate.util
 
 import com.example.readmate.data.model.local.HelpAndSupport
+import com.example.readmate.data.model.local.PromoCode
 
 /**
  * @author Muhamed Amin Hassan on 16,September,2024
@@ -21,6 +22,12 @@ val famousCategories = listOf(
     "Comedy",
     "Drama",
     "Horror"
+)
+
+val availablePromoCodes = listOf(
+    PromoCode("SAVE20", 0.20f),
+    PromoCode("SAVE30", 0.30f),
+    PromoCode("SAVE50", 0.50f)
 )
 
 val helpAndSupportList = listOf(

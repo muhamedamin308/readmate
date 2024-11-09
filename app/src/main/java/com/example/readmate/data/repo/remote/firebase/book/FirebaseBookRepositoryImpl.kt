@@ -43,8 +43,8 @@ class FirebaseBookRepositoryImpl(
         onAction: (List<Book>?, Exception?) -> Unit
     ) = bookService.fetchBooksBySimilarity(currentBookRating, onAction = onAction)
 
-    override fun addReview(bookId: String, review: Review, onAction: (Boolean) -> Unit) =
-        bookService.addBookReview(bookId, review, onAction)
+    override fun addReview(bookId: String, review: Review) =
+        bookService.addBookReview(bookId, review)
 
     override fun getBookReviews(bookId: String, onAction: (List<Review>?, Exception?) -> Unit) =
         bookService.fetchBookReviews(bookId, onAction)

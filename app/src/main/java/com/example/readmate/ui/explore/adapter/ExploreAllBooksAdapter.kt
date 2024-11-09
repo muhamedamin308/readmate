@@ -64,7 +64,7 @@ class ExploreAllBooksAdapter(
                 .error(R.drawable.dummy_book)
                 .into(imgBookImage)
             tvBookTitle.text = item.title
-            tvBookAuthor.text = item.subtitle.ifEmpty { "No Subtitle" }
+            tvBookAuthor.text = item.authors
         }
     }
 }

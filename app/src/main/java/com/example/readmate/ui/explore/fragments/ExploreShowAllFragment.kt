@@ -13,6 +13,7 @@ import com.example.readmate.ui.explore.adapter.ExploreAllBooksAdapter
 import com.example.readmate.ui.explore.viewmodel.ExploreViewModel
 import com.example.readmate.util.Constants.CLICKED_BOOK
 import com.example.readmate.util.extractFetchRequestQuery
+import com.example.readmate.util.hideBottomNavigation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -71,5 +72,10 @@ class ExploreShowAllFragment : BaseFragment<FragmentExploreShowAllBinding>() {
             )
         }
         navigateBack(binding.navigateBack)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

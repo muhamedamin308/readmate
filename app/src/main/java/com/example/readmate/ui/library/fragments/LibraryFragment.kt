@@ -19,6 +19,7 @@ import com.example.readmate.ui.library.adapter.RecommendedBooksAdapter
 import com.example.readmate.ui.library.adapter.TopRatedBooksAdapter
 import com.example.readmate.ui.library.viewmodel.LibraryViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.showBottomNavigation
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -90,6 +91,12 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
                 R.id.action_homeFragment_to_showAllFragment
             )
         }
+
+        binding.icNotification.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_notificationsFragment
+            )
+        }
     }
 
 
@@ -132,5 +139,10 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showBottomNavigation()
     }
 }

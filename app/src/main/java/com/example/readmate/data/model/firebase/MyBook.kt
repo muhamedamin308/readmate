@@ -15,10 +15,11 @@ data class MyBook(
     val image: String? = null,
     val title: String? = null,
     val author: String? = null,
+    val price: Float? = null,
     val chapters: List<Chapter>? = emptyList(),
     val bookState: BookState? = BookState.fromString("other")
 ) : Parcelable {
     constructor() : this(
-        null, null, null, null, emptyList(), BookState.OTHER
+        null, null, null, null, 0f, emptyList(), BookState.OTHER
     )
 }

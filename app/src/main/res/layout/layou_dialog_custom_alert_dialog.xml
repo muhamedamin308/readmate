@@ -3,50 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background"
+    android:minWidth="280dp"
     android:orientation="vertical"
     android:padding="24dp">
 
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/nunito_sans_10pt_bold"
-        android:gravity="center"
+        android:text="Delete Card?"
         android:textColor="@color/primaryFont"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <!-- Body TextView -->
     <TextView
         android:id="@+id/tv_body"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/nunito_sans_10pt_medium"
-        android:textColor="@color/secondaryFont" />
-
+        android:text="This action can’t be undone."
+        android:textColor="@color/secondaryFont"
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
+        <!-- Cancel Button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/button_bg_less_rounded"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@android:color/white"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
             android:text="Cancel"
             android:textAllCaps="false"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/primaryFont"
+            android:textSize="16sp" />
 
+        <!-- Spacer between Buttons -->
         <View
-            android:layout_width="16dp"
+            android:layout_width="12dp"
             android:layout_height="0dp" />
 
+        <!-- Delete Button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_preform_action"
             android:layout_width="0dp"
@@ -54,8 +65,11 @@
             android:layout_weight="1"
             android:background="@drawable/button_bg_less_rounded"
             android:backgroundTint="@color/discountColor"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
             android:text="Delete"
             android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

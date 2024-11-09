@@ -3,6 +3,7 @@ package com.example.readmate.ui.settings.fragments
 import android.view.LayoutInflater
 import com.example.readmate.databinding.FragmentTermsConditionsBinding
 import com.example.readmate.ui.base.BaseFragment
+import com.example.readmate.util.hideBottomNavigation
 
 /**
  * @author Muhamed Amin Hassan on 07,September,2024
@@ -17,5 +18,10 @@ class TermsAndConditionsFragment : BaseFragment<FragmentTermsConditionsBinding>(
     override fun onViewReady() {
         super.onViewReady()
         navigateBack(binding.navigateBack)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

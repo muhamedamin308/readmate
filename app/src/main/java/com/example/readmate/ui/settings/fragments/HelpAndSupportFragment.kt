@@ -6,6 +6,7 @@ import com.example.readmate.databinding.FragmentHelpSupportBinding
 import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.settings.adapter.HelpAndSupportAdapter
 import com.example.readmate.util.helpAndSupportList
+import com.example.readmate.util.hideBottomNavigation
 
 /**
  * @author Muhamed Amin Hassan on 07,September,2024
@@ -27,5 +28,10 @@ class HelpAndSupportFragment : BaseFragment<FragmentHelpSupportBinding>() {
             LinearLayoutManager.VERTICAL
         )
         navigateBack(binding.navigateBack)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

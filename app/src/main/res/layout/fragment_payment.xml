@@ -56,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.04">
+                app:layout_constraintVertical_bias="0.01">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -71,8 +71,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/test" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"
@@ -173,7 +172,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/cardTitle"
+                        android:id="@+id/tvCardTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -187,7 +186,7 @@
                         app:layout_constraintTop_toTopOf="@id/cardImage" />
 
                     <TextView
-                        android:id="@+id/bookAuthor"
+                        android:id="@+id/tvCardNumber"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_sans_10pt_medium"
@@ -196,7 +195,8 @@
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/cardImage"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/cardTitle" />
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@id/tvCardTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -321,7 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginVertical="5dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -346,6 +346,35 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView00"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/nunito_sans_10pt_semibold"
+                        android:text="Book State"
+                        android:textColor="@color/secondaryFont"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_book_state"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/nunito_sans_10pt_bold"
+                        android:text="RECOMMENDED"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/primaryFont"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="match_parent"
@@ -359,6 +388,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12dp"
                     android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -380,7 +410,7 @@
                         android:text="$130.5"
                         android:textAlignment="textEnd"
                         android:textColor="@color/primaryFont"
-                        android:textSize="20sp" />
+                        android:textSize="26sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -438,6 +468,18 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/promoCodeMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text=""
+                android:textColor="@color/secondaryFont"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@id/inputCodeContainer"
+                app:layout_constraintTop_toBottomOf="@id/inputCodeContainer" />
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_pay"
                 android:layout_width="match_parent"
@@ -460,7 +502,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
-        android:id="@+id/signup_progress_bar"
+        android:id="@+id/payment_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

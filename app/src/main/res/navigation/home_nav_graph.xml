@@ -41,8 +41,8 @@
         android:label="myBookFragment"
         tools:layout="@layout/fragment_my_books">
         <action
-            android:id="@+id/action_myBookFragment2_to_firebaseBookDetailsFragment"
-            app:destination="@id/firebaseBookDetailsFragment" />
+            android:id="@+id/action_myBookFragment_to_bookReadingFragment"
+            app:destination="@id/bookReadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -82,9 +82,6 @@
         <argument
             android:name="book"
             app:argType="com.example.readmate.data.model.firebase.Book" />
-        <action
-            android:id="@+id/action_firebaseBookDetailsFragment_to_addBookReviewFragment"
-            app:destination="@id/addBookReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/exploreBookDetailsFragment"
@@ -183,9 +180,4 @@
             android:id="@+id/action_exploreShowAllFragment_to_exploreBookDetailsFragment"
             app:destination="@id/exploreBookDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/addBookReviewFragment"
-        android:name="com.example.readmate.ui.library.fragments.AddBookReviewFragment"
-        android:label="AddBookReviewFragment"
-        tools:layout="@layout/fragment_add_new_review" />
 </navigation>

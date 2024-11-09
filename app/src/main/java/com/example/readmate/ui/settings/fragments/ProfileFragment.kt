@@ -16,6 +16,7 @@ import com.example.readmate.databinding.FragmentProfileBinding
 import com.example.readmate.ui.base.BaseFragment
 import com.example.readmate.ui.settings.viewmodel.EditProfileViewModel
 import com.example.readmate.util.AppState
+import com.example.readmate.util.hideBottomNavigation
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -120,5 +121,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             btnChangeProfileImage.visibility = visibility
             btnSaveChanges.visibility = visibility
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideBottomNavigation()
     }
 }

@@ -1,11 +1,11 @@
 package com.example.readmate.ui.library.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readmate.data.model.firebase.Book
 import com.example.readmate.data.model.firebase.Review
 import com.example.readmate.data.repo.remote.firebase.book.FirebaseBookRepository
 import com.example.readmate.data.repo.remote.firebase.user.UserServicesRepository
+import com.example.readmate.ui.base.BaseViewModel
 import com.example.readmate.util.AppState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 class FirebaseBookDetailViewModel(
     private val userServicesRepository: UserServicesRepository,
     private val bookServicesRepository: FirebaseBookRepository
-) : ViewModel() {
+) : BaseViewModel() {
+
     private val _isInBookcase = MutableStateFlow(false)
     val isInBookcase = _isInBookcase.asStateFlow()
     private val _isInMyBooks = MutableStateFlow(false)
@@ -30,8 +31,6 @@ class FirebaseBookDetailViewModel(
     val removeBookFromBookcase = _removeBookFromBookcase.asStateFlow()
     private val _similarBooks = MutableStateFlow<AppState<List<Book>>>(AppState.Ideal())
     val similarBooks = _similarBooks.asStateFlow()
-    private val _newBookReview = MutableStateFlow(false)
-    val newBookReview = _newBookReview.asStateFlow()
     private val _allBookReviews = MutableStateFlow<AppState<List<Review>>>(AppState.Ideal())
     val allBookReviews = _allBookReviews.asStateFlow()
 
@@ -53,16 +52,14 @@ class FirebaseBookDetailViewModel(
     }
 
     fun addToBookcase(book: Book) {
-        viewModelScope.launch { _addBookToBookcase.emit(AppState.Loading()) }
+        updateAppState(_addBookToBookcase, AppState.Loading())
         userServicesRepository.addBookToBookcase(book) { newBook, exception ->
             exception?.let {
-                viewModelScope.launch {
-                    _addBookToBookcase.emit(
-                        AppState.Error(
-                            exception.message ?: "An error occurred"
-                        )
+                updateAppState(
+                    _addBookToBookcase, AppState.Error(
+                        exception.message ?: "An error occurred"
                     )
-                }
+                )
             } ?: viewModelScope.launch {
                 _addBookToBookcase.emit(AppState.Success(newBook!!))
                 _isInBookcase.emit(true)
@@ -71,17 +68,9 @@ class FirebaseBookDetailViewModel(
     }
 
     fun removeFromBookcase(bookId: String) {
-        viewModelScope.launch { _removeBookFromBookcase.emit(AppState.Loading()) }
-        userServicesRepository.removeBookFromBookcase(bookId) { exception ->
-            exception?.let {
-                viewModelScope.launch {
-                    _removeBookFromBookcase.emit(
-                        AppState.Error(
-                            exception.message ?: "An error occurred"
-                        )
-                    )
-                }
-            } ?: viewModelScope.launch {
+        updateAppState(_removeBookFromBookcase, AppState.Loading())
+        userServicesRepository.removeBookFromBookcase(bookId) {
+            viewModelScope.launch {
                 _removeBookFromBookcase.emit(AppState.Success("Book removed from bookcase."))
                 _isInBookcase.emit(false)
             }
@@ -89,43 +78,20 @@ class FirebaseBookDetailViewModel(
     }
 
     fun fetchSimilarBooks(currentBookRating: Float) {
-        viewModelScope.launch { _similarBooks.emit(AppState.Loading()) }
+        updateAppState(_similarBooks, AppState.Loading())
         bookServicesRepository.fetchSimilarBooks(currentBookRating) { books, exception ->
-            exception?.let {
-                viewModelScope.launch {
-                    _similarBooks.emit(
-                        AppState.Error(
-                            exception.message ?: "An error occurred"
-                        )
-                    )
-                }
-            } ?: viewModelScope.launch {
-                _similarBooks.emit(AppState.Success(books ?: emptyList()))
-            }
+            handleResult(_similarBooks, books ?: emptyList(), exception)
         }
     }
 
     fun fetchBookReviews(bookId: String) {
-        viewModelScope.launch { _allBookReviews.emit(AppState.Loading()) }
+        updateAppState(_allBookReviews, AppState.Loading())
         bookServicesRepository.getBookReviews(bookId) { reviews, exception ->
-            exception?.let {
-                viewModelScope.launch {
-                    _allBookReviews.emit(
-                        AppState.Error(
-                            exception.message ?: "An error occurred"
-                        )
-                    )
-                }
-            } ?: viewModelScope.launch {
-                _allBookReviews.emit(AppState.Success(reviews ?: emptyList()))
-            }
+            handleResult(_allBookReviews, reviews ?: emptyList(), exception)
         }
     }
 
     fun addNewBookReview(bookId: String, review: Review) {
-        viewModelScope.launch { _newBookReview.emit(false) }
-        bookServicesRepository.addReview(bookId, review) { isAdded ->
-            viewModelScope.launch { _newBookReview.emit(isAdded) }
-        }
+        bookServicesRepository.addReview(bookId, review)
     }
 }
