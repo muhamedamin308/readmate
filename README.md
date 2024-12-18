@@ -2,10 +2,9 @@
 
 ## Overview
 
-**ReadMate** is an app designed for reading e-books and exploring downloadable books from APIs. It allows users to browse, purchase, and read e-books while providing a seamless experience with Firebase for user authentication, data storage, notifications, and more. The app also includes an admin module for managing book collections.
+**ReadMate** is an app designed for reading e-books and exploring downloadable books from APIs. It allows users to browse, purchase, and read e-books while providing a seamless experience with Firebase for user authentication, data storage, notifications, and more. The app also includes an admin module for managing book collections [LinkedIn Preview](https://www.linkedin.com/posts/muhamed-amin-hassan_androiddev-ebookreader-firebase-activity-7261013431921598465-JTNV?utm_source=share&utm_medium=member_desktop). 
 
 ## Preview
-[LinkedIn Preview]([https://www.dbooks.org/api/](https://www.linkedin.com/posts/muhamed-amin-hassan_androiddev-ebookreader-firebase-activity-7261013431921598465-JTNV?utm_source=share&utm_medium=member_desktop))
 ![Preview1](MergedImages(1).png)
 ![Preview2](MergedImages(2).png)
 ![Preview3](MergedImages(3).png)
