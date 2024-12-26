@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/button_bg_less_rounded"
-            android:backgroundTint="@android:color/white"
+            android:backgroundTint="@color/primaryBackground"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             android:text="Cancel"

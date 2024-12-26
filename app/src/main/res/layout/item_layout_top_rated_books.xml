@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:elevation="2dp"
-    app:cardCornerRadius="40dp">
+    app:cardCornerRadius="30dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_rated_item_layout"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/input_cards_bg"
-            android:backgroundTint="@color/accentColor6"
+            android:backgroundTint="@color/accentColor7"
             android:fontFamily="@font/nunito_sans_10pt_black"
             android:paddingHorizontal="5dp"
             android:paddingVertical="4dp"
@@ -71,7 +71,7 @@
             android:fontFamily="@font/nunito_sans_10pt_bold"
             android:text="Getting Along 2022"
             android:textAlignment="center"
-            android:textColor="@color/primaryFont"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"

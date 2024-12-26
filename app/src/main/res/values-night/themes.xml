@@ -1,9 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme for dark mode -->
     <style name="Base.Theme.PRODIGY_AD_2" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/primaryBackground</item>
+        <!-- Background Colors -->
+        <item name="colorPrimary">@color/primaryBackground</item> <!-- Primary background for app -->
+        <item name="backgroundColor">@color/primaryBackground</item> <!-- General background -->
+        <item name="colorSurface">@color/secondaryBackground</item> <!-- Card, modal, and elevated surfaces -->
+
+        <!-- Font Colors -->
+        <item name="colorOnPrimary">@color/primaryFont</item> <!-- Text on primary background -->
+        <item name="colorOnBackground">@color/primaryFont</item> <!-- General text -->
+        <item name="colorOnSurface">@color/secondaryFont</item> <!-- Secondary text -->
+
+        <!-- Button Colors -->
+        <item name="colorPrimaryContainer">@color/accentColor1</item> <!-- Button background -->
+        <item name="colorOnPrimaryContainer">@color/buttonFont</item> <!-- Button text color -->
+
+        <!-- Status Bar -->
         <item name="android:statusBarColor">@color/primaryBackground</item>
-        <item name="android:windowLightStatusBar">true</item> <!-- Ensures icons are light -->
+        <item name="android:windowLightStatusBar">false</item> <!-- Dark icons for light mode -->
+
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">@color/primaryBackground</item>
+        <item name="android:windowLightNavigationBar">true</item> <!-- Dark icons for light mode -->
+
+        <!-- Divider and Outline -->
+        <item name="colorOutline">@color/borderDivider</item> <!-- Divider and border color -->
     </style>
+
+    <style name="Theme.PRODIGY_AD_2" parent="Base.Theme.PRODIGY_AD_2" />
 </resources>

@@ -13,6 +13,7 @@
         android:layout_marginStart="16dp"
         android:padding="8dp"
         android:src="@drawable/baseline_arrow_back_24"
+        app:tint="@color/primaryFont"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView" />

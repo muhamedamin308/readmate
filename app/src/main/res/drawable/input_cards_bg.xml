@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- Define the stroke for the border -->
+    <!-- Use theme attributes for the stroke and fill colors -->
     <stroke
         android:width="2dp"
-        android:color="@color/borderDivider" /> <!-- Change the color as needed -->
-    <solid android:color="@color/secondaryBackground" />
-    <corners android:radius="6dp"/>
+        android:color="?attr/colorOutline" /> <!-- For border color -->
+    <solid android:color="?attr/colorSurface" /> <!-- For background color -->
+    <corners android:radius="6dp" />
 </shape>

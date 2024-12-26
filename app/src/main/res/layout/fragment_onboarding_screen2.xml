@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground">
+    android:background="?attr/backgroundColor">
 
     <ImageView
         android:id="@+id/imageView"
@@ -24,7 +24,7 @@
         android:paddingHorizontal="6dp"
         android:text="Enjoy free access to a wide range of books at your fingertips."
         android:textAlignment="center"
-        android:textColor="@color/primaryFont"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +39,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:drawableEnd="@drawable/baseline_navigate_next_24"
-        android:drawableTint="@color/primaryFont"
+        android:drawableTint="?attr/colorOnPrimary"
         android:fontFamily="@font/nunito_sans_10pt_medium"
         android:text="Next"
-        android:textColor="@color/primaryFont"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

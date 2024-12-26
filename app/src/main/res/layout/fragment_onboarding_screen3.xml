@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground">
+    android:background="?attr/backgroundColor">
 
     <ImageView
         android:id="@+id/imageView"
@@ -24,7 +24,7 @@
         android:paddingHorizontal="6dp"
         android:text="Effortless reading experience with our user-friendly interface."
         android:textAlignment="center"
-        android:textColor="@color/primaryFont"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
         android:paddingVertical="8dp"
         android:text="Get Started"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

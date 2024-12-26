@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#D3D3D3</color>
     <color name="transparent">#00000000</color>
 
     <!-- Primary Color -->
@@ -25,6 +26,7 @@
     <!-- Usage: For highlights, badges, and indicators, especially to mark something as special, important, or featured. Adds a touch of warmth and positivity. -->
 
     <color name="accentColor6">#EAB022</color> <!-- dark yellow -->
+    <color name="accentColor7">#FB8C00</color>
 
     <!-- Supporting Color -->
     <color name="secondaryBackground">#FFFFFF</color>
@@ -63,9 +65,9 @@
     <!-- Usage: Border color for input fields, giving them a defined yet understated appearance. -->
 
     <!-- Random Colors -->
-    <color name="randomColor1">#E6D9FA</color>
-    <color name="randomColor2">#87CEFA</color>
+    <color name="randomColor1">#98FB98</color>
+    <color name="randomColor2">#FFE4E1</color>
     <color name="randomColor3">#FAFAD2</color>
-    <color name="randomColor4">#98FB98</color>
-    <color name="randomColor5">#FFE4E1</color>
+    <color name="randomColor4">#E6D9FA</color>
+    <color name="randomColor5">#87CEFA</color>
 </resources>

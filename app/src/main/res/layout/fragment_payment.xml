@@ -14,7 +14,8 @@
         android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textView" />
+        app:layout_constraintTop_toTopOf="@id/textView"
+        app:tint="@color/primaryFont" />
 
     <TextView
         android:id="@+id/textView"
@@ -98,7 +99,7 @@
                         android:fontFamily="@font/nunito_sans_10pt_bold"
                         android:maxLines="2"
                         android:text="The Economics of Big Science"
-                        android:textColor="@color/primaryBackground"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_book_authors"
                         app:layout_constraintEnd_toEndOf="@id/img_dark_bg"
@@ -113,7 +114,7 @@
                         android:fontFamily="@font/nunito_sans_10pt_bold"
                         android:maxLines="2"
                         android:text="Hans Peter Beck, Panagiotis Charitos"
-                        android:textColor="@color/secondaryBackground"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/img_dark_bg"
                         app:layout_constraintEnd_toEndOf="@id/img_dark_bg"
                         app:layout_constraintStart_toStartOf="@id/img_dark_bg" />
@@ -148,6 +149,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/secondaryBackground"
                     android:padding="8dp">
 
 
@@ -398,7 +400,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/nunito_sans_10pt_bold"
                         android:text="Total"
-                        android:textColor="@color/black"
+                        android:textColor="@color/primaryFont"
                         android:textSize="20sp" />
 
                     <TextView

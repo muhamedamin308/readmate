@@ -46,7 +46,7 @@
 8. **Additional Features:**
    - Terms & Conditions and Help & Support screens.
    - Admin module for adding and deleting books in the Firebase Library.
-   - Upcoming: **Dark Mode** for users who prefer a dark theme.
+   - Now is here: **Dark Mode** for users who prefer a dark theme.
 
 ## Tech Stack
 
@@ -108,7 +108,3 @@ For more information on how to interact with the API, refer to the official webs
 2. **Library**: Purchase books from the Library and view them in your **MyBooks** section.
 3. **Notifications**: Stay updated with personalized alerts.
 4. **Admin Module**: Manage book collections if you have admin access.
-
-## Future Enhancements
-
-- **Dark Mode**: Provide an alternate theme for users who prefer darker colours.

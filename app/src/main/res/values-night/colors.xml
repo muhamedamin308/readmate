@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#D3D3D3</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Primary Colors -->
+    <color name="primaryBackground">#121212</color> <!-- Dark gray for dark mode -->
+    <color name="primaryFont">#FFFFFF</color> <!-- Light font for contrast -->
+
+    <!-- Accent Colors -->
+    <color name="accentColor1">#FF3D00</color>
+    <color name="accentColor2">#FFAB40</color>
+    <color name="accentColor3">#7C4DFF</color>
+    <color name="accentColor4">#EEFF41</color>
+    <color name="accentColor5">#69F0AE</color>
+    <color name="accentColor6">#FFEA00</color>
+    <color name="accentColor7">#FB8C00</color>
+
+    <!-- Supporting Colors -->
+    <color name="secondaryBackground">#1F1F1F</color> <!-- Slightly lighter dark gray -->
+    <color name="secondaryFont">#CCCCCC</color> <!-- Softer light font -->
+    <color name="thirdFont">#888888</color>
+
+    <!-- Utility Colors -->
+    <color name="borderDivider">#333333</color> <!-- Darker gray for dividers -->
+    <color name="errorColor">#FF4C4C</color>
+    <color name="successColor">#81C784</color>
+
+    <!-- Interactive Colors -->
+    <color name="buttonBackground">#FF6F61</color>
+    <color name="buttonFont">#FFFFFF</color>
+
+    <!-- Input Field Colors -->
+    <color name="inputFieldBackground">#1E1E1E</color>
+    <color name="inputFieldBorder">#444444</color>
+</resources>

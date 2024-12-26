@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:text="Cancel"
-            android:textColor="@color/black" />
+            android:textColor="@color/primaryFont" />
 
         <View
             android:layout_width="16dp"
