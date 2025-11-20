@@ -76,31 +76,38 @@ class FirebaseAuthService(
 
     fun firebaseAuthWithGoogle(idToken: String, onAction: (User?, Exception?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+        
         auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val firebaseUser = auth.currentUser
-                    firebaseUser?.let { user ->
-                        userCollectionPath.document(user.uid).get()
-                            .addOnSuccessListener { document ->
-                                if (document.exists()) {
-                                    val customUser = document.toObject(User::class.java)
-                                    onAction(customUser, null) // Use Firestore data
-                                } else {
-                                    val newUser = user.toUser()
-                                    saveUserData(user.uid, newUser, onAction)
-                                }
-                            }
-                            .addOnFailureListener { exception ->
-                                onAction(null, exception)
-                            }
-                    } ?: onAction(null, Exception("User is null"))
-                } else {
-                    onAction(null, task.exception)
-                }
+            .addOnSuccessListener {
+                // Get current user after successful authentication
+                auth.currentUser?.let { firebaseUser ->
+                    fetchOrCreateUser(firebaseUser, onAction)
+                } ?: onAction(null, Exception("Authentication successful but user is null"))
+            }
+            .addOnFailureListener { exception ->
+                onAction(null, exception)
             }
     }
 
+    private fun fetchOrCreateUser(firebaseUser: FirebaseUser, onAction: (User?, Exception?) -> Unit) {
+        userCollectionPath.document(firebaseUser.uid).get()
+            .addOnSuccessListener { document ->
+                when {
+                    document.exists() -> {
+                        document.toObject(User::class.java)?.let { user ->
+                            onAction(user, null)
+                        } ?: onAction(null, Exception("Failed to parse user data"))
+                    }
+                    else -> {
+                        val newUser = firebaseUser.toUser()
+                        saveUserData(firebaseUser.uid, newUser, onAction)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                onAction(null, exception)
+            }
+    }
 
     private fun saveUserData(
         userId: String,

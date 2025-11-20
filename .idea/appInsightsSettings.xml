@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.readmate" />
-                  <option name="mobileSdkAppId" value="1:228158470098:android:96557d4f7365d664fe7a0b" />
+                  <option name="appId" value="com.example.admin" />
+                  <option name="mobileSdkAppId" value="1:228158470098:android:aab7a85097d4fa7ffe7a0b" />
                   <option name="projectId" value="readmate-55572" />
                   <option name="projectNumber" value="228158470098" />
                 </ConnectionSetting>
