@@ -144,12 +144,12 @@ readmate/
 This project is licensed under the Apache License, Version 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors & Contributors
-- **Maintainers:** [Your Name]
-- **Contributors:** [Contributor Names]
+- **Maintainers:** [Muhamed Amin Hassan]
+- **Contributors:** [Muhamed Amin Hassan]
 
 ## 🐛 Issues & Support
 - **Report Issues:** [Open an issue](https://github.com/muhamedamin308/readmate/issues)
-- **Get Help:** [Contact us](mailto:your-email@example.com)
+- **Get Help:** [Contact us](mailto:mohamed.amin.2290@gmail.com)
 - **FAQ:** [Frequently Asked Questions](FAQ.md)
 
 ## 🗺️ Roadmap
